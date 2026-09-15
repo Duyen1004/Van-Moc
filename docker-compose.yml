@@ -1,0 +1,25 @@
+services:
+  frontend:
+    image: node:22-alpine
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      NODE_ENV: development
+
+  backend:
+    image: node:22-alpine
+    profiles:
+      - backend
+    working_dir: /app
+    command: sh -c "echo 'Backend is not configured yet' && tail -f /dev/null"
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./backend:/app
+    environment:
+      NODE_ENV: development

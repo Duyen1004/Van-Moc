@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: van-moc
+
+server:
+  port: 4000
