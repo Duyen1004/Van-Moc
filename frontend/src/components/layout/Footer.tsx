@@ -1,22 +1,17 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Camera, CircleUserRound, MessageCircle } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
-const shopLinks = [
-  { href: "/products", label: "Lược sừng" },
-  { href: "/products", label: "Trâm cài" },
-  { href: "/products", label: "Quà tặng" },
-  { href: "/personalize/demo", label: "Khắc tên" },
-];
-
-const exploreLinks = [
-  { href: "/lang-nghe-thuy-ung", label: "Làng nghề" },
-  { href: "/trace/VM000123", label: "Truy xuất QR" },
-  { href: "/policies/shipping", label: "Giao hàng" },
-  { href: "/contact", label: "Liên hệ" },
-];
+const shopHrefs = ["/products", "/products", "/products", "/personalize/demo"];
+const exploreHrefs = ["/lang-nghe-thuy-ung", "/trace/VM000123", "/policies/shipping", "/contact"];
 
 export function Footer() {
+  const { t } = useI18n();
+  const footer = t.home.footer;
+
   return (
     <footer className="border-t border-[#f4ead8]/15 bg-[#56351f] px-5 py-14 text-[#f4ead8] md:px-10">
       <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-[1fr_1fr_1.2fr]">
@@ -37,24 +32,24 @@ export function Footer() {
 
         <div className="grid grid-cols-2 gap-8">
           <div>
-            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[#d4aa82]">Sản phẩm</h3>
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[#d4aa82]">{footer.products}</h3>
             <ul className="space-y-3 text-sm text-[#f4ead8]/86">
-              {shopLinks.map((item) => (
-                <li key={item.label}>
-                  <Link className="transition hover:text-white" href={item.href}>
-                    {item.label}
+              {footer.shopLinks.map((label, index) => (
+                <li key={label}>
+                  <Link className="transition hover:text-white" href={shopHrefs[index]}>
+                    {label}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
           <div>
-            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[#d4aa82]">Khám phá</h3>
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[#d4aa82]">{footer.explore}</h3>
             <ul className="space-y-3 text-sm text-[#f4ead8]/86">
-              {exploreLinks.map((item) => (
-                <li key={item.label}>
-                  <Link className="transition hover:text-white" href={item.href}>
-                    {item.label}
+              {footer.exploreLinks.map((label, index) => (
+                <li key={label}>
+                  <Link className="transition hover:text-white" href={exploreHrefs[index]}>
+                    {label}
                   </Link>
                 </li>
               ))}
@@ -63,21 +58,21 @@ export function Footer() {
         </div>
 
         <div>
-          <h3 className="text-xs font-semibold uppercase tracking-wide text-[#d4aa82]">Nhận tin từ Vân Mộc</h3>
+          <h3 className="text-xs font-semibold uppercase tracking-wide text-[#d4aa82]">{footer.subscribe}</h3>
           <form className="mt-5 flex overflow-hidden rounded-full bg-[#f4ead8]">
             <input
               className="min-w-0 flex-1 bg-transparent px-5 py-3 text-sm text-[#56351f] outline-none placeholder:text-[#8b6f59]"
-              placeholder="Email của bạn"
+              placeholder={footer.emailPlaceholder}
               type="email"
             />
             <button className="bg-[#b08a67] px-6 text-sm font-semibold text-[#56351f]" type="button">
-              Đăng ký
+              {footer.submit}
             </button>
           </form>
           <address className="mt-7 not-italic leading-7 text-[#f4ead8]/86">
-            Làng nghề Thụy Ứng, Hà Nội, Việt Nam
+            {footer.address}
             <br />
-            hello@vanmoc.vn
+            mocvan2026@gmail.com
             <br />
             0938 988 774
           </address>

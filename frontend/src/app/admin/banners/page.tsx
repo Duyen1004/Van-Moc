@@ -1,3 +1,5 @@
+import { AdminWorkspace } from "@/components/admin/AdminWorkspace";
+
 export default function AdminBannersPage() {
-  return <main className="p-8">Admin banners</main>;
+  return <AdminWorkspace role="admin" page="banners" />;
 }

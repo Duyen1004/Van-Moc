@@ -1,3 +1,5 @@
+import { AdminWorkspace } from "@/components/admin/AdminWorkspace";
+
 export default function AdminCreateTraceabilityPage() {
-  return <main className="p-8">Create trace product</main>;
+  return <AdminWorkspace role="admin" page="trace-create" />;
 }

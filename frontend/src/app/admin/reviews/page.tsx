@@ -1,3 +1,5 @@
+import { AdminWorkspace } from "@/components/admin/AdminWorkspace";
+
 export default function AdminReviewsPage() {
-  return <main className="p-8">Admin reviews</main>;
+  return <AdminWorkspace role="admin" page="reviews" />;
 }

@@ -1,3 +1,5 @@
+import { AdminWorkspace } from "@/components/admin/AdminWorkspace";
+
 export default function AdminPersonalizationPage() {
-  return <main className="p-8">Admin personalization</main>;
+  return <AdminWorkspace role="admin" page="personalization" />;
 }

@@ -1,3 +1,5 @@
+import { AdminWorkspace } from "@/components/admin/AdminWorkspace";
+
 export default function AdminCreateProductPage() {
-  return <main className="p-8">Create product</main>;
+  return <AdminWorkspace role="admin" page="product-create" />;
 }

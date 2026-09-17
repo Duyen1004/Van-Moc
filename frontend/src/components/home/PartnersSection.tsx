@@ -1,3 +1,7 @@
+"use client";
+
+import { useI18n } from "@/lib/i18n";
+
 const partners = [
   { name: "Wirecutter", className: "font-serif text-2xl font-bold", color: "#5a3824" },
   { name: "Good Housekeeping", className: "font-sans text-sm font-bold uppercase leading-tight", color: "#8b6f59" },
@@ -26,11 +30,13 @@ function PartnerLogos() {
 }
 
 export function PartnersSection() {
+  const { t } = useI18n();
+
   return (
     <section className="overflow-hidden border-y border-clay/15 bg-[#f4ead8] px-5 py-12 md:px-10">
       <div className="mx-auto max-w-7xl text-center">
         <h2 className="font-sans text-2xl font-extrabold uppercase tracking-wide text-bark md:text-3xl">
-          Đơn vị đồng hành
+          {t.home.partners.title}
         </h2>
       </div>
 

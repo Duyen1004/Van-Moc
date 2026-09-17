@@ -1,3 +1,5 @@
+import { AdminWorkspace } from "@/components/admin/AdminWorkspace";
+
 export default function AdminPage() {
-  return <main className="p-8">Admin</main>;
+  return <AdminWorkspace role="admin" page="dashboard" />;
 }
