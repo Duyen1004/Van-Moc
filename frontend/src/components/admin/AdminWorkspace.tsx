@@ -110,33 +110,33 @@ const AUTH_TOKEN_KEY = "vanmoc-auth-token";
 
 const staffNav = [
   { href: "/staff", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/staff/products", label: "Sáº£n pháº©m", icon: Boxes },
-  { href: "/staff/products/create", label: "ThÃªm sáº£n pháº©m", icon: PackagePlus },
-  { href: "/staff/products/inventory", label: "Quáº£n lÃ½ tá»“n kho", icon: BarChart3 },
-  { href: "/staff/orders", label: "ÄÆ¡n hÃ ng", icon: ClipboardList },
-  { href: "/staff/personalization", label: "CÃ¡ nhÃ¢n hÃ³a", icon: Sparkles },
+  { href: "/staff/products", label: "Sản phẩm", icon: Boxes },
+  { href: "/staff/products/create", label: "Thêm sản phẩm", icon: PackagePlus },
+  { href: "/staff/products/inventory", label: "Quản lý tồn kho", icon: BarChart3 },
+  { href: "/staff/orders", label: "Đơn hàng", icon: ClipboardList },
+  { href: "/staff/personalization", label: "Cá nhân hóa", icon: Sparkles },
   { href: "/staff/traceability", label: "QR / Traceability", icon: QrCode },
   { href: "/staff/reviews", label: "Review", icon: Star },
 ];
 
 const adminNav = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/products", label: "Sáº£n pháº©m", icon: Boxes },
-  { href: "/admin/products/create", label: "ThÃªm sáº£n pháº©m", icon: PackagePlus },
-  { href: "/admin/products/inventory", label: "Quáº£n lÃ½ tá»“n kho", icon: BarChart3 },
-  { href: "/admin/orders", label: "ÄÆ¡n hÃ ng", icon: ClipboardList },
-  { href: "/admin/personalization", label: "CÃ¡ nhÃ¢n hÃ³a", icon: Sparkles },
+  { href: "/admin/products", label: "Sản phẩm", icon: Boxes },
+  { href: "/admin/products/create", label: "Thêm sản phẩm", icon: PackagePlus },
+  { href: "/admin/products/inventory", label: "Quản lý tồn kho", icon: BarChart3 },
+  { href: "/admin/orders", label: "Đơn hàng", icon: ClipboardList },
+  { href: "/admin/personalization", label: "Cá nhân hóa", icon: Sparkles },
   { href: "/admin/traceability", label: "QR / Traceability", icon: QrCode },
-  { href: "/admin/traceability/create", label: "Táº¡o mÃ£ QR", icon: QrCode },
+  { href: "/admin/traceability/create", label: "Tạo mã QR", icon: QrCode },
   { href: "/admin/reviews", label: "Review", icon: Star },
-  { href: "/admin/staff", label: "Quáº£n lÃ½ Staff", icon: ShieldCheck },
-  { href: "/admin/customers", label: "Quáº£n lÃ½ Customer", icon: Users },
-  { href: "/admin/categories", label: "Danh má»¥c", icon: Tags },
+  { href: "/admin/staff", label: "Quản lý Staff", icon: ShieldCheck },
+  { href: "/admin/customers", label: "Quản lý Customer", icon: Users },
+  { href: "/admin/categories", label: "Danh mục", icon: Tags },
   { href: "/admin/banners", label: "Banner", icon: Megaphone },
-  { href: "/admin/contents", label: "Ná»™i dung", icon: FilePenLine },
+  { href: "/admin/contents", label: "Nội dung", icon: FilePenLine },
   { href: "/admin/seo", label: "SEO", icon: SearchCheck },
-  { href: "/admin/settings", label: "Cáº¥u hÃ¬nh", icon: Settings },
-  { href: "/admin/roles", label: "PhÃ¢n quyá»n", icon: KeyRound },
+  { href: "/admin/settings", label: "Cấu hình", icon: Settings },
+  { href: "/admin/roles", label: "Phân quyền", icon: KeyRound },
 ];
 
 const pageContent: Record<
@@ -151,301 +151,301 @@ const pageContent: Record<
   }
 > = {
   dashboard: {
-    eyebrow: "Tá»•ng quan váº­n hÃ nh",
+    eyebrow: "Tổng quan vận hành",
     title: "Dashboard",
-    description: "Theo dÃµi nhanh doanh thu, Ä‘Æ¡n hÃ ng, sáº£n pháº©m cáº§n xá»­ lÃ½ vÃ  mÃ£ QR má»›i táº¡o.",
+    description: "Theo dõi nhanh doanh thu, đơn hàng, sản phẩm cần xử lý và mã QR mới tạo.",
     stats: [
-      { label: "ÄÆ¡n hÃ´m nay", value: "18", note: "+6 Ä‘Æ¡n má»›i" },
+      { label: "Đơn hôm nay", value: "18", note: "+6 đơn mới" },
       { label: "Doanh thu", value: "12.8tr", note: "MVP demo" },
-      { label: "Chá» kháº¯c", value: "7", note: "Cáº§n duyá»‡t ná»™i dung" },
-      { label: "QR Ä‘Ã£ táº¡o", value: "42", note: "Trong thÃ¡ng nÃ y" },
+      { label: "Chờ khắc", value: "7", note: "Cần duyệt nội dung" },
+      { label: "QR đã tạo", value: "42", note: "Trong tháng này" },
     ],
     rows: [
-      { title: "VM20260915001", meta: "LÆ°á»£c sá»«ng tá»± nhiÃªn VM01", status: "Chá» xÃ¡c nháº­n" },
-      { title: "VM20260915002", meta: "Kháº¯c tÃªn: NGUYá»„N AN", status: "Äang hoÃ n thiá»‡n" },
-      { title: "VM-BATCH-2026-09", meta: "LÃ´ sáº£n xuáº¥t má»›i", status: "ÄÃ£ cÃ³ QR" },
+      { title: "VM20260915001", meta: "Lược sừng tự nhiên VM01", status: "Chờ xác nhận" },
+      { title: "VM20260915002", meta: "Khắc tên: NGUYỄN AN", status: "Đang hoàn thiện" },
+      { title: "VM-BATCH-2026-09", meta: "Lô sản xuất mới", status: "Đã có QR" },
     ],
   },
   products: {
-    eyebrow: "Quáº£n lÃ½ bÃ¡n hÃ ng",
-    title: "Sáº£n pháº©m",
-    description: "ThÃªm, sá»­a, áº©n hiá»‡n sáº£n pháº©m vÃ  kiá»ƒm tra tráº¡ng thÃ¡i bÃ¡n trÃªn website.",
-    primaryAction: "ThÃªm sáº£n pháº©m",
+    eyebrow: "Quản lý bán hàng",
+    title: "Sản phẩm",
+    description: "Thêm, sửa, ẩn hiện sản phẩm và kiểm tra trạng thái bán trên website.",
+    primaryAction: "Thêm sản phẩm",
     stats: [
-      { label: "Äang bÃ¡n", value: "24", note: "Hiá»ƒn thá»‹ trÃªn web" },
-      { label: "Sáº¯p háº¿t", value: "5", note: "Cáº§n nháº­p thÃªm" },
-      { label: "áº¨n", value: "3", note: "ChÆ°a cÃ´ng bá»‘" },
-      { label: "BÃ¡n cháº¡y", value: "8", note: "Äang ghim" },
+      { label: "Đang bán", value: "24", note: "Hiển thị trên web" },
+      { label: "Sắp hết", value: "5", note: "Cần nhập thêm" },
+      { label: "Ẩn", value: "3", note: "Chưa công bố" },
+      { label: "Bán chạy", value: "8", note: "Đang ghim" },
     ],
     rows: [
-      { title: "LÆ°á»£c sá»«ng tá»± nhiÃªn VM01", meta: "350.000Ä‘ Â· 18 tá»“n", status: "Äang bÃ¡n" },
-      { title: "TrÃ¢m cÃ i vÃ¢n sá»«ng", meta: "420.000Ä‘ Â· 9 tá»“n", status: "BÃ¡n cháº¡y" },
-      { title: "Set quÃ  thá»§ cÃ´ng", meta: "690.000Ä‘ Â· 4 tá»“n", status: "Sáº¯p háº¿t" },
+      { title: "Lược sừng tự nhiên VM01", meta: "350.000đ · 18 tồn", status: "Đang bán" },
+      { title: "Trâm cài vân sừng", meta: "420.000đ · 9 tồn", status: "Bán chạy" },
+      { title: "Set quà thủ công", meta: "690.000đ · 4 tồn", status: "Sắp hết" },
     ],
   },
   "product-create": {
-    eyebrow: "Sáº£n pháº©m",
-    title: "ThÃªm sáº£n pháº©m",
-    description: "Nháº­p thÃ´ng tin cÆ¡ báº£n, áº£nh, giÃ¡, danh má»¥c vÃ  tÃ¹y chá»n cÃ¡ nhÃ¢n hÃ³a.",
-    primaryAction: "LÆ°u sáº£n pháº©m",
+    eyebrow: "Sản phẩm",
+    title: "Thêm sản phẩm",
+    description: "Nhập thông tin cơ bản, ảnh, giá, danh mục và tùy chọn cá nhân hóa.",
+    primaryAction: "Lưu sản phẩm",
     stats: [
-      { label: "TÃªn", value: "01", note: "Báº¯t buá»™c" },
-      { label: "áº¢nh", value: "04", note: "NÃªn cÃ³" },
-      { label: "GiÃ¡", value: "VNÄ", note: "Theo sáº£n pháº©m" },
-      { label: "Kháº¯c tÃªn", value: "CÃ³", note: "TÃ¹y chá»n" },
+      { label: "Tên", value: "01", note: "Bắt buộc" },
+      { label: "Ảnh", value: "04", note: "Nên có" },
+      { label: "Giá", value: "VNĐ", note: "Theo sản phẩm" },
+      { label: "Khắc tên", value: "Có", note: "Tùy chọn" },
     ],
     rows: [
-      { title: "ThÃ´ng tin chung", meta: "TÃªn, mÃ´ táº£, cháº¥t liá»‡u, cÃ¢u chuyá»‡n sáº£n pháº©m", status: "Biá»ƒu máº«u" },
-      { title: "HÃ¬nh áº£nh", meta: "áº¢nh Ä‘áº¡i diá»‡n vÃ  áº£nh chi tiáº¿t", status: "Táº£i lÃªn" },
-      { title: "CÃ¡ nhÃ¢n hÃ³a", meta: "Cho phÃ©p kháº¯c tÃªn, charm, font chá»¯", status: "TÃ¹y chá»n" },
+      { title: "Thông tin chung", meta: "Tên, mô tả, chất liệu, câu chuyện sản phẩm", status: "Biểu mẫu" },
+      { title: "Hình ảnh", meta: "Ảnh đại diện và ảnh chi tiết", status: "Tải lên" },
+      { title: "Cá nhân hóa", meta: "Cho phép khắc tên, charm, font chữ", status: "Tùy chọn" },
     ],
   },
   "product-edit": {
-    eyebrow: "Sáº£n pháº©m",
-    title: "Sá»­a sáº£n pháº©m",
-    description: "Cáº­p nháº­t thÃ´ng tin sáº£n pháº©m, tráº¡ng thÃ¡i bÃ¡n, tá»“n kho vÃ  áº£nh Ä‘áº¡i diá»‡n.",
-    primaryAction: "LÆ°u thay Ä‘á»•i",
+    eyebrow: "Sản phẩm",
+    title: "Sửa sản phẩm",
+    description: "Cập nhật thông tin sản phẩm, trạng thái bán, tồn kho và ảnh đại diện.",
+    primaryAction: "Lưu thay đổi",
     stats: [
-      { label: "TÃªn", value: "01", note: "Báº¯t buá»™c" },
-      { label: "áº¢nh", value: "01", note: "Äáº¡i diá»‡n" },
-      { label: "GiÃ¡", value: "VNÄ", note: "Theo sáº£n pháº©m" },
-      { label: "XÃ³a", value: "Má»m", note: "Chuyá»ƒn tráº¡ng thÃ¡i áº©n" },
+      { label: "Tên", value: "01", note: "Bắt buộc" },
+      { label: "Ảnh", value: "01", note: "Đại diện" },
+      { label: "Giá", value: "VNĐ", note: "Theo sản phẩm" },
+      { label: "Xóa", value: "Mềm", note: "Chuyển trạng thái ẩn" },
     ],
     rows: [
-      { title: "ThÃ´ng tin chung", meta: "TÃªn, mÃ´ táº£, cháº¥t liá»‡u, cÃ¢u chuyá»‡n sáº£n pháº©m", status: "Biá»ƒu máº«u" },
-      { title: "BÃ¡n hÃ ng", meta: "GiÃ¡, tá»“n kho, tráº¡ng thÃ¡i hiá»ƒn thá»‹", status: "Cáº­p nháº­t" },
-      { title: "áº¢nh Ä‘áº¡i diá»‡n", meta: "URL áº£nh chÃ­nh hiá»ƒn thá»‹ trÃªn website", status: "Cáº­p nháº­t" },
+      { title: "Thông tin chung", meta: "Tên, mô tả, chất liệu, câu chuyện sản phẩm", status: "Biểu mẫu" },
+      { title: "Bán hàng", meta: "Giá, tồn kho, trạng thái hiển thị", status: "Cập nhật" },
+      { title: "Ảnh đại diện", meta: "URL ảnh chính hiển thị trên website", status: "Cập nhật" },
     ],
   },
   inventory: {
-    eyebrow: "Kho hÃ ng",
-    title: "Quáº£n lÃ½ tá»“n kho",
-    description: "Theo dÃµi sá»‘ lÆ°á»£ng cÃ²n láº¡i, cáº£nh bÃ¡o sáº¯p háº¿t vÃ  lÃ´ sáº£n xuáº¥t liÃªn quan.",
+    eyebrow: "Kho hàng",
+    title: "Quản lý tồn kho",
+    description: "Theo dõi số lượng còn lại, cảnh báo sắp hết và lô sản xuất liên quan.",
     stats: [
-      { label: "Tá»•ng tá»“n", value: "186", note: "Táº¥t cáº£ sáº£n pháº©m" },
-      { label: "Sáº¯p háº¿t", value: "5", note: "DÆ°á»›i 5 mÃ³n" },
-      { label: "Äang giá»¯", value: "12", note: "Trong giá»/Ä‘Æ¡n" },
-      { label: "LÃ´ má»›i", value: "3", note: "Chá» nháº­p kho" },
+      { label: "Tổng tồn", value: "186", note: "Tất cả sản phẩm" },
+      { label: "Sắp hết", value: "5", note: "Dưới 5 món" },
+      { label: "Đang giữ", value: "12", note: "Trong giỏ/đơn" },
+      { label: "Lô mới", value: "3", note: "Chờ nhập kho" },
     ],
     rows: [
-      { title: "LÆ°á»£c sá»«ng VM01", meta: "18 tá»“n Â· VM-BATCH-2026-09", status: "á»”n Ä‘á»‹nh" },
-      { title: "Set quÃ  thá»§ cÃ´ng", meta: "4 tá»“n Â· VM-BATCH-2026-08", status: "Sáº¯p háº¿t" },
-      { title: "Charm Ã¡nh vÃ ng", meta: "32 tá»“n Â· VM-BATCH-2026-09", status: "á»”n Ä‘á»‹nh" },
+      { title: "Lược sừng VM01", meta: "18 tồn · VM-BATCH-2026-09", status: "Ổn định" },
+      { title: "Set quà thủ công", meta: "4 tồn · VM-BATCH-2026-08", status: "Sắp hết" },
+      { title: "Charm ánh vàng", meta: "32 tồn · VM-BATCH-2026-09", status: "Ổn định" },
     ],
   },
   orders: {
-    eyebrow: "Váº­n hÃ nh",
-    title: "ÄÆ¡n hÃ ng",
-    description: "Xem Ä‘Æ¡n, cáº­p nháº­t tráº¡ng thÃ¡i thanh toÃ¡n, xá»­ lÃ½ kháº¯c tÃªn vÃ  giao hÃ ng.",
-    primaryAction: "Cáº­p nháº­t tráº¡ng thÃ¡i",
+    eyebrow: "Vận hành",
+    title: "Đơn hàng",
+    description: "Xem đơn, cập nhật trạng thái thanh toán, xử lý khắc tên và giao hàng.",
+    primaryAction: "Cập nhật trạng thái",
     stats: [
-      { label: "Chá» xÃ¡c nháº­n", value: "6", note: "Cáº§n gá»i láº¡i" },
-      { label: "Äang lÃ m", value: "9", note: "XÆ°á»Ÿng xá»­ lÃ½" },
-      { label: "Äang giao", value: "4", note: "ÄÆ¡n váº­n chuyá»ƒn" },
-      { label: "HoÃ n thÃ nh", value: "128", note: "ThÃ¡ng nÃ y" },
+      { label: "Chờ xác nhận", value: "6", note: "Cần gọi lại" },
+      { label: "Đang làm", value: "9", note: "Xưởng xử lý" },
+      { label: "Đang giao", value: "4", note: "Đơn vận chuyển" },
+      { label: "Hoàn thành", value: "128", note: "Tháng này" },
     ],
     rows: [
-      { title: "VM20260915001", meta: "Nguyá»…n An Â· 1 sáº£n pháº©m", status: "Chá» xÃ¡c nháº­n" },
-      { title: "VM20260915002", meta: "LÃª Minh Â· CÃ³ kháº¯c tÃªn", status: "Äang hoÃ n thiá»‡n" },
-      { title: "VM20260915003", meta: "Thu HÃ  Â· Set quÃ  táº·ng", status: "Äang giao" },
+      { title: "VM20260915001", meta: "Nguyễn An · 1 sản phẩm", status: "Chờ xác nhận" },
+      { title: "VM20260915002", meta: "Lê Minh · Có khắc tên", status: "Đang hoàn thiện" },
+      { title: "VM20260915003", meta: "Thu Hà · Set quà tặng", status: "Đang giao" },
     ],
   },
   personalization: {
-    eyebrow: "CÃ¡ nhÃ¢n hÃ³a",
-    title: "Ná»™i dung kháº¯c",
-    description: "Kiá»ƒm tra chá»¯ kháº¯c, font, vá»‹ trÃ­ vÃ  ghi chÃº riÃªng trÆ°á»›c khi chuyá»ƒn xÆ°á»Ÿng.",
+    eyebrow: "Cá nhân hóa",
+    title: "Nội dung khắc",
+    description: "Kiểm tra chữ khắc, font, vị trí và ghi chú riêng trước khi chuyển xưởng.",
     stats: [
-      { label: "Chá» duyá»‡t", value: "7", note: "Ná»™i dung má»›i" },
-      { label: "Äang kháº¯c", value: "5", note: "Táº¡i xÆ°á»Ÿng" },
-      { label: "Cáº§n há»i láº¡i", value: "2", note: "Chá»¯ quÃ¡ dÃ i" },
-      { label: "HoÃ n táº¥t", value: "31", note: "Tuáº§n nÃ y" },
+      { label: "Chờ duyệt", value: "7", note: "Nội dung mới" },
+      { label: "Đang khắc", value: "5", note: "Tại xưởng" },
+      { label: "Cần hỏi lại", value: "2", note: "Chữ quá dài" },
+      { label: "Hoàn tất", value: "31", note: "Tuần này" },
     ],
     rows: [
-      { title: "NGUYá»„N AN", meta: "LÆ°á»£c sá»«ng VM01 Â· Font serif", status: "Chá» duyá»‡t" },
-      { title: "Má»˜C NHIÃŠN", meta: "TrÃ¢m cÃ i Â· Vá»‹ trÃ­ cáº¡nh pháº£i", status: "Äang kháº¯c" },
-      { title: "HÃ€ 2026", meta: "Set quÃ  Â· KÃ¨m QR", status: "HoÃ n táº¥t" },
+      { title: "NGUYỄN AN", meta: "Lược sừng VM01 · Font serif", status: "Chờ duyệt" },
+      { title: "MỘC NHIÊN", meta: "Trâm cài · Vị trí cạnh phải", status: "Đang khắc" },
+      { title: "HÀ 2026", meta: "Set quà · Kèm QR", status: "Hoàn tất" },
     ],
   },
   traceability: {
     eyebrow: "QR / Traceability",
-    title: "Quáº£n lÃ½ mÃ£ truy xuáº¥t",
-    description: "Táº¡o mÃ£, quáº£n lÃ½ mÃ£ vÃ  cáº­p nháº­t hÃ nh trÃ¬nh cháº¥t liá»‡u, lÃ´ sáº£n xuáº¥t, nghá»‡ nhÃ¢n.",
-    primaryAction: "Táº¡o mÃ£ QR",
+    title: "Quản lý mã truy xuất",
+    description: "Tạo mã, quản lý mã và cập nhật hành trình chất liệu, lô sản xuất, nghệ nhân.",
+    primaryAction: "Tạo mã QR",
     stats: [
-      { label: "ÄÃ£ táº¡o", value: "42", note: "ThÃ¡ng nÃ y" },
-      { label: "Chá» gáº¯n", value: "8", note: "Sau hoÃ n thiá»‡n" },
-      { label: "ÄÃ£ quÃ©t", value: "326", note: "Tá»•ng lÆ°á»£t" },
-      { label: "LÃ´ sáº£n xuáº¥t", value: "12", note: "Äang quáº£n lÃ½" },
+      { label: "Đã tạo", value: "42", note: "Tháng này" },
+      { label: "Chờ gắn", value: "8", note: "Sau hoàn thiện" },
+      { label: "Đã quét", value: "326", note: "Tổng lượt" },
+      { label: "Lô sản xuất", value: "12", note: "Đang quản lý" },
     ],
     rows: [
-      { title: "VM000123", meta: "LÆ°á»£c sá»«ng VM01 Â· VM-BATCH-2026-09", status: "Äang hoáº¡t Ä‘á»™ng" },
-      { title: "VM000124", meta: "TrÃ¢m cÃ i Â· Nghá»‡ nhÃ¢n Thá»¥y á»¨ng", status: "Chá» gáº¯n" },
-      { title: "VM000125", meta: "Set quÃ  Â· ÄÃ£ cáº­p nháº­t báº£o quáº£n", status: "Äang hoáº¡t Ä‘á»™ng" },
+      { title: "VM000123", meta: "Lược sừng VM01 · VM-BATCH-2026-09", status: "Đang hoạt động" },
+      { title: "VM000124", meta: "Trâm cài · Nghệ nhân Thụy Ứng", status: "Chờ gắn" },
+      { title: "VM000125", meta: "Set quà · Đã cập nhật bảo quản", status: "Đang hoạt động" },
     ],
   },
   "trace-create": {
     eyebrow: "QR / Traceability",
-    title: "Táº¡o mÃ£ QR",
-    description: "Gáº¯n mÃ£ Ä‘á»‹nh danh vá»›i sáº£n pháº©m hoáº·c lÃ´ sáº£n xuáº¥t Ä‘á»ƒ khÃ¡ch hÃ ng truy xuáº¥t.",
-    primaryAction: "Táº¡o mÃ£",
+    title: "Tạo mã QR",
+    description: "Gắn mã định danh với sản phẩm hoặc lô sản xuất để khách hàng truy xuất.",
+    primaryAction: "Tạo mã",
     stats: [
-      { label: "MÃ£ má»›i", value: "VM", note: "Tá»± sinh" },
-      { label: "Sáº£n pháº©m", value: "01", note: "Báº¯t buá»™c" },
-      { label: "LÃ´", value: "01", note: "CÃ³ thá»ƒ chá»n" },
-      { label: "Tráº¡ng thÃ¡i", value: "NhÃ¡p", note: "TrÆ°á»›c khi cÃ´ng bá»‘" },
+      { label: "Mã mới", value: "VM", note: "Tự sinh" },
+      { label: "Sản phẩm", value: "01", note: "Bắt buộc" },
+      { label: "Lô", value: "01", note: "Có thể chọn" },
+      { label: "Trạng thái", value: "Nháp", note: "Trước khi công bố" },
     ],
     rows: [
-      { title: "ThÃ´ng tin sáº£n pháº©m", meta: "Chá»n sáº£n pháº©m hoáº·c lÃ´ sáº£n xuáº¥t", status: "Báº¯t buá»™c" },
-      { title: "HÃ nh trÃ¬nh", meta: "Cháº¥t liá»‡u, nghá»‡ nhÃ¢n, cÃ´ng Ä‘oáº¡n", status: "Báº¯t buá»™c" },
-      { title: "HÆ°á»›ng dáº«n báº£o quáº£n", meta: "Ná»™i dung hiá»ƒn thá»‹ cho khÃ¡ch", status: "TÃ¹y chá»n" },
+      { title: "Thông tin sản phẩm", meta: "Chọn sản phẩm hoặc lô sản xuất", status: "Bắt buộc" },
+      { title: "Hành trình", meta: "Chất liệu, nghệ nhân, công đoạn", status: "Bắt buộc" },
+      { title: "Hướng dẫn bảo quản", meta: "Nội dung hiển thị cho khách", status: "Tùy chọn" },
     ],
   },
   reviews: {
-    eyebrow: "KhÃ¡ch hÃ ng",
+    eyebrow: "Khách hàng",
     title: "Review",
-    description: "Duyá»‡t Ä‘Ã¡nh giÃ¡, pháº£n há»“i khÃ¡ch hÃ ng vÃ  chá»n review ná»•i báº­t.",
+    description: "Duyệt đánh giá, phản hồi khách hàng và chọn review nổi bật.",
     stats: [
-      { label: "Chá» duyá»‡t", value: "9", note: "Review má»›i" },
-      { label: "5 sao", value: "86%", note: "Tá»•ng Ä‘Ã¡nh giÃ¡" },
-      { label: "ÄÃ£ pháº£n há»“i", value: "34", note: "ThÃ¡ng nÃ y" },
-      { label: "Ghim", value: "4", note: "Trang chá»§" },
+      { label: "Chờ duyệt", value: "9", note: "Review mới" },
+      { label: "5 sao", value: "86%", note: "Tổng đánh giá" },
+      { label: "Đã phản hồi", value: "34", note: "Tháng này" },
+      { label: "Ghim", value: "4", note: "Trang chủ" },
     ],
     rows: [
-      { title: "Linda", meta: "LÆ°á»£c sá»«ng tá»± nhiÃªn Â· 5 sao", status: "Chá» duyá»‡t" },
-      { title: "Peter", meta: "TrÃ¢m cÃ i vÃ¢n sá»«ng Â· 5 sao", status: "ÄÃ£ hiá»ƒn thá»‹" },
-      { title: "Andy", meta: "Set quÃ  thá»§ cÃ´ng Â· 4 sao", status: "ÄÃ£ pháº£n há»“i" },
+      { title: "Linda", meta: "Lược sừng tự nhiên · 5 sao", status: "Chờ duyệt" },
+      { title: "Peter", meta: "Trâm cài vân sừng · 5 sao", status: "Đã hiển thị" },
+      { title: "Andy", meta: "Set quà thủ công · 4 sao", status: "Đã phản hồi" },
     ],
   },
   staff: {
     eyebrow: "Admin",
-    title: "Quáº£n lÃ½ Staff",
-    description: "ThÃªm nhÃ¢n sá»± váº­n hÃ nh, khÃ³a tÃ i khoáº£n vÃ  phÃ¢n ca xá»­ lÃ½ Ä‘Æ¡n hÃ ng.",
-    primaryAction: "ThÃªm staff",
+    title: "Quản lý Staff",
+    description: "Thêm nhân sự vận hành, khóa tài khoản và phân ca xử lý đơn hàng.",
+    primaryAction: "Thêm staff",
     stats: [
-      { label: "Staff", value: "6", note: "Äang hoáº¡t Ä‘á»™ng" },
-      { label: "Online", value: "3", note: "HÃ´m nay" },
-      { label: "Táº¡m khÃ³a", value: "1", note: "Chá» kiá»ƒm tra" },
-      { label: "Vai trÃ²", value: "4", note: "NhÃ³m quyá»n" },
+      { label: "Staff", value: "6", note: "Đang hoạt động" },
+      { label: "Online", value: "3", note: "Hôm nay" },
+      { label: "Tạm khóa", value: "1", note: "Chờ kiểm tra" },
+      { label: "Vai trò", value: "4", note: "Nhóm quyền" },
     ],
     rows: [
-      { title: "Mai Anh", meta: "Quáº£n lÃ½ Ä‘Æ¡n hÃ ng", status: "Hoáº¡t Ä‘á»™ng" },
-      { title: "Thu UyÃªn", meta: "Cáº­p nháº­t sáº£n pháº©m", status: "Hoáº¡t Ä‘á»™ng" },
-      { title: "Minh Khang", meta: "QR / Traceability", status: "Táº¡m khÃ³a" },
+      { title: "Mai Anh", meta: "Quản lý đơn hàng", status: "Hoạt động" },
+      { title: "Thu Uyên", meta: "Cập nhật sản phẩm", status: "Hoạt động" },
+      { title: "Minh Khang", meta: "QR / Traceability", status: "Tạm khóa" },
     ],
   },
   customers: {
     eyebrow: "Admin",
-    title: "Quáº£n lÃ½ Customer",
-    description: "Xem khÃ¡ch hÃ ng, lá»‹ch sá»­ mua, tráº¡ng thÃ¡i tÃ i khoáº£n vÃ  ghi chÃº chÄƒm sÃ³c.",
+    title: "Quản lý Customer",
+    description: "Xem khách hàng, lịch sử mua, trạng thái tài khoản và ghi chú chăm sóc.",
     stats: [
-      { label: "KhÃ¡ch hÃ ng", value: "1.248", note: "Tá»•ng tÃ i khoáº£n" },
-      { label: "Má»›i", value: "38", note: "Tuáº§n nÃ y" },
-      { label: "Quay láº¡i", value: "24%", note: "Tá»‰ lá»‡ mua láº¡i" },
-      { label: "VIP", value: "16", note: "KhÃ¡ch thÃ¢n thiáº¿t" },
+      { label: "Khách hàng", value: "1.248", note: "Tổng tài khoản" },
+      { label: "Mới", value: "38", note: "Tuần này" },
+      { label: "Quay lại", value: "24%", note: "Tỉ lệ mua lại" },
+      { label: "VIP", value: "16", note: "Khách thân thiết" },
     ],
     rows: [
-      { title: "Nguyá»…n An", meta: "3 Ä‘Æ¡n Â· 1 sáº£n pháº©m cÃ¡ nhÃ¢n hÃ³a", status: "ThÃ¢n thiáº¿t" },
-      { title: "LÃª Minh", meta: "1 Ä‘Æ¡n Â· CÃ³ QR", status: "Má»›i" },
-      { title: "Thu HÃ ", meta: "5 Ä‘Æ¡n Â· Set quÃ ", status: "VIP" },
+      { title: "Nguyễn An", meta: "3 đơn · 1 sản phẩm cá nhân hóa", status: "Thân thiết" },
+      { title: "Lê Minh", meta: "1 đơn · Có QR", status: "Mới" },
+      { title: "Thu Hà", meta: "5 đơn · Set quà", status: "VIP" },
     ],
   },
   categories: {
     eyebrow: "Admin",
-    title: "Quáº£n lÃ½ danh má»¥c",
-    description: "Sáº¯p xáº¿p nhÃ³m sáº£n pháº©m, tÃªn danh má»¥c vÃ  tráº¡ng thÃ¡i hiá»ƒn thá»‹.",
-    primaryAction: "ThÃªm danh má»¥c",
+    title: "Quản lý danh mục",
+    description: "Sắp xếp nhóm sản phẩm, tên danh mục và trạng thái hiển thị.",
+    primaryAction: "Thêm danh mục",
     stats: [
-      { label: "Danh má»¥c", value: "5", note: "Äang dÃ¹ng" },
-      { label: "áº¨n", value: "1", note: "ChÆ°a bÃ¡n" },
-      { label: "Ná»•i báº­t", value: "3", note: "TrÃªn menu" },
-      { label: "Sáº£n pháº©m", value: "24", note: "ÄÃ£ gáº¯n" },
+      { label: "Danh mục", value: "5", note: "Đang dùng" },
+      { label: "Ẩn", value: "1", note: "Chưa bán" },
+      { label: "Nổi bật", value: "3", note: "Trên menu" },
+      { label: "Sản phẩm", value: "24", note: "Đã gắn" },
     ],
     rows: [
-      { title: "LÆ°á»£c sá»«ng", meta: "8 sáº£n pháº©m", status: "Hiá»ƒn thá»‹" },
-      { title: "TrÃ¢m cÃ i", meta: "5 sáº£n pháº©m", status: "Hiá»ƒn thá»‹" },
-      { title: "QuÃ  táº·ng", meta: "4 sáº£n pháº©m", status: "Ná»•i báº­t" },
+      { title: "Lược sừng", meta: "8 sản phẩm", status: "Hiển thị" },
+      { title: "Trâm cài", meta: "5 sản phẩm", status: "Hiển thị" },
+      { title: "Quà tặng", meta: "4 sản phẩm", status: "Nổi bật" },
     ],
   },
   banners: {
     eyebrow: "Admin",
-    title: "Quáº£n lÃ½ banner",
-    description: "Cáº­p nháº­t banner trang chá»§, danh má»¥c, thÃ´ng Ä‘iá»‡p vÃ  nÃºt Ä‘iá»u hÆ°á»›ng.",
-    primaryAction: "ThÃªm banner",
+    title: "Quản lý banner",
+    description: "Cập nhật banner trang chủ, danh mục, thông điệp và nút điều hướng.",
+    primaryAction: "Thêm banner",
     stats: [
-      { label: "Banner", value: "4", note: "Äang cháº¡y" },
-      { label: "Mobile", value: "4", note: "ÄÃ£ tá»‘i Æ°u" },
+      { label: "Banner", value: "4", note: "Đang chạy" },
+      { label: "Mobile", value: "4", note: "Đã tối ưu" },
       { label: "CTR", value: "8.2%", note: "Demo" },
-      { label: "Lá»‹ch", value: "2", note: "Äáº·t trÆ°á»›c" },
+      { label: "Lịch", value: "2", note: "Đặt trước" },
     ],
     rows: [
-      { title: "Sáº£n pháº©m má»›i tá»« sá»«ng tá»± nhiÃªn", meta: "Trang chá»§", status: "Äang cháº¡y" },
-      { title: "BÃ¡n cháº¡y mÃ¹a nÃ y", meta: "Danh má»¥c", status: "Äang cháº¡y" },
-      { title: "QuÃ  táº·ng cÃ¡ nhÃ¢n hÃ³a", meta: "Chiáº¿n dá»‹ch", status: "Äáº·t lá»‹ch" },
+      { title: "Sản phẩm mới từ sừng tự nhiên", meta: "Trang chủ", status: "Đang chạy" },
+      { title: "Bán chạy mùa này", meta: "Danh mục", status: "Đang chạy" },
+      { title: "Quà tặng cá nhân hóa", meta: "Chiến dịch", status: "Đặt lịch" },
     ],
   },
   contents: {
     eyebrow: "Admin",
-    title: "Quáº£n lÃ½ ná»™i dung",
-    description: "Sá»­a ná»™i dung trang lÃ ng nghá», footer, chÃ­nh sÃ¡ch vÃ  bÃ i viáº¿t giá»›i thiá»‡u.",
+    title: "Quản lý nội dung",
+    description: "Sửa nội dung trang làng nghề, footer, chính sách và bài viết giới thiệu.",
     stats: [
-      { label: "Trang", value: "8", note: "Ná»™i dung tÄ©nh" },
-      { label: "BÃ i viáº¿t", value: "6", note: "LÃ ng nghá»" },
-      { label: "NhÃ¡p", value: "3", note: "ChÆ°a cÃ´ng bá»‘" },
-      { label: "ÄÃ£ sá»­a", value: "12", note: "ThÃ¡ng nÃ y" },
+      { label: "Trang", value: "8", note: "Nội dung tĩnh" },
+      { label: "Bài viết", value: "6", note: "Làng nghề" },
+      { label: "Nháp", value: "3", note: "Chưa công bố" },
+      { label: "Đã sửa", value: "12", note: "Tháng này" },
     ],
     rows: [
-      { title: "LÃ ng nghá» Thá»¥y á»¨ng", meta: "Trang giá»›i thiá»‡u", status: "ÄÃ£ cÃ´ng bá»‘" },
-      { title: "ChÃ­nh sÃ¡ch giao hÃ ng", meta: "Footer", status: "Cáº§n rÃ  soÃ¡t" },
-      { title: "CÃ¢u chuyá»‡n cháº¥t liá»‡u", meta: "Trang chá»§", status: "ÄÃ£ cÃ´ng bá»‘" },
+      { title: "Làng nghề Thụy Ứng", meta: "Trang giới thiệu", status: "Đã công bố" },
+      { title: "Chính sách giao hàng", meta: "Footer", status: "Cần rà soát" },
+      { title: "Câu chuyện chất liệu", meta: "Trang chủ", status: "Đã công bố" },
     ],
   },
   seo: {
     eyebrow: "Admin",
-    title: "Quáº£n lÃ½ SEO",
-    description: "Tá»‘i Æ°u tiÃªu Ä‘á», mÃ´ táº£, slug, áº£nh chia sáº» vÃ  tráº¡ng thÃ¡i index.",
+    title: "Quản lý SEO",
+    description: "Tối ưu tiêu đề, mô tả, slug, ảnh chia sẻ và trạng thái index.",
     stats: [
-      { label: "Trang thiáº¿u mÃ´ táº£", value: "4", note: "Cáº§n bá»• sung" },
-      { label: "Slug tá»‘t", value: "92%", note: "Äáº¡t chuáº©n" },
-      { label: "áº¢nh OG", value: "7", note: "ÄÃ£ cÃ³" },
-      { label: "Index", value: "18", note: "Trang cÃ´ng khai" },
+      { label: "Trang thiếu mô tả", value: "4", note: "Cần bổ sung" },
+      { label: "Slug tốt", value: "92%", note: "Đạt chuẩn" },
+      { label: "Ảnh OG", value: "7", note: "Đã có" },
+      { label: "Index", value: "18", note: "Trang công khai" },
     ],
     rows: [
-      { title: "/products", meta: "Danh má»¥c sáº£n pháº©m", status: "Tá»‘t" },
-      { title: "/lang-nghe-thuy-ung", meta: "Thiáº¿u mÃ´ táº£ SEO", status: "Cáº§n sá»­a" },
-      { title: "/trace/VM000123", meta: "KhÃ´ng index", status: "ÄÃºng cáº¥u hÃ¬nh" },
+      { title: "/products", meta: "Danh mục sản phẩm", status: "Tốt" },
+      { title: "/lang-nghe-thuy-ung", meta: "Thiếu mô tả SEO", status: "Cần sửa" },
+      { title: "/trace/VM000123", meta: "Không index", status: "Đúng cấu hình" },
     ],
   },
   settings: {
     eyebrow: "Admin",
-    title: "Cáº¥u hÃ¬nh website",
-    description: "Quáº£n lÃ½ thÃ´ng tin liÃªn há»‡, mÃ u thÆ°Æ¡ng hiá»‡u, váº­n chuyá»ƒn vÃ  thanh toÃ¡n.",
+    title: "Cấu hình website",
+    description: "Quản lý thông tin liên hệ, màu thương hiệu, vận chuyển và thanh toán.",
     stats: [
-      { label: "Thanh toÃ¡n", value: "2", note: "PhÆ°Æ¡ng thá»©c" },
-      { label: "Váº­n chuyá»ƒn", value: "3", note: "Khu vá»±c" },
-      { label: "Email", value: "OK", note: "ThÃ´ng bÃ¡o Ä‘Æ¡n" },
-      { label: "Theme", value: "VÃ¢n Má»™c", note: "Äang dÃ¹ng" },
+      { label: "Thanh toán", value: "2", note: "Phương thức" },
+      { label: "Vận chuyển", value: "3", note: "Khu vực" },
+      { label: "Email", value: "OK", note: "Thông báo đơn" },
+      { label: "Theme", value: "Vân Mộc", note: "Đang dùng" },
     ],
     rows: [
-      { title: "ThÃ´ng tin cá»­a hÃ ng", meta: "Email, hotline, Ä‘á»‹a chá»‰", status: "ÄÃ£ lÆ°u" },
-      { title: "PhÃ­ váº­n chuyá»ƒn", meta: "Ná»™i thÃ nh, ngoáº¡i thÃ nh", status: "Cáº§n cáº­p nháº­t" },
-      { title: "MÃ u thÆ°Æ¡ng hiá»‡u", meta: "NÃ¢u sá»«ng vÃ  kem logo", status: "Äang dÃ¹ng" },
+      { title: "Thông tin cửa hàng", meta: "Email, hotline, địa chỉ", status: "Đã lưu" },
+      { title: "Phí vận chuyển", meta: "Nội thành, ngoại thành", status: "Cần cập nhật" },
+      { title: "Màu thương hiệu", meta: "Nâu sừng và kem logo", status: "Đang dùng" },
     ],
   },
   roles: {
     eyebrow: "Admin",
-    title: "PhÃ¢n quyá»n",
-    description: "Cáº¥u hÃ¬nh quyá»n truy cáº­p cho Admin, Staff vÃ  cÃ¡c nhÃ³m váº­n hÃ nh.",
-    primaryAction: "Táº¡o nhÃ³m quyá»n",
+    title: "Phân quyền",
+    description: "Cấu hình quyền truy cập cho Admin, Staff và các nhóm vận hành.",
+    primaryAction: "Tạo nhóm quyền",
     stats: [
-      { label: "NhÃ³m quyá»n", value: "4", note: "Äang dÃ¹ng" },
-      { label: "Admin", value: "2", note: "ToÃ n quyá»n" },
-      { label: "Staff", value: "6", note: "Giá»›i háº¡n" },
-      { label: "Log", value: "128", note: "Thao tÃ¡c" },
+      { label: "Nhóm quyền", value: "4", note: "Đang dùng" },
+      { label: "Admin", value: "2", note: "Toàn quyền" },
+      { label: "Staff", value: "6", note: "Giới hạn" },
+      { label: "Log", value: "128", note: "Thao tác" },
     ],
     rows: [
-      { title: "Admin", meta: "ToÃ n quyá»n há»‡ thá»‘ng", status: "Full access" },
-      { title: "Staff Ä‘Æ¡n hÃ ng", meta: "Xem vÃ  cáº­p nháº­t Ä‘Æ¡n", status: "Giá»›i háº¡n" },
-      { title: "Staff ná»™i dung", meta: "Sáº£n pháº©m, banner, bÃ i viáº¿t", status: "Giá»›i háº¡n" },
+      { title: "Admin", meta: "Toàn quyền hệ thống", status: "Full access" },
+      { title: "Staff đơn hàng", meta: "Xem và cập nhật đơn", status: "Giới hạn" },
+      { title: "Staff nội dung", meta: "Sản phẩm, banner, bài viết", status: "Giới hạn" },
     ],
   },
 };
@@ -458,7 +458,7 @@ const emptyProductForm: ProductMutationPayload = {
   description: "",
   shortDescription: "",
   material: "",
-  origin: "LÃ ng nghá» Thá»¥y á»¨ng, HÃ  Ná»™i",
+  origin: "Làng nghề Thụy Ứng, Hà Nội",
   price: 0,
   stockQuantity: 0,
   status: "AVAILABLE",
@@ -471,8 +471,8 @@ function slugify(value: string) {
   return value
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .replace(/Ä‘/g, "d")
-    .replace(/Ä/g, "D")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D")
     .toLowerCase()
     .trim()
     .replace(/[^a-z0-9]+/g, "-")
@@ -561,11 +561,11 @@ function ProductManager({ role, mode = "manage", editSlug }: { role: Role; mode?
           setEditingSlug(editingProduct.slug);
           setForm(productToForm(editingProduct));
         } else {
-          setError("KhÃ´ng tÃ¬m tháº¥y sáº£n pháº©m cáº§n sá»­a.");
+          setError("Không tìm thấy sản phẩm cần sửa.");
         }
       }
     } catch {
-      setError("ChÆ°a táº£i Ä‘Æ°á»£c danh sÃ¡ch sáº£n pháº©m. Kiá»ƒm tra backend vÃ  quyá»n Ä‘Äƒng nháº­p staff/admin.");
+      setError("Chưa tải được danh sách sản phẩm. Kiểm tra backend và quyền đăng nhập staff/admin.");
     } finally {
       setLoading(false);
     }
@@ -619,7 +619,7 @@ function ProductManager({ role, mode = "manage", editSlug }: { role: Role; mode?
     const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
     if (!cloudName || !uploadPreset) {
-      setError("ChÆ°a cáº¥u hÃ¬nh Cloudinary. ThÃªm NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME vÃ  NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET vÃ o .env.local.");
+      setError("Chưa cấu hình Cloudinary. Thêm NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME và NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET vào .env.local.");
       return;
     }
 
@@ -655,7 +655,7 @@ function ProductManager({ role, mode = "manage", editSlug }: { role: Role; mode?
 
       setProductImages([...form.imageUrls, ...uploadedUrls]);
     } catch {
-      setError("ChÆ°a upload Ä‘Æ°á»£c áº£nh lÃªn Cloudinary.");
+      setError("Chưa upload được ảnh lên Cloudinary.");
     } finally {
       setUploadingImages(false);
     }
@@ -706,14 +706,14 @@ function ProductManager({ role, mode = "manage", editSlug }: { role: Role; mode?
         router.push(`/${role}/products`);
       }
     } catch {
-      setError("ChÆ°a lÆ°u Ä‘Æ°á»£c sáº£n pháº©m. Kiá»ƒm tra SKU/slug cÃ³ bá»‹ trÃ¹ng hoáº·c thiáº¿u danh má»¥c khÃ´ng.");
+      setError("Chưa lưu được sản phẩm. Kiểm tra SKU/slug có bị trùng hoặc thiếu danh mục không.");
     } finally {
       setSaving(false);
     }
   };
 
   const handleArchive = async (product: AdminProduct) => {
-    const confirmed = window.confirm(`XÃ³a má»m sáº£n pháº©m "${product.name}"? Sáº£n pháº©m sáº½ chuyá»ƒn sang tráº¡ng thÃ¡i áº©n.`);
+    const confirmed = window.confirm(`Xóa mềm sản phẩm "${product.name}"? Sản phẩm sẽ chuyển sang trạng thái ẩn.`);
 
     if (!confirmed) {
       return;
@@ -726,7 +726,7 @@ function ProductManager({ role, mode = "manage", editSlug }: { role: Role; mode?
       await archiveAdminProduct(product.slug);
       await loadProducts();
     } catch {
-      setError("ChÆ°a xÃ³a má»m Ä‘Æ°á»£c sáº£n pháº©m.");
+      setError("Chưa xóa mềm được sản phẩm.");
     } finally {
       setSaving(false);
     }
@@ -744,7 +744,7 @@ function ProductManager({ role, mode = "manage", editSlug }: { role: Role; mode?
       await updateAdminProduct(product.slug, { ...productToForm(product), status });
       await loadProducts();
     } catch {
-      setError("ChÆ°a cáº­p nháº­t Ä‘Æ°á»£c tráº¡ng thÃ¡i sáº£n pháº©m.");
+      setError("Chưa cập nhật được trạng thái sản phẩm.");
     } finally {
       setSaving(false);
     }
@@ -764,8 +764,8 @@ function ProductManager({ role, mode = "manage", editSlug }: { role: Role; mode?
       <div className="rounded-lg bg-ivory p-6 shadow-[0_18px_60px_rgba(86,53,31,0.08)] md:p-8">
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-clay">Quáº£n lÃ½ bÃ¡n hÃ ng</p>
-            <h2 className="mt-3 font-serif text-5xl font-bold text-bark">Quáº£n lÃ½ sáº£n pháº©m</h2>
+            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-clay">Quản lý bán hàng</p>
+            <h2 className="mt-3 font-serif text-5xl font-bold text-bark">Quản lý sản phẩm</h2>
           </div>
           <button
             className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-wood px-6 font-serif text-lg font-bold text-ivory transition hover:bg-bark"
@@ -773,17 +773,17 @@ function ProductManager({ role, mode = "manage", editSlug }: { role: Role; mode?
             type="button"
           >
             <Plus className="size-4" />
-            ThÃªm sáº£n pháº©m
+            Thêm sản phẩm
           </button>
         </div>
       </div>
 
       {mode === "manage" ? <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {[
-          { label: "Äang bÃ¡n", value: String(activeProducts.length), note: "Hiá»ƒn thá»‹ hoáº·c cÃ³ thá»ƒ bÃ¡n" },
-          { label: "Sáº¯p háº¿t", value: String(lowStockProducts.length), note: "Tá»“n kho tá»« 5 trá»Ÿ xuá»‘ng" },
-          { label: "ÄÃ£ áº©n", value: String(hiddenProducts.length), note: "XÃ³a má»m / khÃ´ng bÃ¡n" },
-          { label: "Tá»•ng sáº£n pháº©m", value: String(products.length), note: "Bao gá»“m sáº£n pháº©m áº©n" },
+          { label: "Đang bán", value: String(activeProducts.length), note: "Hiển thị hoặc có thể bán" },
+          { label: "Sắp hết", value: String(lowStockProducts.length), note: "Tồn kho từ 5 trở xuống" },
+          { label: "Đã ẩn", value: String(hiddenProducts.length), note: "Xóa mềm / không bán" },
+          { label: "Tổng sản phẩm", value: String(products.length), note: "Bao gồm sản phẩm ẩn" },
         ].map((stat) => (
           <article className="rounded-lg border border-clay/15 bg-pearl p-5" key={stat.label}>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">{stat.label}</p>
@@ -796,7 +796,7 @@ function ProductManager({ role, mode = "manage", editSlug }: { role: Role; mode?
       <div className={`grid gap-6 ${mode === "create" ? "max-w-6xl" : "xl:grid-cols-1"}`}>
         {showEditor ? <section className="h-fit rounded-lg border border-clay/15 bg-pearl p-5 md:p-7">
           <div className="flex items-center justify-between border-b border-clay/15 pb-4">
-            <h3 className="font-serif text-3xl font-bold text-bark">{editingSlug ? "Sá»­a sáº£n pháº©m" : "ThÃªm sáº£n pháº©m"}</h3>
+            <h3 className="font-serif text-3xl font-bold text-bark">{editingSlug ? "Sửa sản phẩm" : "Thêm sản phẩm"}</h3>
             {editingSlug ? (
               <button className="inline-flex size-9 items-center justify-center rounded-full border border-clay/25 text-wood" onClick={startCreate} type="button">
                 <X className="size-4" />
@@ -806,19 +806,19 @@ function ProductManager({ role, mode = "manage", editSlug }: { role: Role; mode?
 
           <div className="mt-5 grid gap-4 md:grid-cols-2">
             <label className="grid gap-1.5 text-sm font-semibold text-bark">
-              TÃªn sáº£n pháº©m
+              Tên sản phẩm
               <input
                 className="h-10 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood"
                 onBlur={() => !form.slug && setField("slug", slugify(form.name))}
                 onChange={(event) => setField("name", event.target.value)}
-                placeholder="VÃ­ dá»¥: LÆ°á»£c sá»«ng tá»± nhiÃªn VM01"
+                placeholder="Ví dụ: Lược sừng tự nhiên VM01"
                 value={form.name}
               />
             </label>
             <div className="grid gap-4 md:grid-cols-2">
               <label className="grid gap-1.5 text-sm font-semibold text-bark">
                 SKU
-                <input className="h-10 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setField("sku", event.target.value)} placeholder="VÃ­ dá»¥: VM-LS-001" value={form.sku} />
+                <input className="h-10 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setField("sku", event.target.value)} placeholder="Ví dụ: VM-LS-001" value={form.sku} />
               </label>
               <label className="grid gap-1.5 text-sm font-semibold text-bark">
                 Slug
@@ -826,7 +826,7 @@ function ProductManager({ role, mode = "manage", editSlug }: { role: Role; mode?
               </label>
             </div>
             <label className="grid gap-1.5 text-sm font-semibold text-bark">
-              Danh má»¥c
+              Danh mục
               <select className="h-10 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setField("categorySlug", event.target.value)} value={form.categorySlug}>
                 {categories.map((category) => (
                   <option key={category.slug} value={category.slug}>
@@ -837,37 +837,37 @@ function ProductManager({ role, mode = "manage", editSlug }: { role: Role; mode?
             </label>
             <div className="grid gap-4 md:grid-cols-2">
               <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                GiÃ¡
+                Giá
                 <input className="h-10 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" min={0} onChange={(event) => setField("price", Number(event.target.value))} placeholder="350000" type="number" value={form.price} />
               </label>
               <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Tá»“n kho
+                Tồn kho
                 <input className="h-10 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" min={0} onChange={(event) => setField("stockQuantity", Number(event.target.value))} placeholder="18" type="number" value={form.stockQuantity} />
               </label>
             </div>
             <div className="grid gap-4 md:grid-cols-2">
               <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Tráº¡ng thÃ¡i
+                Trạng thái
                 <select className="h-10 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setField("status", event.target.value)} value={form.status}>
-                  <option value="AVAILABLE">Äang bÃ¡n</option>
-                  <option value="DRAFT">NhÃ¡p</option>
-                  <option value="OUT_OF_STOCK">Háº¿t hÃ ng</option>
-                  <option value="INACTIVE">áº¨n</option>
+                  <option value="AVAILABLE">Đang bán</option>
+                  <option value="DRAFT">Nháp</option>
+                  <option value="OUT_OF_STOCK">Hết hàng</option>
+                  <option value="INACTIVE">Ẩn</option>
                 </select>
               </label>
               <label className="flex items-center gap-2 pt-6 text-sm font-semibold text-bark">
                 <input checked={form.personalizable} onChange={(event) => setField("personalizable", event.target.checked)} type="checkbox" />
-                Cho phÃ©p cÃ¡ nhÃ¢n hÃ³a
+                Cho phép cá nhân hóa
               </label>
             </div>
             <div className="grid gap-3 rounded-2xl border border-clay/15 bg-ivory/70 p-4 md:col-span-2">
               <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                 <label className="grid flex-1 gap-1.5 text-sm font-semibold text-bark">
-                  áº¢nh Ä‘áº¡i diá»‡n URL
+                  Ảnh đại diện URL
                   <input className="h-10 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => handleImageUrlChange(event.target.value)} placeholder="https://.../anh-san-pham.jpg" value={form.imageUrl} />
                 </label>
                 <label className="inline-flex h-10 cursor-pointer items-center justify-center rounded-full border border-clay/25 px-4 text-sm font-semibold text-wood transition hover:bg-sand">
-                  {uploadingImages ? "Äang táº£i áº£nh..." : "Táº£i áº£nh Cloudinary"}
+                  {uploadingImages ? "Đang tải ảnh..." : "Tải ảnh Cloudinary"}
                   <input
                     accept="image/*"
                     className="sr-only"
@@ -878,17 +878,17 @@ function ProductManager({ role, mode = "manage", editSlug }: { role: Role; mode?
                   />
                 </label>
               </div>
-              <p className="text-xs font-medium text-horn">CÃ³ thá»ƒ chá»n nhiá»u áº£nh. áº¢nh Ä‘áº§u tiÃªn sáº½ lÃ  áº£nh Ä‘áº¡i diá»‡n cá»§a sáº£n pháº©m.</p>
+              <p className="text-xs font-medium text-horn">Có thể chọn nhiều ảnh. Ảnh đầu tiên sẽ là ảnh đại diện của sản phẩm.</p>
               {form.imageUrls.length ? (
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                   {form.imageUrls.map((imageUrl, index) => (
                     <div className="relative overflow-hidden rounded-lg border border-clay/15 bg-pearl" key={`${imageUrl}-${index}`}>
-                      <img alt={`áº¢nh sáº£n pháº©m ${index + 1}`} className="aspect-square w-full object-cover" src={imageUrl} />
+                      <img alt={`Ảnh sản phẩm ${index + 1}`} className="aspect-square w-full object-cover" src={imageUrl} />
                       <div className="absolute left-2 top-2 rounded-full bg-wood px-2 py-1 text-[10px] font-bold uppercase text-ivory">
-                        {index === 0 ? "ChÃ­nh" : `áº¢nh ${index + 1}`}
+                        {index === 0 ? "Chính" : `Ảnh ${index + 1}`}
                       </div>
                       <button
-                        aria-label={`XÃ³a áº£nh ${index + 1}`}
+                        aria-label={`Xóa ảnh ${index + 1}`}
                         className="absolute right-2 top-2 inline-flex size-8 items-center justify-center rounded-full bg-ivory/95 text-red-700 shadow-sm transition hover:bg-red-50"
                         onClick={() => setProductImages(form.imageUrls.filter((_, imageIndex) => imageIndex !== index))}
                         type="button"
@@ -902,26 +902,26 @@ function ProductManager({ role, mode = "manage", editSlug }: { role: Role; mode?
             </div>
             <div className="grid gap-4 md:col-span-2 md:grid-cols-2">
               <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Cháº¥t liá»‡u
-                <input className="h-10 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setField("material", event.target.value)} placeholder="VÃ­ dá»¥: Sá»«ng tá»± nhiÃªn" value={form.material} />
+                Chất liệu
+                <input className="h-10 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setField("material", event.target.value)} placeholder="Ví dụ: Sừng tự nhiên" value={form.material} />
               </label>
               <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Xuáº¥t xá»©
-                <input className="h-10 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setField("origin", event.target.value)} placeholder="VÃ­ dá»¥: LÃ ng nghá» Thá»¥y á»¨ng, HÃ  Ná»™i" value={form.origin} />
+                Xuất xứ
+                <input className="h-10 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setField("origin", event.target.value)} placeholder="Ví dụ: Làng nghề Thụy Ứng, Hà Nội" value={form.origin} />
               </label>
             </div>
             <label className="grid gap-1.5 text-sm font-semibold text-bark md:col-span-2">
-              MÃ´ táº£ ngáº¯n
+              Mô tả ngắn
               <textarea
                 className="min-h-24 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood"
                 onChange={(event) => setField("shortDescription", event.target.value)}
-                placeholder="Nháº­p mÃ´ táº£ ngáº¯n hiá»ƒn thá»‹ á»Ÿ danh sÃ¡ch sáº£n pháº©m..."
+                placeholder="Nhập mô tả ngắn hiển thị ở danh sách sản phẩm..."
                 value={form.shortDescription}
               />
             </label>
             <label className="grid gap-1.5 text-sm font-semibold text-bark md:col-span-2">
-              MÃ´ táº£
-              <textarea className="min-h-32 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood" onChange={(event) => setField("description", event.target.value)} placeholder="Nháº­p mÃ´ táº£ chi tiáº¿t vá» cháº¥t liá»‡u, quy trÃ¬nh cháº¿ tÃ¡c vÃ  cÃ¡ch sá»­ dá»¥ng..." value={form.description} />
+              Mô tả
+              <textarea className="min-h-32 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood" onChange={(event) => setField("description", event.target.value)} placeholder="Nhập mô tả chi tiết về chất liệu, quy trình chế tác và cách sử dụng..." value={form.description} />
             </label>
             {error ? <p className="rounded-md bg-red-50 px-4 py-3 text-sm font-semibold text-red-700 md:col-span-2">{error}</p> : null}
             <button
@@ -931,20 +931,20 @@ function ProductManager({ role, mode = "manage", editSlug }: { role: Role; mode?
               type="button"
             >
               {saving ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
-              {editingSlug ? "LÆ°u thay Ä‘á»•i" : "Táº¡o sáº£n pháº©m"}
+              {editingSlug ? "Lưu thay đổi" : "Tạo sản phẩm"}
             </button>
           </div>
         </section> : null}
 
         {mode === "manage" ? <section className="rounded-lg border border-clay/15 bg-pearl p-5">
           <div className="flex items-center justify-between border-b border-clay/15 pb-4">
-            <h3 className="font-serif text-3xl font-bold text-bark">Danh sÃ¡ch sáº£n pháº©m</h3>
+            <h3 className="font-serif text-3xl font-bold text-bark">Danh sách sản phẩm</h3>
           </div>
 
           {loading ? (
             <div className="flex items-center justify-center gap-2 py-14 text-sm font-semibold text-horn">
               <Loader2 className="size-4 animate-spin" />
-              Äang táº£i sáº£n pháº©m...
+              Đang tải sản phẩm...
             </div>
           ) : (
             <div className="divide-y divide-clay/15">
@@ -956,27 +956,27 @@ function ProductManager({ role, mode = "manage", editSlug }: { role: Role; mode?
                       <h4 className="text-base font-bold text-bark">{product.name}</h4>
                     </div>
                     <p className="mt-1 text-sm text-horn">
-                      {product.sku} Â· {product.categoryName} Â· {formatVnd(product.price)} Â· {product.stockQuantity} tá»“n
+                      {product.sku} · {product.categoryName} · {formatVnd(product.price)} · {product.stockQuantity} tồn
                     </p>
                     <p className="mt-1 line-clamp-1 text-xs text-horn">{product.shortDescription || product.description}</p>
                   </div>
                   <div className="flex gap-2 xl:justify-end">
                     <select
-                      aria-label={`Tráº¡ng thÃ¡i ${product.name}`}
+                      aria-label={`Trạng thái ${product.name}`}
                       className="h-9 rounded-full border border-clay/30 bg-ivory px-3 text-xs font-semibold text-wood outline-none transition hover:bg-sand focus:border-wood disabled:cursor-not-allowed disabled:opacity-60"
                       disabled={saving}
                       onChange={(event) => handleStatusChange(product, event.target.value)}
                       value={product.status}
                     >
-                      <option value="AVAILABLE">Äang bÃ¡n</option>
-                      <option value="DRAFT">NhÃ¡p</option>
-                      <option value="OUT_OF_STOCK">Háº¿t hÃ ng</option>
-                      <option value="INACTIVE">áº¨n</option>
+                      <option value="AVAILABLE">Đang bán</option>
+                      <option value="DRAFT">Nháp</option>
+                      <option value="OUT_OF_STOCK">Hết hàng</option>
+                      <option value="INACTIVE">Ẩn</option>
                     </select>
-                    <Link aria-label={`Sá»­a ${product.name}`} className="inline-flex size-9 items-center justify-center rounded-full border border-clay/30 text-wood transition hover:bg-sand" href={`/${role}/products/${product.slug}`} title="Sá»­a">
+                    <Link aria-label={`Sửa ${product.name}`} className="inline-flex size-9 items-center justify-center rounded-full border border-clay/30 text-wood transition hover:bg-sand" href={`/${role}/products/${product.slug}`} title="Sửa">
                       <Edit3 className="size-4" />
                     </Link>
-                    <button aria-label={`XÃ³a má»m ${product.name}`} className="inline-flex size-9 items-center justify-center rounded-full border border-red-200 text-red-700 transition hover:bg-red-50" onClick={() => handleArchive(product)} title="XÃ³a má»m" type="button">
+                    <button aria-label={`Xóa mềm ${product.name}`} className="inline-flex size-9 items-center justify-center rounded-full border border-red-200 text-red-700 transition hover:bg-red-50" onClick={() => handleArchive(product)} title="Xóa mềm" type="button">
                       <Trash2 className="size-4" />
                     </button>
                   </div>
@@ -984,7 +984,7 @@ function ProductManager({ role, mode = "manage", editSlug }: { role: Role; mode?
               ))}
               <div className="flex flex-col gap-3 pt-5 sm:flex-row sm:items-center sm:justify-between">
                 <p className="text-sm font-semibold text-horn">
-                  Hiá»ƒn thá»‹ {products.length === 0 ? 0 : pageStart + 1}-{Math.min(pageStart + pageSize, products.length)} / {products.length} sáº£n pháº©m
+                  Hiển thị {products.length === 0 ? 0 : pageStart + 1}-{Math.min(pageStart + pageSize, products.length)} / {products.length} sản phẩm
                 </p>
                 <div className="flex items-center gap-2">
                   <button
@@ -993,7 +993,7 @@ function ProductManager({ role, mode = "manage", editSlug }: { role: Role; mode?
                     onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
                     type="button"
                   >
-                    TrÆ°á»›c
+                    Trước
                   </button>
                   {Array.from({ length: totalPages }).map((_, index) => {
                     const page = index + 1;
@@ -1050,7 +1050,7 @@ function InventoryManager() {
         Object.fromEntries(productItems.map((product) => [product.id, product.stockQuantity])),
       );
     } catch {
-      setError("ChÆ°a táº£i Ä‘Æ°á»£c dá»¯ liá»‡u tá»“n kho. Kiá»ƒm tra backend vÃ  quyá»n Ä‘Äƒng nháº­p staff/admin.");
+      setError("Chưa tải được dữ liệu tồn kho. Kiểm tra backend và quyền đăng nhập staff/admin.");
     } finally {
       setLoading(false);
     }
@@ -1100,17 +1100,17 @@ function InventoryManager() {
       await updateAdminProduct(product.slug, { ...productToForm(product), stockQuantity: Math.max(0, nextStock), status });
       await loadProducts();
     } catch {
-      setError("ChÆ°a cáº­p nháº­t Ä‘Æ°á»£c tá»“n kho sáº£n pháº©m.");
+      setError("Chưa cập nhật được tồn kho sản phẩm.");
     } finally {
       setSavingSlug("");
     }
   };
 
   const tabs: Array<{ id: InventoryTab; label: string; count: number }> = [
-    { id: "all", label: "Táº¥t cáº£", count: products.length },
-    { id: "low", label: "Sáº¯p háº¿t", count: lowStockProducts.length },
-    { id: "out", label: "Háº¿t hÃ ng", count: outStockProducts.length },
-    { id: "hidden", label: "ÄÃ£ áº©n", count: hiddenProducts.length },
+    { id: "all", label: "Tất cả", count: products.length },
+    { id: "low", label: "Sắp hết", count: lowStockProducts.length },
+    { id: "out", label: "Hết hàng", count: outStockProducts.length },
+    { id: "hidden", label: "Đã ẩn", count: hiddenProducts.length },
   ];
 
   return (
@@ -1118,25 +1118,25 @@ function InventoryManager() {
       <div className="rounded-lg bg-ivory p-6 shadow-[0_18px_60px_rgba(86,53,31,0.08)] md:p-8">
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-clay">Kho hÃ ng</p>
-            <h2 className="mt-3 font-serif text-5xl font-bold text-bark">Quáº£n lÃ½ tá»“n kho</h2>
+            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-clay">Kho hàng</p>
+            <h2 className="mt-3 font-serif text-5xl font-bold text-bark">Quản lý tồn kho</h2>
           </div>
           <button
             className="inline-flex h-11 items-center justify-center rounded-full border border-clay/25 px-5 text-sm font-semibold text-wood transition hover:bg-sand"
             onClick={loadProducts}
             type="button"
           >
-            LÃ m má»›i tá»“n kho
+            Làm mới tồn kho
           </button>
         </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {[
-          { label: "Tá»•ng tá»“n", value: String(totalStock), note: "Sáº£n pháº©m Ä‘ang hoáº¡t Ä‘á»™ng" },
-          { label: "Sáº¯p háº¿t", value: String(lowStockProducts.length), note: "Tá»“n kho tá»« 1 Ä‘áº¿n 5" },
-          { label: "Háº¿t hÃ ng", value: String(outStockProducts.length), note: "Cáº§n nháº­p thÃªm" },
-          { label: "ÄÃ£ áº©n", value: String(hiddenProducts.length), note: "KhÃ´ng hiá»ƒn thá»‹ bÃ¡n" },
+          { label: "Tổng tồn", value: String(totalStock), note: "Sản phẩm đang hoạt động" },
+          { label: "Sắp hết", value: String(lowStockProducts.length), note: "Tồn kho từ 1 đến 5" },
+          { label: "Hết hàng", value: String(outStockProducts.length), note: "Cần nhập thêm" },
+          { label: "Đã ẩn", value: String(hiddenProducts.length), note: "Không hiển thị bán" },
         ].map((stat) => (
           <article className="rounded-lg border border-clay/15 bg-pearl p-5" key={stat.label}>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">{stat.label}</p>
@@ -1148,7 +1148,7 @@ function InventoryManager() {
 
       <section className="rounded-lg border border-clay/15 bg-pearl p-5">
         <div className="flex flex-col gap-4 border-b border-clay/15 pb-4 xl:flex-row xl:items-center xl:justify-between">
-          <h3 className="font-serif text-3xl font-bold text-bark">Danh sÃ¡ch tá»“n kho</h3>
+          <h3 className="font-serif text-3xl font-bold text-bark">Danh sách tồn kho</h3>
           <div className="flex flex-wrap gap-2">
             {tabs.map((tab) => (
               <button
@@ -1168,7 +1168,7 @@ function InventoryManager() {
         {loading ? (
           <div className="flex items-center justify-center gap-2 py-14 text-sm font-semibold text-horn">
             <Loader2 className="size-4 animate-spin" />
-            Äang táº£i tá»“n kho...
+            Đang tải tồn kho...
           </div>
         ) : (
           <div className="divide-y divide-clay/15">
@@ -1182,11 +1182,11 @@ function InventoryManager() {
                   <div>
                     <h4 className="text-base font-bold text-bark">{product.name}</h4>
                     <p className="mt-1 text-sm text-horn">
-                      {product.sku} Â· {product.categoryName} Â· {formatVnd(product.price)}
+                      {product.sku} · {product.categoryName} · {formatVnd(product.price)}
                     </p>
                   </div>
                   <label className="grid gap-1.5 text-xs font-bold uppercase tracking-[0.12em] text-clay">
-                    Sá»‘ tá»“n
+                    Số tồn
                     <input
                       className="h-10 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold normal-case tracking-normal text-bark outline-none focus:border-wood"
                       min={0}
@@ -1196,16 +1196,16 @@ function InventoryManager() {
                     />
                   </label>
                   <label className="grid gap-1.5 text-xs font-bold uppercase tracking-[0.12em] text-clay">
-                    Tráº¡ng thÃ¡i
+                    Trạng thái
                     <select
                       className="h-10 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold normal-case tracking-normal text-wood outline-none focus:border-wood"
                       onChange={(event) => updateInventory(product, draftStock, event.target.value)}
                       value={product.status}
                     >
-                      <option value="AVAILABLE">Äang bÃ¡n</option>
-                      <option value="DRAFT">NhÃ¡p</option>
-                      <option value="OUT_OF_STOCK">Háº¿t hÃ ng</option>
-                      <option value="INACTIVE">áº¨n</option>
+                      <option value="AVAILABLE">Đang bán</option>
+                      <option value="DRAFT">Nháp</option>
+                      <option value="OUT_OF_STOCK">Hết hàng</option>
+                      <option value="INACTIVE">Ẩn</option>
                     </select>
                   </label>
                   <button
@@ -1215,19 +1215,19 @@ function InventoryManager() {
                     type="button"
                   >
                     {savingSlug === product.slug ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
-                    LÆ°u
+                    Lưu
                   </button>
                 </article>
               );
             })}
 
             {filteredProducts.length === 0 ? (
-              <p className="py-10 text-center text-sm font-semibold text-horn">KhÃ´ng cÃ³ sáº£n pháº©m trong nhÃ³m nÃ y.</p>
+              <p className="py-10 text-center text-sm font-semibold text-horn">Không có sản phẩm trong nhóm này.</p>
             ) : null}
 
             <div className="flex flex-col gap-3 pt-5 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm font-semibold text-horn">
-                Hiá»ƒn thá»‹ {filteredProducts.length === 0 ? 0 : pageStart + 1}-{Math.min(pageStart + pageSize, filteredProducts.length)} / {filteredProducts.length} sáº£n pháº©m
+                Hiển thị {filteredProducts.length === 0 ? 0 : pageStart + 1}-{Math.min(pageStart + pageSize, filteredProducts.length)} / {filteredProducts.length} sản phẩm
               </p>
               <div className="flex items-center gap-2">
                 <button
@@ -1236,7 +1236,7 @@ function InventoryManager() {
                   onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
                   type="button"
                 >
-                  TrÆ°á»›c
+                  Trước
                 </button>
                 <span className="rounded-full bg-sand px-4 py-2 text-sm font-bold text-wood">
                   {currentPage}/{totalPages}
@@ -1272,7 +1272,7 @@ function OrdersManager() {
     try {
       setOrders(await getAdminOrders());
     } catch {
-      setError("ChÆ°a táº£i Ä‘Æ°á»£c danh sÃ¡ch Ä‘Æ¡n hÃ ng.");
+      setError("Chưa tải được danh sách đơn hàng.");
     } finally {
       setLoading(false);
     }
@@ -1290,7 +1290,7 @@ function OrdersManager() {
       await updateAdminOrderStatus(order.orderCode, payload);
       await loadOrders();
     } catch {
-      setError("ChÆ°a cáº­p nháº­t Ä‘Æ°á»£c tráº¡ng thÃ¡i Ä‘Æ¡n hÃ ng.");
+      setError("Chưa cập nhật được trạng thái đơn hàng.");
     } finally {
       setSavingCode("");
     }
@@ -1307,21 +1307,21 @@ function OrdersManager() {
       <div className="rounded-lg bg-ivory p-6 shadow-[0_18px_60px_rgba(86,53,31,0.08)] md:p-8">
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-clay">Váº­n hÃ nh</p>
-            <h2 className="mt-3 font-serif text-5xl font-bold text-bark">Quáº£n lÃ½ Ä‘Æ¡n hÃ ng</h2>
+            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-clay">Vận hành</p>
+            <h2 className="mt-3 font-serif text-5xl font-bold text-bark">Quản lý đơn hàng</h2>
           </div>
           <button className="h-11 rounded-full border border-clay/25 px-5 text-sm font-semibold text-wood transition hover:bg-sand" onClick={loadOrders} type="button">
-            LÃ m má»›i Ä‘Æ¡n
+            Làm mới đơn
           </button>
         </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {[
-          { label: "Tá»•ng Ä‘Æ¡n", value: String(orders.length), note: "Táº¥t cáº£ Ä‘Æ¡n hÃ ng" },
-          { label: "Chá» xá»­ lÃ½", value: String(pendingOrders.length), note: "Cáº§n xÃ¡c nháº­n" },
-          { label: "Äang xá»­ lÃ½", value: String(processingOrders.length), note: "Äang chuáº©n bá»‹/giao" },
-          { label: "Doanh thu", value: formatVnd(revenue), note: "KhÃ´ng tÃ­nh Ä‘Æ¡n há»§y" },
+          { label: "Tổng đơn", value: String(orders.length), note: "Tất cả đơn hàng" },
+          { label: "Chờ xử lý", value: String(pendingOrders.length), note: "Cần xác nhận" },
+          { label: "Đang xử lý", value: String(processingOrders.length), note: "Đang chuẩn bị/giao" },
+          { label: "Doanh thu", value: formatVnd(revenue), note: "Không tính đơn hủy" },
         ].map((stat) => (
           <article className="rounded-lg border border-clay/15 bg-pearl p-5" key={stat.label}>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">{stat.label}</p>
@@ -1333,49 +1333,49 @@ function OrdersManager() {
 
       <section className="rounded-lg border border-clay/15 bg-pearl p-5">
         <div className="flex flex-col gap-4 border-b border-clay/15 pb-4 xl:flex-row xl:items-center xl:justify-between">
-          <h3 className="font-serif text-3xl font-bold text-bark">Danh sÃ¡ch Ä‘Æ¡n hÃ ng</h3>
+          <h3 className="font-serif text-3xl font-bold text-bark">Danh sách đơn hàng</h3>
           <select className="h-10 rounded-full border border-clay/25 bg-ivory px-4 text-sm font-semibold text-wood outline-none" onChange={(event) => setFilter(event.target.value)} value={filter}>
-            <option value="ALL">Táº¥t cáº£ tráº¡ng thÃ¡i</option>
-            <option value="PENDING">Chá» xÃ¡c nháº­n</option>
-            <option value="CONFIRMED">ÄÃ£ xÃ¡c nháº­n</option>
-            <option value="PROCESSING">Äang xá»­ lÃ½</option>
-            <option value="SHIPPING">Äang giao</option>
-            <option value="COMPLETED">HoÃ n táº¥t</option>
-            <option value="CANCELLED">ÄÃ£ há»§y</option>
+            <option value="ALL">Tất cả trạng thái</option>
+            <option value="PENDING">Chờ xác nhận</option>
+            <option value="CONFIRMED">Đã xác nhận</option>
+            <option value="PROCESSING">Đang xử lý</option>
+            <option value="SHIPPING">Đang giao</option>
+            <option value="COMPLETED">Hoàn tất</option>
+            <option value="CANCELLED">Đã hủy</option>
           </select>
         </div>
         {error ? <p className="mt-4 rounded-md bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">{error}</p> : null}
         {loading ? (
-          <div className="flex items-center justify-center gap-2 py-14 text-sm font-semibold text-horn"><Loader2 className="size-4 animate-spin" />Äang táº£i Ä‘Æ¡n hÃ ng...</div>
+          <div className="flex items-center justify-center gap-2 py-14 text-sm font-semibold text-horn"><Loader2 className="size-4 animate-spin" />Đang tải đơn hàng...</div>
         ) : (
           <div className="divide-y divide-clay/15">
             {filteredOrders.map((order) => (
               <article className="grid gap-4 py-4 xl:grid-cols-[1fr_150px_160px_160px] xl:items-center" key={order.orderCode}>
                 <div>
                   <h4 className="text-base font-bold text-bark">{order.orderCode}</h4>
-                  <p className="mt-1 text-sm text-horn">{order.customerName} Â· {order.phone} Â· {formatDateTime(order.createdAt)}</p>
-                  <p className="mt-1 text-sm font-semibold text-wood">{formatVnd(order.totalAmount)} Â· {order.paymentMethod}</p>
+                  <p className="mt-1 text-sm text-horn">{order.customerName} · {order.phone} · {formatDateTime(order.createdAt)}</p>
+                  <p className="mt-1 text-sm font-semibold text-wood">{formatVnd(order.totalAmount)} · {order.paymentMethod}</p>
                 </div>
                 <select className="h-10 rounded-full border border-clay/25 bg-ivory px-4 text-sm font-semibold text-wood outline-none disabled:opacity-50" disabled={savingCode === order.orderCode} onChange={(event) => updateStatus(order, { orderStatus: event.target.value })} value={order.orderStatus}>
-                  <option value="PENDING">Chá» xÃ¡c nháº­n</option>
-                  <option value="CONFIRMED">ÄÃ£ xÃ¡c nháº­n</option>
-                  <option value="PROCESSING">Äang xá»­ lÃ½</option>
-                  <option value="SHIPPING">Äang giao</option>
-                  <option value="COMPLETED">HoÃ n táº¥t</option>
-                  <option value="CANCELLED">ÄÃ£ há»§y</option>
+                  <option value="PENDING">Chờ xác nhận</option>
+                  <option value="CONFIRMED">Đã xác nhận</option>
+                  <option value="PROCESSING">Đang xử lý</option>
+                  <option value="SHIPPING">Đang giao</option>
+                  <option value="COMPLETED">Hoàn tất</option>
+                  <option value="CANCELLED">Đã hủy</option>
                 </select>
                 <select className="h-10 rounded-full border border-clay/25 bg-ivory px-4 text-sm font-semibold text-wood outline-none disabled:opacity-50" disabled={savingCode === order.orderCode} onChange={(event) => updateStatus(order, { paymentStatus: event.target.value })} value={order.paymentStatus}>
-                  <option value="UNPAID">ChÆ°a thanh toÃ¡n</option>
-                  <option value="PAID">ÄÃ£ thanh toÃ¡n</option>
-                  <option value="FAILED">Lá»—i</option>
-                  <option value="REFUNDED">HoÃ n tiá»n</option>
+                  <option value="UNPAID">Chưa thanh toán</option>
+                  <option value="PAID">Đã thanh toán</option>
+                  <option value="FAILED">Lỗi</option>
+                  <option value="REFUNDED">Hoàn tiền</option>
                 </select>
                 <Link className="inline-flex h-10 items-center justify-center rounded-full border border-clay/25 px-4 text-sm font-semibold text-wood transition hover:bg-sand" href={`/order/${order.orderCode}`}>
-                  Xem chi tiáº¿t
+                  Xem chi tiết
                 </Link>
               </article>
             ))}
-            {!filteredOrders.length ? <p className="py-10 text-center text-sm font-semibold text-horn">KhÃ´ng cÃ³ Ä‘Æ¡n hÃ ng phÃ¹ há»£p.</p> : null}
+            {!filteredOrders.length ? <p className="py-10 text-center text-sm font-semibold text-horn">Không có đơn hàng phù hợp.</p> : null}
           </div>
         )}
       </section>
@@ -1391,7 +1391,7 @@ function PersonalizationManager() {
   useEffect(() => {
     getAdminPersonalizations()
       .then(setItems)
-      .catch(() => setError("ChÆ°a táº£i Ä‘Æ°á»£c danh sÃ¡ch cÃ¡ nhÃ¢n hÃ³a."))
+      .catch(() => setError("Chưa tải được danh sách cá nhân hóa."))
       .finally(() => setLoading(false));
   }, []);
 
@@ -1401,14 +1401,14 @@ function PersonalizationManager() {
   return (
     <div className="flex min-h-0 flex-col gap-6">
       <div className="rounded-lg bg-ivory p-6 shadow-[0_18px_60px_rgba(86,53,31,0.08)] md:p-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.32em] text-clay">XÆ°á»Ÿng kháº¯c</p>
-        <h2 className="mt-3 font-serif text-5xl font-bold text-bark">Quáº£n lÃ½ cÃ¡ nhÃ¢n hÃ³a</h2>
+        <p className="text-xs font-semibold uppercase tracking-[0.32em] text-clay">Xưởng khắc</p>
+        <h2 className="mt-3 font-serif text-5xl font-bold text-bark">Quản lý cá nhân hóa</h2>
       </div>
       <div className="grid gap-4 md:grid-cols-3">
         {[
-          { label: "Tá»•ng yÃªu cáº§u", value: String(items.length), note: "CÃ³ ná»™i dung kháº¯c" },
-          { label: "Cáº§n xá»­ lÃ½", value: String(pendingItems.length), note: "Theo Ä‘Æ¡n chÆ°a hoÃ n táº¥t" },
-          { label: "PhÃ­ kháº¯c", value: formatVnd(totalFee), note: "Tá»•ng giÃ¡ trá»‹" },
+          { label: "Tổng yêu cầu", value: String(items.length), note: "Có nội dung khắc" },
+          { label: "Cần xử lý", value: String(pendingItems.length), note: "Theo đơn chưa hoàn tất" },
+          { label: "Phí khắc", value: formatVnd(totalFee), note: "Tổng giá trị" },
         ].map((stat) => (
           <article className="rounded-lg border border-clay/15 bg-pearl p-5" key={stat.label}>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">{stat.label}</p>
@@ -1418,24 +1418,24 @@ function PersonalizationManager() {
         ))}
       </div>
       <section className="rounded-lg border border-clay/15 bg-pearl p-5">
-        <h3 className="border-b border-clay/15 pb-4 font-serif text-3xl font-bold text-bark">Danh sÃ¡ch ná»™i dung kháº¯c</h3>
+        <h3 className="border-b border-clay/15 pb-4 font-serif text-3xl font-bold text-bark">Danh sách nội dung khắc</h3>
         {error ? <p className="mt-4 rounded-md bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">{error}</p> : null}
-        {loading ? <div className="flex items-center justify-center gap-2 py-14 text-sm font-semibold text-horn"><Loader2 className="size-4 animate-spin" />Äang táº£i ná»™i dung...</div> : (
+        {loading ? <div className="flex items-center justify-center gap-2 py-14 text-sm font-semibold text-horn"><Loader2 className="size-4 animate-spin" />Đang tải nội dung...</div> : (
           <div className="grid gap-4 pt-4 lg:grid-cols-2">
             {items.map((item) => (
               <article className="rounded-lg border border-clay/15 bg-ivory p-5" key={item.id}>
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h4 className="font-bold text-bark">{item.productName}</h4>
-                    <p className="mt-1 text-sm text-horn">{item.orderCode} Â· {item.customerName}</p>
+                    <p className="mt-1 text-sm text-horn">{item.orderCode} · {item.customerName}</p>
                   </div>
                   <span className="rounded-full bg-sand px-3 py-1 text-xs font-bold text-wood">{item.orderStatus}</span>
                 </div>
                 <div className="mt-4 rounded-lg bg-wood px-5 py-7 text-center font-serif text-3xl text-ivory">{item.content}</div>
-                <p className="mt-4 text-sm text-horn">Font: {item.font || "Máº·c Ä‘á»‹nh"} Â· Vá»‹ trÃ­: {item.position || "ChÆ°a chá»n"} Â· {formatVnd(item.engravingPrice)}</p>
+                <p className="mt-4 text-sm text-horn">Font: {item.font || "Mặc định"} · Vị trí: {item.position || "Chưa chọn"} · {formatVnd(item.engravingPrice)}</p>
               </article>
             ))}
-            {!items.length ? <p className="py-10 text-center text-sm font-semibold text-horn lg:col-span-2">ChÆ°a cÃ³ yÃªu cáº§u cÃ¡ nhÃ¢n hÃ³a.</p> : null}
+            {!items.length ? <p className="py-10 text-center text-sm font-semibold text-horn lg:col-span-2">Chưa có yêu cầu cá nhân hóa.</p> : null}
           </div>
         )}
       </section>
@@ -1455,7 +1455,7 @@ function TraceabilityManager() {
     try {
       setItems(await getAdminTraceProducts());
     } catch {
-      setError("ChÆ°a táº£i Ä‘Æ°á»£c danh sÃ¡ch mÃ£ truy xuáº¥t.");
+      setError("Chưa tải được danh sách mã truy xuất.");
     } finally {
       setLoading(false);
     }
@@ -1472,7 +1472,7 @@ function TraceabilityManager() {
       await updateAdminTraceStatus(item.traceCode, status);
       await loadItems();
     } catch {
-      setError("ChÆ°a cáº­p nháº­t Ä‘Æ°á»£c tráº¡ng thÃ¡i mÃ£ QR.");
+      setError("Chưa cập nhật được trạng thái mã QR.");
     } finally {
       setSavingCode("");
     }
@@ -1484,14 +1484,14 @@ function TraceabilityManager() {
   return (
     <div className="flex min-h-0 flex-col gap-6">
       <div className="rounded-lg bg-ivory p-6 shadow-[0_18px_60px_rgba(86,53,31,0.08)] md:p-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.32em] text-clay">Truy xuáº¥t nguá»“n gá»‘c</p>
-        <h2 className="mt-3 font-serif text-5xl font-bold text-bark">Quáº£n lÃ½ QR / Traceability</h2>
+        <p className="text-xs font-semibold uppercase tracking-[0.32em] text-clay">Truy xuất nguồn gốc</p>
+        <h2 className="mt-3 font-serif text-5xl font-bold text-bark">Quản lý QR / Traceability</h2>
       </div>
       <div className="grid gap-4 md:grid-cols-3">
         {[
-          { label: "Tá»•ng mÃ£", value: String(items.length), note: "ÄÃ£ táº¡o" },
-          { label: "Äang hoáº¡t Ä‘á»™ng", value: String(activeItems.length), note: "KhÃ¡ch cÃ³ thá»ƒ tra cá»©u" },
-          { label: "Thiáº¿u bÆ°á»›c", value: String(incompleteItems.length), note: "DÆ°á»›i 3 má»‘c hÃ nh trÃ¬nh" },
+          { label: "Tổng mã", value: String(items.length), note: "Đã tạo" },
+          { label: "Đang hoạt động", value: String(activeItems.length), note: "Khách có thể tra cứu" },
+          { label: "Thiếu bước", value: String(incompleteItems.length), note: "Dưới 3 mốc hành trình" },
         ].map((stat) => (
           <article className="rounded-lg border border-clay/15 bg-pearl p-5" key={stat.label}>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">{stat.label}</p>
@@ -1501,29 +1501,29 @@ function TraceabilityManager() {
         ))}
       </div>
       <section className="rounded-lg border border-clay/15 bg-pearl p-5">
-        <h3 className="border-b border-clay/15 pb-4 font-serif text-3xl font-bold text-bark">Danh sÃ¡ch mÃ£ truy xuáº¥t</h3>
+        <h3 className="border-b border-clay/15 pb-4 font-serif text-3xl font-bold text-bark">Danh sách mã truy xuất</h3>
         {error ? <p className="mt-4 rounded-md bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">{error}</p> : null}
-        {loading ? <div className="flex items-center justify-center gap-2 py-14 text-sm font-semibold text-horn"><Loader2 className="size-4 animate-spin" />Äang táº£i mÃ£ QR...</div> : (
+        {loading ? <div className="flex items-center justify-center gap-2 py-14 text-sm font-semibold text-horn"><Loader2 className="size-4 animate-spin" />Đang tải mã QR...</div> : (
           <div className="divide-y divide-clay/15">
             {items.map((item) => (
               <article className="grid gap-4 py-4 xl:grid-cols-[1fr_220px_150px_130px] xl:items-center" key={item.id}>
                 <div>
                   <h4 className="text-base font-bold text-bark">{item.traceCode}</h4>
-                  <p className="mt-1 text-sm text-horn">{item.productName} Â· {item.batchCode || "ChÆ°a gáº¯n lÃ´"} Â· {item.eventCount} bÆ°á»›c</p>
+                  <p className="mt-1 text-sm text-horn">{item.productName} · {item.batchCode || "Chưa gắn lô"} · {item.eventCount} bước</p>
                 </div>
                 <div className="flex gap-2">
                   <Link className="inline-flex h-10 items-center justify-center rounded-full border border-clay/25 px-4 text-sm font-semibold text-wood transition hover:bg-sand" href={`/trace/${item.traceCode}`}>Xem QR</Link>
-                  <Link className="inline-flex h-10 items-center justify-center rounded-full border border-clay/25 px-4 text-sm font-semibold text-wood transition hover:bg-sand" href={`/admin/traceability/create?code=${encodeURIComponent(item.traceCode)}`}>Sá»­a</Link>
+                  <Link className="inline-flex h-10 items-center justify-center rounded-full border border-clay/25 px-4 text-sm font-semibold text-wood transition hover:bg-sand" href={`/admin/traceability/create?code=${encodeURIComponent(item.traceCode)}`}>Sửa</Link>
                 </div>
                 <select className="h-10 rounded-full border border-clay/25 bg-ivory px-4 text-sm font-semibold text-wood outline-none disabled:opacity-50" disabled={savingCode === item.traceCode} onChange={(event) => updateStatus(item, event.target.value)} value={item.status}>
-                  <option value="ACTIVE">Hoáº¡t Ä‘á»™ng</option>
-                  <option value="INACTIVE">Táº¡m áº©n</option>
-                  <option value="ARCHIVED">LÆ°u trá»¯</option>
+                  <option value="ACTIVE">Hoạt động</option>
+                  <option value="INACTIVE">Tạm ẩn</option>
+                  <option value="ARCHIVED">Lưu trữ</option>
                 </select>
                 <span className="rounded-full bg-sand px-3 py-2 text-center text-xs font-bold text-wood">{item.status}</span>
               </article>
             ))}
-            {!items.length ? <p className="py-10 text-center text-sm font-semibold text-horn">ChÆ°a cÃ³ mÃ£ truy xuáº¥t.</p> : null}
+            {!items.length ? <p className="py-10 text-center text-sm font-semibold text-horn">Chưa có mã truy xuất.</p> : null}
           </div>
         )}
       </section>
@@ -1541,9 +1541,9 @@ function TraceProductEditor() {
   const [qrUrl, setQrUrl] = useState("");
   const [status, setStatus] = useState("ACTIVE");
   const [events, setEvents] = useState([
-    { eventType: "MATERIAL", title: "Chá»n cháº¥t liá»‡u", description: "", eventDate: "", imageUrl: "", videoUrl: "" },
-    { eventType: "CRAFT", title: "Cháº¿ tÃ¡c thá»§ cÃ´ng", description: "", eventDate: "", imageUrl: "", videoUrl: "" },
-    { eventType: "FINISHING", title: "HoÃ n thiá»‡n", description: "", eventDate: "", imageUrl: "", videoUrl: "" },
+    { eventType: "MATERIAL", title: "Chọn chất liệu", description: "", eventDate: "", imageUrl: "", videoUrl: "" },
+    { eventType: "CRAFT", title: "Chế tác thủ công", description: "", eventDate: "", imageUrl: "", videoUrl: "" },
+    { eventType: "FINISHING", title: "Hoàn thiện", description: "", eventDate: "", imageUrl: "", videoUrl: "" },
   ]);
   const [saving, setSaving] = useState(false);
   const [loadingTrace, setLoadingTrace] = useState(Boolean(editingCode));
@@ -1586,7 +1586,7 @@ function TraceProductEditor() {
         );
       })
       .catch(() => {
-        if (active) setMessage("ChÆ°a táº£i Ä‘Æ°á»£c mÃ£ QR cáº§n sá»­a.");
+        if (active) setMessage("Chưa tải được mã QR cần sửa.");
       })
       .finally(() => {
         if (active) setLoadingTrace(false);
@@ -1607,7 +1607,7 @@ function TraceProductEditor() {
 
   const saveTrace = async () => {
     if (!traceCode.trim() || !productSlug) {
-      setMessage("Vui lÃ²ng nháº­p mÃ£ QR vÃ  chá»n sáº£n pháº©m.");
+      setMessage("Vui lòng nhập mã QR và chọn sản phẩm.");
       return;
     }
 
@@ -1637,7 +1637,7 @@ function TraceProductEditor() {
         setMessage(`Ðã t?o mã ${traceCode}.`);
       }
     } catch {
-      setMessage("ChÆ°a lÆ°u Ä‘Æ°á»£c mÃ£ QR. Kiá»ƒm tra mÃ£ cÃ³ bá»‹ trÃ¹ng hoáº·c backend Ä‘ang cháº¡y chÆ°a.");
+      setMessage("Chưa lưu được mã QR. Kiểm tra mã có bị trùng hoặc backend đang chạy chưa.");
     } finally {
       setSaving(false);
     }
@@ -1647,32 +1647,32 @@ function TraceProductEditor() {
     <div className="flex min-h-0 flex-col gap-6">
       <div className="rounded-lg bg-ivory p-6 shadow-[0_18px_60px_rgba(86,53,31,0.08)] md:p-8">
         <p className="text-xs font-semibold uppercase tracking-[0.32em] text-clay">QR / Product Passport</p>
-        <h2 className="mt-3 font-serif text-5xl font-bold text-bark">{editingCode ? "Sá»­a mÃ£ truy xuáº¥t" : "Táº¡o mÃ£ truy xuáº¥t"}</h2>
-        <p className="mt-3 max-w-2xl text-sm leading-7 text-horn">Gáº¯n mÃ£ Ä‘á»‹nh danh vá»›i sáº£n pháº©m vÃ  lÆ°u hÃ nh trÃ¬nh cháº¿ tÃ¡c Ä‘á»ƒ khÃ¡ch quÃ©t QR xem Ä‘Æ°á»£c thÃ´ng tin tháº­t.</p>
+        <h2 className="mt-3 font-serif text-5xl font-bold text-bark">{editingCode ? "Sửa mã truy xuất" : "Tạo mã truy xuất"}</h2>
+        <p className="mt-3 max-w-2xl text-sm leading-7 text-horn">Gắn mã định danh với sản phẩm và lưu hành trình chế tác để khách quét QR xem được thông tin thật.</p>
       </div>
 
       <section className="rounded-lg border border-clay/15 bg-pearl p-5 md:p-7">
         <div className="grid gap-4 md:grid-cols-2">
           <label className="grid gap-1.5 text-sm font-semibold text-bark">
-            MÃ£ QR / Trace code
+            Mã QR / Trace code
             <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setTraceCode(event.target.value)} value={traceCode} />
           </label>
           <label className="grid gap-1.5 text-sm font-semibold text-bark">
-            Sáº£n pháº©m
+            Sản phẩm
             <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setProductSlug(event.target.value)} value={productSlug}>
               {products.map((product) => <option key={product.slug} value={product.slug}>{product.name}</option>)}
             </select>
           </label>
           <label className="grid gap-1.5 text-sm font-semibold text-bark">
-            LÃ´ sáº£n xuáº¥t
+            Lô sản xuất
             <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setBatchCode(event.target.value)} value={batchCode} />
           </label>
           <label className="grid gap-1.5 text-sm font-semibold text-bark">
-            Tráº¡ng thÃ¡i
+            Trạng thái
             <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setStatus(event.target.value)} value={status}>
-              <option value="ACTIVE">Hoáº¡t Ä‘á»™ng</option>
-              <option value="INACTIVE">Táº¡m áº©n</option>
-              <option value="ARCHIVED">LÆ°u trá»¯</option>
+              <option value="ACTIVE">Hoạt động</option>
+              <option value="INACTIVE">Tạm ẩn</option>
+              <option value="ARCHIVED">Lưu trữ</option>
             </select>
           </label>
           <label className="grid gap-1.5 text-sm font-semibold text-bark md:col-span-2">
@@ -1684,24 +1684,24 @@ function TraceProductEditor() {
 
       <section className="rounded-lg border border-clay/15 bg-pearl p-5 md:p-7">
         <div className="flex items-center justify-between border-b border-clay/15 pb-4">
-          <h3 className="font-serif text-3xl font-bold text-bark">HÃ nh trÃ¬nh cháº¿ tÃ¡c</h3>
-          <button className="inline-flex h-10 items-center gap-2 rounded-full border border-clay/25 px-4 text-sm font-semibold text-wood transition hover:bg-sand" onClick={addEvent} type="button"><Plus className="size-4" />ThÃªm bÆ°á»›c</button>
+          <h3 className="font-serif text-3xl font-bold text-bark">Hành trình chế tác</h3>
+          <button className="inline-flex h-10 items-center gap-2 rounded-full border border-clay/25 px-4 text-sm font-semibold text-wood transition hover:bg-sand" onClick={addEvent} type="button"><Plus className="size-4" />Thêm bước</button>
         </div>
         <div className="mt-5 grid gap-5">
           {events.map((event, index) => (
             <article className="grid gap-3 rounded-lg border border-clay/15 bg-ivory p-4 md:grid-cols-2" key={index}>
-              <input className="h-10 rounded-full border border-clay/20 bg-pearl px-4 text-sm outline-none focus:border-wood" onChange={(input) => updateEvent(index, "title", input.target.value)} placeholder="TÃªn bÆ°á»›c" value={event.title} />
+              <input className="h-10 rounded-full border border-clay/20 bg-pearl px-4 text-sm outline-none focus:border-wood" onChange={(input) => updateEvent(index, "title", input.target.value)} placeholder="Tên bước" value={event.title} />
               <input className="h-10 rounded-full border border-clay/20 bg-pearl px-4 text-sm outline-none focus:border-wood" onChange={(input) => updateEvent(index, "eventDate", input.target.value)} placeholder="YYYY-MM-DD" value={event.eventDate} />
-              <input className="h-10 rounded-full border border-clay/20 bg-pearl px-4 text-sm outline-none focus:border-wood" onChange={(input) => updateEvent(index, "imageUrl", input.target.value)} placeholder="áº¢nh cÃ´ng Ä‘oáº¡n URL" value={event.imageUrl} />
-              <input className="h-10 rounded-full border border-clay/20 bg-pearl px-4 text-sm outline-none focus:border-wood" onChange={(input) => updateEvent(index, "eventType", input.target.value)} placeholder="Loáº¡i bÆ°á»›c" value={event.eventType} />
-              <textarea className="min-h-24 rounded-2xl border border-clay/20 bg-pearl px-4 py-3 text-sm outline-none focus:border-wood md:col-span-2" onChange={(input) => updateEvent(index, "description", input.target.value)} placeholder="MÃ´ táº£ cÃ´ng Ä‘oáº¡n" value={event.description} />
+              <input className="h-10 rounded-full border border-clay/20 bg-pearl px-4 text-sm outline-none focus:border-wood" onChange={(input) => updateEvent(index, "imageUrl", input.target.value)} placeholder="Ảnh công đoạn URL" value={event.imageUrl} />
+              <input className="h-10 rounded-full border border-clay/20 bg-pearl px-4 text-sm outline-none focus:border-wood" onChange={(input) => updateEvent(index, "eventType", input.target.value)} placeholder="Loại bước" value={event.eventType} />
+              <textarea className="min-h-24 rounded-2xl border border-clay/20 bg-pearl px-4 py-3 text-sm outline-none focus:border-wood md:col-span-2" onChange={(input) => updateEvent(index, "description", input.target.value)} placeholder="Mô tả công đoạn" value={event.description} />
             </article>
           ))}
         </div>
         {message ? <p className="mt-5 rounded-lg bg-sand px-4 py-3 text-sm font-semibold text-wood">{message}</p> : null}
         <button className="mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-wood px-6 font-semibold text-ivory transition hover:bg-bark disabled:opacity-50" disabled={saving} onClick={saveTrace} type="button">
           {saving ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
-          LÆ°u mÃ£ QR
+          Lưu mã QR
         </button>
       </section>
     </div>
@@ -1720,7 +1720,7 @@ function ReviewsManager() {
     try {
       setReviews(await getAdminReviews());
     } catch {
-      setError("ChÆ°a táº£i Ä‘Æ°á»£c danh sÃ¡ch review.");
+      setError("Chưa tải được danh sách review.");
     } finally {
       setLoading(false);
     }
@@ -1737,7 +1737,7 @@ function ReviewsManager() {
       await updateAdminReviewStatus(review.id, status);
       await loadReviews();
     } catch {
-      setError("ChÆ°a cáº­p nháº­t Ä‘Æ°á»£c tráº¡ng thÃ¡i review.");
+      setError("Chưa cập nhật được trạng thái review.");
     } finally {
       setSavingId(null);
     }
@@ -1750,14 +1750,14 @@ function ReviewsManager() {
   return (
     <div className="flex min-h-0 flex-col gap-6">
       <div className="rounded-lg bg-ivory p-6 shadow-[0_18px_60px_rgba(86,53,31,0.08)] md:p-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.32em] text-clay">KhÃ¡ch hÃ ng</p>
-        <h2 className="mt-3 font-serif text-5xl font-bold text-bark">Quáº£n lÃ½ review</h2>
+        <p className="text-xs font-semibold uppercase tracking-[0.32em] text-clay">Khách hàng</p>
+        <h2 className="mt-3 font-serif text-5xl font-bold text-bark">Quản lý review</h2>
       </div>
       <div className="grid gap-4 md:grid-cols-3">
         {[
-          { label: "Tá»•ng review", value: String(reviews.length), note: "Táº¥t cáº£ Ä‘Ã¡nh giÃ¡" },
-          { label: "Chá» duyá»‡t", value: String(pendingReviews.length), note: "Cáº§n kiá»ƒm tra" },
-          { label: "Äiá»ƒm TB", value: averageRating.toFixed(1), note: `${approvedReviews.length} review Ä‘Ã£ duyá»‡t` },
+          { label: "Tổng review", value: String(reviews.length), note: "Tất cả đánh giá" },
+          { label: "Chờ duyệt", value: String(pendingReviews.length), note: "Cần kiểm tra" },
+          { label: "Điểm TB", value: averageRating.toFixed(1), note: `${approvedReviews.length} review đã duyệt` },
         ].map((stat) => (
           <article className="rounded-lg border border-clay/15 bg-pearl p-5" key={stat.label}>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">{stat.label}</p>
@@ -1767,9 +1767,9 @@ function ReviewsManager() {
         ))}
       </div>
       <section className="rounded-lg border border-clay/15 bg-pearl p-5">
-        <h3 className="border-b border-clay/15 pb-4 font-serif text-3xl font-bold text-bark">Danh sÃ¡ch review</h3>
+        <h3 className="border-b border-clay/15 pb-4 font-serif text-3xl font-bold text-bark">Danh sách review</h3>
         {error ? <p className="mt-4 rounded-md bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">{error}</p> : null}
-        {loading ? <div className="flex items-center justify-center gap-2 py-14 text-sm font-semibold text-horn"><Loader2 className="size-4 animate-spin" />Äang táº£i review...</div> : (
+        {loading ? <div className="flex items-center justify-center gap-2 py-14 text-sm font-semibold text-horn"><Loader2 className="size-4 animate-spin" />Đang tải review...</div> : (
           <div className="divide-y divide-clay/15">
             {reviews.map((review) => (
               <article className="grid gap-4 py-4 xl:grid-cols-[1fr_150px_180px] xl:items-center" key={review.id}>
@@ -1778,17 +1778,17 @@ function ReviewsManager() {
                     {Array.from({ length: review.rating }).map((_, index) => <Star className="size-4 fill-current" key={index} />)}
                   </div>
                   <h4 className="mt-2 text-base font-bold text-bark">{review.title || review.productName}</h4>
-                  <p className="mt-1 text-sm text-horn">{review.customerName} Â· {review.productName} Â· {formatDateTime(review.createdAt)}</p>
+                  <p className="mt-1 text-sm text-horn">{review.customerName} · {review.productName} · {formatDateTime(review.createdAt)}</p>
                   <p className="mt-2 text-sm leading-6 text-bark">{review.content}</p>
                 </div>
                 <span className="w-fit rounded-full bg-sand px-3 py-2 text-xs font-bold text-wood">{review.status}</span>
                 <div className="flex gap-2 xl:justify-end">
-                  <button className="h-10 rounded-full border border-clay/25 px-4 text-sm font-semibold text-wood transition hover:bg-sand disabled:opacity-45" disabled={savingId === review.id || review.status === "APPROVED"} onClick={() => updateStatus(review, "APPROVED")} type="button">Duyá»‡t</button>
-                  <button className="h-10 rounded-full border border-red-200 px-4 text-sm font-semibold text-red-700 transition hover:bg-red-50 disabled:opacity-45" disabled={savingId === review.id || review.status === "REJECTED"} onClick={() => updateStatus(review, "REJECTED")} type="button">Tá»« chá»‘i</button>
+                  <button className="h-10 rounded-full border border-clay/25 px-4 text-sm font-semibold text-wood transition hover:bg-sand disabled:opacity-45" disabled={savingId === review.id || review.status === "APPROVED"} onClick={() => updateStatus(review, "APPROVED")} type="button">Duyệt</button>
+                  <button className="h-10 rounded-full border border-red-200 px-4 text-sm font-semibold text-red-700 transition hover:bg-red-50 disabled:opacity-45" disabled={savingId === review.id || review.status === "REJECTED"} onClick={() => updateStatus(review, "REJECTED")} type="button">Từ chối</button>
                 </div>
               </article>
             ))}
-            {!reviews.length ? <p className="py-10 text-center text-sm font-semibold text-horn">ChÆ°a cÃ³ review.</p> : null}
+            {!reviews.length ? <p className="py-10 text-center text-sm font-semibold text-horn">Chưa có review.</p> : null}
           </div>
         )}
       </section>
@@ -1820,7 +1820,7 @@ function AdminDataCrudManager({ page }: { page: "categories" | "banners" | "cont
       if (page === "banners") setItems(await getAdminBanners());
       if (page === "contents") setItems(await getAdminContents());
     } catch {
-      setMessage("ChÆ°a táº£i Ä‘Æ°á»£c dá»¯ liá»‡u quáº£n trá»‹.");
+      setMessage("Chưa tải được dữ liệu quản trị.");
     } finally {
       setLoading(false);
     }
@@ -1856,7 +1856,7 @@ function AdminDataCrudManager({ page }: { page: "categories" | "banners" | "cont
 
   const saveItem = async () => {
     if (!title.trim()) {
-      setMessage("Vui lÃ²ng nháº­p tiÃªu Ä‘á»/tÃªn.");
+      setMessage("Vui lòng nhập tiêu đề/tên.");
       return;
     }
 
@@ -1903,11 +1903,11 @@ function AdminDataCrudManager({ page }: { page: "categories" | "banners" | "cont
         else await createAdminContent(payload);
       }
 
-      setMessage(editingId ? "ÄÃ£ cáº­p nháº­t." : "ÄÃ£ táº¡o má»›i.");
+      setMessage(editingId ? "Đã cập nhật." : "Đã tạo mới.");
       resetForm();
       await loadItems();
     } catch {
-      setMessage("ChÆ°a lÆ°u Ä‘Æ°á»£c dá»¯ liá»‡u. Kiá»ƒm tra slug trÃ¹ng hoáº·c backend.");
+      setMessage("Chưa lưu được dữ liệu. Kiểm tra slug trùng hoặc backend.");
     } finally {
       setSaving(false);
     }
@@ -1922,13 +1922,13 @@ function AdminDataCrudManager({ page }: { page: "categories" | "banners" | "cont
       if (page === "contents") await deleteAdminContent(id);
       await loadItems();
     } catch {
-      setMessage("ChÆ°a xÃ³a/áº©n Ä‘Æ°á»£c má»¥c nÃ y.");
+      setMessage("Chưa xóa/ẩn được mục này.");
     } finally {
       setSaving(false);
     }
   };
 
-  const listTitle = page === "categories" ? "Danh sÃ¡ch danh má»¥c" : page === "banners" ? "Danh sÃ¡ch banner" : "Danh sÃ¡ch ná»™i dung";
+  const listTitle = page === "categories" ? "Danh sách danh mục" : page === "banners" ? "Danh sách banner" : "Danh sách nội dung";
   const itemTitle = (item: AdminCategory | AdminBanner | AdminContent): string => String("title" in item ? item.title : item.name);
   const itemMeta = (item: AdminCategory | AdminBanner | AdminContent): string => {
     if ("slug" in item) return String(item.slug ?? "");
@@ -1946,13 +1946,13 @@ function AdminDataCrudManager({ page }: { page: "categories" | "banners" | "cont
 
       <section className="rounded-lg border border-clay/15 bg-pearl p-5 md:p-7">
         <div className="flex items-center justify-between border-b border-clay/15 pb-4">
-          <h3 className="font-serif text-3xl font-bold text-bark">{editingId ? "Sá»­a má»¥c" : content.primaryAction}</h3>
-          {editingId ? <button className="rounded-full border border-clay/25 px-4 py-2 text-sm font-semibold text-wood" onClick={resetForm} type="button">Há»§y sá»­a</button> : null}
+          <h3 className="font-serif text-3xl font-bold text-bark">{editingId ? "Sửa mục" : content.primaryAction}</h3>
+          {editingId ? <button className="rounded-full border border-clay/25 px-4 py-2 text-sm font-semibold text-wood" onClick={resetForm} type="button">Hủy sửa</button> : null}
         </div>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
-          <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => { setTitle(event.target.value); if (!editingId && page !== "banners") setSlug(slugify(event.target.value)); }} placeholder={page === "categories" ? "TÃªn danh má»¥c" : "TiÃªu Ä‘á»"} value={title} />
+          <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => { setTitle(event.target.value); if (!editingId && page !== "banners") setSlug(slugify(event.target.value)); }} placeholder={page === "categories" ? "Tên danh mục" : "Tiêu đề"} value={title} />
           {page !== "banners" ? <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setSlug(event.target.value)} placeholder="slug-url" value={slug} /> : null}
-          <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setImageUrl(event.target.value)} placeholder={page === "contents" ? "áº¢nh bÃ¬a URL" : "áº¢nh URL"} value={imageUrl} />
+          <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setImageUrl(event.target.value)} placeholder={page === "contents" ? "Ảnh bìa URL" : "Ảnh URL"} value={imageUrl} />
           {page === "banners" ? <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setLinkUrl(event.target.value)} placeholder="/products" value={linkUrl} /> : null}
           <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setType(event.target.value)} value={type}>
             {page === "contents" ? (
@@ -1974,11 +1974,11 @@ function AdminDataCrudManager({ page }: { page: "categories" | "banners" | "cont
           <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setStatus(event.target.value)} value={status}>
             {page === "contents" ? <><option value="DRAFT">DRAFT</option><option value="PUBLISHED">PUBLISHED</option><option value="ARCHIVED">ARCHIVED</option></> : <><option value="ACTIVE">ACTIVE</option><option value="INACTIVE">INACTIVE</option></>}
           </select>
-          <textarea className="min-h-24 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood md:col-span-2" onChange={(event) => setMeta(event.target.value)} placeholder="MÃ´ táº£ ngáº¯n / subtitle / summary" value={meta} />
-          {page === "contents" ? <textarea className="min-h-44 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood md:col-span-2" onChange={(event) => setBody(event.target.value)} placeholder="Ná»™i dung chi tiáº¿t" value={body} /> : null}
+          <textarea className="min-h-24 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood md:col-span-2" onChange={(event) => setMeta(event.target.value)} placeholder="Mô tả ngắn / subtitle / summary" value={meta} />
+          {page === "contents" ? <textarea className="min-h-44 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood md:col-span-2" onChange={(event) => setBody(event.target.value)} placeholder="Nội dung chi tiết" value={body} /> : null}
           <button className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-wood px-6 font-semibold text-ivory transition hover:bg-bark disabled:opacity-50 md:w-fit" disabled={saving} onClick={saveItem} type="button">
             {saving ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
-            LÆ°u
+            Lưu
           </button>
         </div>
         {message ? <p className="mt-4 rounded-lg bg-sand px-4 py-3 text-sm font-semibold text-wood">{message}</p> : null}
@@ -1987,9 +1987,9 @@ function AdminDataCrudManager({ page }: { page: "categories" | "banners" | "cont
       <section className="rounded-lg border border-clay/15 bg-pearl p-5">
         <div className="flex items-center justify-between border-b border-clay/15 pb-4">
           <h3 className="font-serif text-3xl font-bold text-bark">{listTitle}</h3>
-          <span className="rounded-full bg-sand px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-wood">{items.length} má»¥c</span>
+          <span className="rounded-full bg-sand px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-wood">{items.length} mục</span>
         </div>
-        {loading ? <div className="flex items-center justify-center gap-2 py-14 text-sm font-semibold text-horn"><Loader2 className="size-4 animate-spin" />Äang táº£i...</div> : (
+        {loading ? <div className="flex items-center justify-center gap-2 py-14 text-sm font-semibold text-horn"><Loader2 className="size-4 animate-spin" />Đang tải...</div> : (
           <div className="divide-y divide-clay/15">
             {items.map((item) => (
               <article className="grid gap-4 py-4 xl:grid-cols-[1fr_130px_auto] xl:items-center" key={item.id}>
@@ -1999,8 +1999,8 @@ function AdminDataCrudManager({ page }: { page: "categories" | "banners" | "cont
                 </div>
                 <span className="w-fit rounded-full bg-sand px-3 py-2 text-xs font-bold text-wood">{item.status}</span>
                 <div className="flex gap-2 xl:justify-end">
-                  <button className="inline-flex size-10 items-center justify-center rounded-full border border-clay/25 text-wood transition hover:bg-sand" onClick={() => editItem(item)} title="Sá»­a" type="button"><Edit3 className="size-4" /></button>
-                  <button className="inline-flex size-10 items-center justify-center rounded-full border border-red-200 text-red-700 transition hover:bg-red-50" onClick={() => deleteItem(item.id)} title="XÃ³a/áº©n" type="button"><Trash2 className="size-4" /></button>
+                  <button className="inline-flex size-10 items-center justify-center rounded-full border border-clay/25 text-wood transition hover:bg-sand" onClick={() => editItem(item)} title="Sửa" type="button"><Edit3 className="size-4" /></button>
+                  <button className="inline-flex size-10 items-center justify-center rounded-full border border-red-200 text-red-700 transition hover:bg-red-50" onClick={() => deleteItem(item.id)} title="Xóa/ẩn" type="button"><Trash2 className="size-4" /></button>
                 </div>
               </article>
             ))}
@@ -2014,7 +2014,7 @@ function AdminDataCrudManager({ page }: { page: "categories" | "banners" | "cont
 function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "customers" | "categories" | "banners" | "contents" | "seo" | "settings" | "roles"> }) {
   const content = pageContent[page];
   const [rows, setRows] = useState(content.rows);
-  const [selectedStatus, setSelectedStatus] = useState(content.rows[0]?.status ?? "Hoáº¡t Ä‘á»™ng");
+  const [selectedStatus, setSelectedStatus] = useState(content.rows[0]?.status ?? "Hoạt động");
   const [draftTitle, setDraftTitle] = useState("");
   const [draftMeta, setDraftMeta] = useState("");
   const [draftImageUrl, setDraftImageUrl] = useState("");
@@ -2024,60 +2024,60 @@ function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "cu
 
   const labels: Record<typeof page, { listTitle: string; formTitle: string; titlePlaceholder: string; metaPlaceholder: string; button: string }> = {
     staff: {
-      listTitle: "Danh sÃ¡ch nhÃ¢n sá»±",
-      formTitle: "ThÃªm / cáº­p nháº­t staff",
-      titlePlaceholder: "TÃªn nhÃ¢n sá»±",
-      metaPlaceholder: "Vai trÃ², ca trá»±c hoáº·c ghi chÃº",
-      button: "LÆ°u staff",
+      listTitle: "Danh sách nhân sự",
+      formTitle: "Thêm / cập nhật staff",
+      titlePlaceholder: "Tên nhân sự",
+      metaPlaceholder: "Vai trò, ca trực hoặc ghi chú",
+      button: "Lưu staff",
     },
     customers: {
-      listTitle: "Danh sÃ¡ch khÃ¡ch hÃ ng",
-      formTitle: "Ghi chÃº chÄƒm sÃ³c khÃ¡ch",
-      titlePlaceholder: "TÃªn khÃ¡ch hÃ ng",
-      metaPlaceholder: "Ghi chÃº, háº¡ng khÃ¡ch hoáº·c lá»‹ch sá»­ mua",
-      button: "LÆ°u ghi chÃº",
+      listTitle: "Danh sách khách hàng",
+      formTitle: "Ghi chú chăm sóc khách",
+      titlePlaceholder: "Tên khách hàng",
+      metaPlaceholder: "Ghi chú, hạng khách hoặc lịch sử mua",
+      button: "Lưu ghi chú",
     },
     categories: {
-      listTitle: "Danh sÃ¡ch danh má»¥c",
-      formTitle: "ThÃªm / cáº­p nháº­t danh má»¥c",
-      titlePlaceholder: "TÃªn danh má»¥c",
-      metaPlaceholder: "MÃ´ táº£ ngáº¯n hoáº·c sá»‘ sáº£n pháº©m",
-      button: "LÆ°u danh má»¥c",
+      listTitle: "Danh sách danh mục",
+      formTitle: "Thêm / cập nhật danh mục",
+      titlePlaceholder: "Tên danh mục",
+      metaPlaceholder: "Mô tả ngắn hoặc số sản phẩm",
+      button: "Lưu danh mục",
     },
     banners: {
-      listTitle: "Danh sÃ¡ch banner",
-      formTitle: "ThÃªm / cáº­p nháº­t banner",
-      titlePlaceholder: "TiÃªu Ä‘á» banner",
-      metaPlaceholder: "Vá»‹ trÃ­, link Ä‘iá»u hÆ°á»›ng hoáº·c lá»‹ch cháº¡y",
-      button: "LÆ°u banner",
+      listTitle: "Danh sách banner",
+      formTitle: "Thêm / cập nhật banner",
+      titlePlaceholder: "Tiêu đề banner",
+      metaPlaceholder: "Vị trí, link điều hướng hoặc lịch chạy",
+      button: "Lưu banner",
     },
     contents: {
-      listTitle: "Danh sÃ¡ch ná»™i dung",
-      formTitle: "Soáº¡n ná»™i dung",
-      titlePlaceholder: "TiÃªu Ä‘á» trang/bÃ i viáº¿t",
-      metaPlaceholder: "Vá»‹ trÃ­ hiá»ƒn thá»‹ hoáº·c mÃ´ táº£ SEO",
-      button: "LÆ°u ná»™i dung",
+      listTitle: "Danh sách nội dung",
+      formTitle: "Soạn nội dung",
+      titlePlaceholder: "Tiêu đề trang/bài viết",
+      metaPlaceholder: "Vị trí hiển thị hoặc mô tả SEO",
+      button: "Lưu nội dung",
     },
     seo: {
       listTitle: "Checklist SEO",
-      formTitle: "Cáº­p nháº­t SEO",
-      titlePlaceholder: "ÄÆ°á»ng dáº«n trang",
-      metaPlaceholder: "Meta title, description hoáº·c tráº¡ng thÃ¡i index",
-      button: "LÆ°u SEO",
+      formTitle: "Cập nhật SEO",
+      titlePlaceholder: "Đường dẫn trang",
+      metaPlaceholder: "Meta title, description hoặc trạng thái index",
+      button: "Lưu SEO",
     },
     settings: {
-      listTitle: "NhÃ³m cáº¥u hÃ¬nh",
-      formTitle: "Cáº­p nháº­t cáº¥u hÃ¬nh",
-      titlePlaceholder: "TÃªn cáº¥u hÃ¬nh",
-      metaPlaceholder: "GiÃ¡ trá»‹ hoáº·c mÃ´ táº£ cáº¥u hÃ¬nh",
-      button: "LÆ°u cáº¥u hÃ¬nh",
+      listTitle: "Nhóm cấu hình",
+      formTitle: "Cập nhật cấu hình",
+      titlePlaceholder: "Tên cấu hình",
+      metaPlaceholder: "Giá trị hoặc mô tả cấu hình",
+      button: "Lưu cấu hình",
     },
     roles: {
-      listTitle: "NhÃ³m quyá»n",
-      formTitle: "Cáº­p nháº­t quyá»n",
-      titlePlaceholder: "TÃªn nhÃ³m quyá»n",
-      metaPlaceholder: "Quyá»n truy cáº­p hoáº·c pháº¡m vi thao tÃ¡c",
-      button: "LÆ°u quyá»n",
+      listTitle: "Nhóm quyền",
+      formTitle: "Cập nhật quyền",
+      titlePlaceholder: "Tên nhóm quyền",
+      metaPlaceholder: "Quyền truy cập hoặc phạm vi thao tác",
+      button: "Lưu quyền",
     },
   };
 
@@ -2097,7 +2097,7 @@ function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "cu
     }
 
     setRows((current) => [
-      { title: draftTitle.trim(), meta: draftMeta.trim() || "ChÆ°a cÃ³ mÃ´ táº£", status: selectedStatus },
+      { title: draftTitle.trim(), meta: draftMeta.trim() || "Chưa có mô tả", status: selectedStatus },
       ...current,
     ]);
     setDraftTitle("");
@@ -2125,7 +2125,7 @@ function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "cu
             </div>
             <button className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-wood px-6 font-serif text-lg font-bold text-ivory transition hover:bg-bark" onClick={() => setShowEntryForm(true)} type="button">
               <Plus className="size-4" />
-              ThÃªm banner
+              Thêm banner
             </button>
           </div>
         </div>
@@ -2143,60 +2143,60 @@ function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "cu
         {showEntryForm ? (
           <section className="rounded-lg border border-clay/15 bg-pearl p-5 md:p-7">
             <div className="flex items-center justify-between border-b border-clay/15 pb-4">
-              <h3 className="font-serif text-3xl font-bold text-bark">ThÃªm banner</h3>
+              <h3 className="font-serif text-3xl font-bold text-bark">Thêm banner</h3>
               <button className="inline-flex size-9 items-center justify-center rounded-full border border-clay/25 text-wood transition hover:bg-sand" onClick={() => setShowEntryForm(false)} type="button">
                 <X className="size-4" />
               </button>
             </div>
             <div className="mt-5 grid gap-4 md:grid-cols-2">
               <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                TiÃªu Ä‘á» banner
-                <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftTitle(event.target.value)} placeholder="VÃ­ dá»¥: QuÃ  táº·ng cÃ¡ nhÃ¢n hÃ³a" value={draftTitle} />
+                Tiêu đề banner
+                <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftTitle(event.target.value)} placeholder="Ví dụ: Quà tặng cá nhân hóa" value={draftTitle} />
               </label>
               <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Vá»‹ trÃ­ hiá»ƒn thá»‹
+                Vị trí hiển thị
                 <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setDraftPosition(event.target.value)} value={draftPosition}>
-                  <option value="HOME">Trang chá»§</option>
-                  <option value="CATEGORY">Danh má»¥c</option>
-                  <option value="PRODUCT">Chi tiáº¿t sáº£n pháº©m</option>
-                  <option value="CAMPAIGN">Chiáº¿n dá»‹ch</option>
+                  <option value="HOME">Trang chủ</option>
+                  <option value="CATEGORY">Danh mục</option>
+                  <option value="PRODUCT">Chi tiết sản phẩm</option>
+                  <option value="CAMPAIGN">Chiến dịch</option>
                 </select>
               </label>
               <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                áº¢nh banner URL
+                Ảnh banner URL
                 <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftImageUrl(event.target.value)} placeholder="https://.../banner.jpg" value={draftImageUrl} />
               </label>
               <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Link Ä‘iá»u hÆ°á»›ng
-                <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftLinkUrl(event.target.value)} placeholder="/products hoáº·c /categories/..." value={draftLinkUrl} />
+                Link điều hướng
+                <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftLinkUrl(event.target.value)} placeholder="/products hoặc /categories/..." value={draftLinkUrl} />
               </label>
               <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Tráº¡ng thÃ¡i
+                Trạng thái
                 <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setSelectedStatus(event.target.value)} value={selectedStatus}>
-                  <option value="Äang cháº¡y">Äang cháº¡y</option>
-                  <option value="Äáº·t lá»‹ch">Äáº·t lá»‹ch</option>
-                  <option value="Táº¡m áº©n">Táº¡m áº©n</option>
+                  <option value="Đang chạy">Đang chạy</option>
+                  <option value="Đặt lịch">Đặt lịch</option>
+                  <option value="Tạm ẩn">Tạm ẩn</option>
                 </select>
               </label>
               <label className="grid gap-1.5 text-sm font-semibold text-bark md:col-span-2">
-                MÃ´ táº£ / ghi chÃº
-                <textarea className="min-h-24 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood" onChange={(event) => setDraftMeta(event.target.value)} placeholder="ThÃ´ng Ä‘iá»‡p phá»¥, lá»‹ch cháº¡y hoáº·c ghi chÃº chiáº¿n dá»‹ch..." value={draftMeta} />
+                Mô tả / ghi chú
+                <textarea className="min-h-24 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood" onChange={(event) => setDraftMeta(event.target.value)} placeholder="Thông điệp phụ, lịch chạy hoặc ghi chú chiến dịch..." value={draftMeta} />
               </label>
               {draftImageUrl ? (
                 <div className="overflow-hidden rounded-lg border border-clay/15 bg-sand md:col-span-2">
-                  <img alt="Xem trÆ°á»›c banner" className="aspect-[21/7] w-full object-cover" src={draftImageUrl} />
+                  <img alt="Xem trước banner" className="aspect-[21/7] w-full object-cover" src={draftImageUrl} />
                 </div>
               ) : null}
               <button className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-wood px-6 font-semibold text-ivory transition hover:bg-bark disabled:opacity-50 md:w-fit" disabled={!draftTitle.trim()} onClick={saveEntryRow} type="button">
                 <Save className="size-4" />
-                LÆ°u banner
+                Lưu banner
               </button>
             </div>
           </section>
         ) : (
           <section className="rounded-lg border border-clay/15 bg-pearl p-5">
             <div className="flex flex-col gap-4 border-b border-clay/15 pb-4 md:flex-row md:items-center md:justify-between">
-              <h3 className="font-serif text-3xl font-bold text-bark">Danh sÃ¡ch banner</h3>
+              <h3 className="font-serif text-3xl font-bold text-bark">Danh sách banner</h3>
               <span className="w-fit rounded-full bg-sand px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-wood">{rows.length} banner</span>
             </div>
             <div className="grid gap-4 pt-5 lg:grid-cols-2">
@@ -2210,14 +2210,14 @@ function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "cu
                     </div>
                     <div className="flex items-center gap-2 md:justify-end">
                       <select className="h-10 rounded-full border border-clay/25 bg-ivory px-4 text-sm font-semibold text-wood outline-none" onChange={(event) => updateRowStatus(index, event.target.value)} value={row.status}>
-                        <option value="Äang cháº¡y">Äang cháº¡y</option>
-                        <option value="Äáº·t lá»‹ch">Äáº·t lá»‹ch</option>
-                        <option value="Táº¡m áº©n">Táº¡m áº©n</option>
+                        <option value="Đang chạy">Đang chạy</option>
+                        <option value="Đặt lịch">Đặt lịch</option>
+                        <option value="Tạm ẩn">Tạm ẩn</option>
                       </select>
-                      <button className="inline-flex size-10 items-center justify-center rounded-full border border-clay/25 text-wood transition hover:bg-sand" title="Sá»­a" type="button">
+                      <button className="inline-flex size-10 items-center justify-center rounded-full border border-clay/25 text-wood transition hover:bg-sand" title="Sửa" type="button">
                         <Edit3 className="size-4" />
                       </button>
-                      <button className="inline-flex size-10 items-center justify-center rounded-full border border-red-200 text-red-700 transition hover:bg-red-50" onClick={() => removeRow(index)} title="XÃ³a" type="button">
+                      <button className="inline-flex size-10 items-center justify-center rounded-full border border-red-200 text-red-700 transition hover:bg-red-50" onClick={() => removeRow(index)} title="Xóa" type="button">
                         <Trash2 className="size-4" />
                       </button>
                     </div>
@@ -2242,7 +2242,7 @@ function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "cu
             </div>
             <button className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-wood px-6 font-serif text-lg font-bold text-ivory transition hover:bg-bark" onClick={() => setShowEntryForm(true)} type="button">
               <Plus className="size-4" />
-              ThÃªm ná»™i dung
+              Thêm nội dung
             </button>
           </div>
         </div>
@@ -2260,23 +2260,23 @@ function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "cu
         {showEntryForm ? (
           <section className="rounded-lg border border-clay/15 bg-pearl p-5 md:p-7">
             <div className="flex items-center justify-between border-b border-clay/15 pb-4">
-              <h3 className="font-serif text-3xl font-bold text-bark">ThÃªm ná»™i dung</h3>
+              <h3 className="font-serif text-3xl font-bold text-bark">Thêm nội dung</h3>
               <button className="inline-flex size-9 items-center justify-center rounded-full border border-clay/25 text-wood transition hover:bg-sand" onClick={() => setShowEntryForm(false)} type="button">
                 <X className="size-4" />
               </button>
             </div>
             <div className="mt-5 grid gap-4 md:grid-cols-2">
               <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                TiÃªu Ä‘á»
-                <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftTitle(event.target.value)} placeholder="VÃ­ dá»¥: CÃ¢u chuyá»‡n cháº¥t liá»‡u" value={draftTitle} />
+                Tiêu đề
+                <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftTitle(event.target.value)} placeholder="Ví dụ: Câu chuyện chất liệu" value={draftTitle} />
               </label>
               <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Loáº¡i ná»™i dung
+                Loại nội dung
                 <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setDraftPosition(event.target.value)} value={draftPosition}>
                   <option value="PAGE">Trang</option>
-                  <option value="BLOG">BÃ i viáº¿t</option>
-                  <option value="STORY">CÃ¢u chuyá»‡n</option>
-                  <option value="POLICY">ChÃ­nh sÃ¡ch</option>
+                  <option value="BLOG">Bài viết</option>
+                  <option value="STORY">Câu chuyện</option>
+                  <option value="POLICY">Chính sách</option>
                 </select>
               </label>
               <label className="grid gap-1.5 text-sm font-semibold text-bark">
@@ -2284,33 +2284,33 @@ function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "cu
                 <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftLinkUrl(slugify(event.target.value))} placeholder="cau-chuyen-chat-lieu" value={draftLinkUrl} />
               </label>
               <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Tráº¡ng thÃ¡i
+                Trạng thái
                 <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setSelectedStatus(event.target.value)} value={selectedStatus}>
-                  <option value="ÄÃ£ cÃ´ng bá»‘">ÄÃ£ cÃ´ng bá»‘</option>
-                  <option value="NhÃ¡p">NhÃ¡p</option>
-                  <option value="Cáº§n rÃ  soÃ¡t">Cáº§n rÃ  soÃ¡t</option>
-                  <option value="LÆ°u trá»¯">LÆ°u trá»¯</option>
+                  <option value="Đã công bố">Đã công bố</option>
+                  <option value="Nháp">Nháp</option>
+                  <option value="Cần rà soát">Cần rà soát</option>
+                  <option value="Lưu trữ">Lưu trữ</option>
                 </select>
               </label>
               <label className="grid gap-1.5 text-sm font-semibold text-bark md:col-span-2">
-                MÃ´ táº£ ngáº¯n
-                <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftMeta(event.target.value)} placeholder="MÃ´ táº£ ngáº¯n hiá»ƒn thá»‹ trong danh sÃ¡ch..." value={draftMeta} />
+                Mô tả ngắn
+                <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftMeta(event.target.value)} placeholder="Mô tả ngắn hiển thị trong danh sách..." value={draftMeta} />
               </label>
               <label className="grid gap-1.5 text-sm font-semibold text-bark md:col-span-2">
-                Ná»™i dung
-                <textarea className="min-h-56 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood" placeholder="Nháº­p ná»™i dung chi tiáº¿t..." />
+                Nội dung
+                <textarea className="min-h-56 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood" placeholder="Nhập nội dung chi tiết..." />
               </label>
               <button className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-wood px-6 font-semibold text-ivory transition hover:bg-bark disabled:opacity-50 md:w-fit" disabled={!draftTitle.trim()} onClick={saveEntryRow} type="button">
                 <Save className="size-4" />
-                LÆ°u ná»™i dung
+                Lưu nội dung
               </button>
             </div>
           </section>
         ) : (
           <section className="rounded-lg border border-clay/15 bg-pearl p-5">
             <div className="flex flex-col gap-4 border-b border-clay/15 pb-4 md:flex-row md:items-center md:justify-between">
-              <h3 className="font-serif text-3xl font-bold text-bark">Danh sÃ¡ch ná»™i dung</h3>
-              <span className="w-fit rounded-full bg-sand px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-wood">{rows.length} má»¥c</span>
+              <h3 className="font-serif text-3xl font-bold text-bark">Danh sách nội dung</h3>
+              <span className="w-fit rounded-full bg-sand px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-wood">{rows.length} mục</span>
             </div>
             <div className="divide-y divide-clay/15">
               {rows.map((row, index) => (
@@ -2320,16 +2320,16 @@ function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "cu
                     <p className="mt-1 text-sm text-horn">{row.meta}</p>
                   </div>
                   <select className="h-10 rounded-full border border-clay/25 bg-ivory px-4 text-sm font-semibold text-wood outline-none" onChange={(event) => updateRowStatus(index, event.target.value)} value={row.status}>
-                    <option value="ÄÃ£ cÃ´ng bá»‘">ÄÃ£ cÃ´ng bá»‘</option>
-                    <option value="NhÃ¡p">NhÃ¡p</option>
-                    <option value="Cáº§n rÃ  soÃ¡t">Cáº§n rÃ  soÃ¡t</option>
-                    <option value="LÆ°u trá»¯">LÆ°u trá»¯</option>
+                    <option value="Đã công bố">Đã công bố</option>
+                    <option value="Nháp">Nháp</option>
+                    <option value="Cần rà soát">Cần rà soát</option>
+                    <option value="Lưu trữ">Lưu trữ</option>
                   </select>
                   <div className="flex gap-2 xl:justify-end">
-                    <button className="inline-flex size-10 items-center justify-center rounded-full border border-clay/25 text-wood transition hover:bg-sand" title="Sá»­a" type="button">
+                    <button className="inline-flex size-10 items-center justify-center rounded-full border border-clay/25 text-wood transition hover:bg-sand" title="Sửa" type="button">
                       <Edit3 className="size-4" />
                     </button>
-                    <button className="inline-flex size-10 items-center justify-center rounded-full border border-red-200 text-red-700 transition hover:bg-red-50" onClick={() => removeRow(index)} title="XÃ³a" type="button">
+                    <button className="inline-flex size-10 items-center justify-center rounded-full border border-red-200 text-red-700 transition hover:bg-red-50" onClick={() => removeRow(index)} title="Xóa" type="button">
                       <Trash2 className="size-4" />
                     </button>
                   </div>
@@ -2383,24 +2383,24 @@ function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "cu
             </div>
             <div className="mt-5 grid gap-4 md:grid-cols-2">
               <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Há» tÃªn
+                Họ tên
                 <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftTitle(event.target.value)} placeholder={titlePlaceholder} value={draftTitle} />
               </label>
               <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Tráº¡ng thÃ¡i
+                Trạng thái
                 <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setSelectedStatus(event.target.value)} value={selectedStatus}>
-                  {Array.from(new Set(content.rows.map((item) => item.status).concat(["Hoáº¡t Ä‘á»™ng", "Táº¡m khÃ³a", "ThÃ¢n thiáº¿t", "VIP", "Má»›i"]))).map((status) => (
+                  {Array.from(new Set(content.rows.map((item) => item.status).concat(["Hoạt động", "Tạm khóa", "Thân thiết", "VIP", "Mới"]))).map((status) => (
                     <option key={status} value={status}>{status}</option>
                   ))}
                 </select>
               </label>
               <label className="grid gap-1.5 text-sm font-semibold text-bark md:col-span-2">
-                ThÃ´ng tin
+                Thông tin
                 <textarea className="min-h-28 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood" onChange={(event) => setDraftMeta(event.target.value)} placeholder={metaPlaceholder} value={draftMeta} />
               </label>
               <button className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-wood px-6 font-semibold text-ivory transition hover:bg-bark disabled:opacity-50 md:w-fit" disabled={!draftTitle.trim()} onClick={saveEntryRow} type="button">
                 <Save className="size-4" />
-                LÆ°u
+                Lưu
               </button>
             </div>
           </section>
@@ -2410,7 +2410,7 @@ function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "cu
           <div className="flex flex-col gap-4 border-b border-clay/15 pb-4 md:flex-row md:items-center md:justify-between">
             <h3 className="font-serif text-3xl font-bold text-bark">{listTitle}</h3>
             <span className="w-fit rounded-full bg-sand px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-wood">
-              {rows.length} má»¥c
+              {rows.length} mục
             </span>
           </div>
           <div className="divide-y divide-clay/15">
@@ -2421,15 +2421,15 @@ function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "cu
                   <p className="mt-1 text-sm text-horn">{row.meta}</p>
                 </div>
                 <select className="h-10 rounded-full border border-clay/25 bg-ivory px-4 text-sm font-semibold text-wood outline-none" onChange={(event) => updateRowStatus(index, event.target.value)} value={row.status}>
-                  {Array.from(new Set(content.rows.map((item) => item.status).concat([row.status, "Hoáº¡t Ä‘á»™ng", "Táº¡m khÃ³a", "ThÃ¢n thiáº¿t", "VIP", "Má»›i"]))).map((status) => (
+                  {Array.from(new Set(content.rows.map((item) => item.status).concat([row.status, "Hoạt động", "Tạm khóa", "Thân thiết", "VIP", "Mới"]))).map((status) => (
                     <option key={status} value={status}>{status}</option>
                   ))}
                 </select>
                 <div className="flex gap-2 xl:justify-end">
-                  <button className="inline-flex size-10 items-center justify-center rounded-full border border-clay/25 text-wood transition hover:bg-sand" title="Sá»­a" type="button">
+                  <button className="inline-flex size-10 items-center justify-center rounded-full border border-clay/25 text-wood transition hover:bg-sand" title="Sửa" type="button">
                     <Edit3 className="size-4" />
                   </button>
-                  <button className="inline-flex size-10 items-center justify-center rounded-full border border-red-200 text-red-700 transition hover:bg-red-50" onClick={() => removeRow(index)} title="XÃ³a" type="button">
+                  <button className="inline-flex size-10 items-center justify-center rounded-full border border-red-200 text-red-700 transition hover:bg-red-50" onClick={() => removeRow(index)} title="Xóa" type="button">
                     <Trash2 className="size-4" />
                   </button>
                 </div>
@@ -2447,7 +2447,7 @@ function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "cu
     }
 
     setRows((current) => [
-      { title: draftTitle.trim(), meta: draftMeta.trim() || "ChÆ°a cÃ³ mÃ´ táº£", status: selectedStatus },
+      { title: draftTitle.trim(), meta: draftMeta.trim() || "Chưa có mô tả", status: selectedStatus },
       ...current,
     ]);
     setDraftTitle("");
@@ -2488,7 +2488,7 @@ function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "cu
             <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftTitle(event.target.value)} placeholder={copy.titlePlaceholder} value={draftTitle} />
             <textarea className="min-h-28 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood" onChange={(event) => setDraftMeta(event.target.value)} placeholder={copy.metaPlaceholder} value={draftMeta} />
             <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setSelectedStatus(event.target.value)} value={selectedStatus}>
-              {Array.from(new Set(content.rows.map((row) => row.status).concat(["Hoáº¡t Ä‘á»™ng", "Táº¡m khÃ³a", "NhÃ¡p", "ÄÃ£ lÆ°u"]))).map((status) => (
+              {Array.from(new Set(content.rows.map((row) => row.status).concat(["Hoạt động", "Tạm khóa", "Nháp", "Đã lưu"]))).map((status) => (
                 <option key={status} value={status}>{status}</option>
               ))}
             </select>
@@ -2502,7 +2502,7 @@ function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "cu
         <section className="rounded-lg border border-clay/15 bg-pearl p-5">
           <div className="flex items-center justify-between border-b border-clay/15 pb-4">
             <h3 className="font-serif text-3xl font-bold text-bark">{copy.listTitle}</h3>
-            <span className="rounded-full bg-sand px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-wood">{rows.length} má»¥c</span>
+            <span className="rounded-full bg-sand px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-wood">{rows.length} mục</span>
           </div>
           <div className="divide-y divide-clay/15">
             {rows.map((row, index) => (
@@ -2512,11 +2512,11 @@ function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "cu
                   <p className="mt-1 text-sm text-horn">{row.meta}</p>
                 </div>
                 <select className="h-10 rounded-full border border-clay/25 bg-ivory px-4 text-sm font-semibold text-wood outline-none" onChange={(event) => updateRowStatus(index, event.target.value)} value={row.status}>
-                  {Array.from(new Set(content.rows.map((item) => item.status).concat([row.status, "Hoáº¡t Ä‘á»™ng", "Táº¡m khÃ³a", "NhÃ¡p", "ÄÃ£ lÆ°u"]))).map((status) => (
+                  {Array.from(new Set(content.rows.map((item) => item.status).concat([row.status, "Hoạt động", "Tạm khóa", "Nháp", "Đã lưu"]))).map((status) => (
                     <option key={status} value={status}>{status}</option>
                   ))}
                 </select>
-                <button className="inline-flex size-10 items-center justify-center rounded-full border border-red-200 text-red-700 transition hover:bg-red-50" onClick={() => removeRow(index)} type="button" title="XÃ³a khá»i danh sÃ¡ch">
+                <button className="inline-flex size-10 items-center justify-center rounded-full border border-red-200 text-red-700 transition hover:bg-red-50" onClick={() => removeRow(index)} type="button" title="Xóa khỏi danh sách">
                   <Trash2 className="size-4" />
                 </button>
               </article>
@@ -2537,7 +2537,7 @@ export function AdminWorkspace({ role, page, productSlug }: AdminWorkspaceProps)
   const [currentUser, setCurrentUser] = useState<WorkspaceUser | null>(null);
   const nav = (role === "admin" ? adminNav : staffNav)
     .filter((item) => !item.href.includes("/products/create"))
-    .map((item) => (item.href.endsWith("/products") ? { ...item, label: "Quáº£n lÃ½ sáº£n pháº©m" } : item));
+    .map((item) => (item.href.endsWith("/products") ? { ...item, label: "Quản lý sản phẩm" } : item));
   const content = pageContent[page];
   const roleLabel = role === "admin" ? "ADMIN" : "STAFF";
 
@@ -2575,7 +2575,7 @@ export function AdminWorkspace({ role, page, productSlug }: AdminWorkspaceProps)
     return (
       <main className="grid min-h-screen place-items-center bg-[#f7efe4] px-5 text-bark">
         <div className="rounded-lg border border-clay/20 bg-pearl p-8 text-center shadow-[0_18px_60px_rgba(86,53,31,0.08)]">
-          <p className="font-serif text-3xl font-bold">Äang kiá»ƒm tra quyá»n...</p>
+          <p className="font-serif text-3xl font-bold">Đang kiểm tra quyền...</p>
         </div>
       </main>
     );
@@ -2585,10 +2585,10 @@ export function AdminWorkspace({ role, page, productSlug }: AdminWorkspaceProps)
     return (
       <main className="grid min-h-screen place-items-center bg-[#f7efe4] px-5 text-bark">
         <div className="max-w-lg rounded-lg border border-clay/20 bg-pearl p-8 text-center shadow-[0_18px_60px_rgba(86,53,31,0.08)]">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-clay">KhÃ´ng cÃ³ quyá»n</p>
-          <h1 className="mt-3 font-serif text-4xl font-bold">TÃ i khoáº£n nÃ y khÃ´ng Ä‘Æ°á»£c vÃ o khu vá»±c {roleLabel}.</h1>
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-clay">Không có quyền</p>
+          <h1 className="mt-3 font-serif text-4xl font-bold">Tài khoản này không được vào khu vực {roleLabel}.</h1>
           <Link className="mt-6 inline-flex rounded-full bg-wood px-6 py-3 font-semibold text-ivory" href="/">
-            Vá» trang bÃ¡n hÃ ng
+            Về trang bán hàng
           </Link>
         </div>
       </main>
@@ -2602,31 +2602,31 @@ export function AdminWorkspace({ role, page, productSlug }: AdminWorkspaceProps)
           <div className="flex items-center justify-between lg:hidden">
             <div>
               <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#f4ead8]/70">{roleLabel}</p>
-              <h1 className="mt-1 font-serif text-2xl font-bold">VÃ¢n Má»™c</h1>
+              <h1 className="mt-1 font-serif text-2xl font-bold">Vân Mộc</h1>
             </div>
             <button
-              aria-label={mobileMenuOpen ? "ÄÃ³ng menu" : "Má»Ÿ menu"}
+              aria-label={mobileMenuOpen ? "Đóng menu" : "Mở menu"}
               className="inline-flex size-10 items-center justify-center rounded-full border border-[#f4ead8]/20 text-[#f4ead8] transition hover:bg-[#f4ead8]/10"
               onClick={() => setMobileMenuOpen((current) => !current)}
-              title={mobileMenuOpen ? "ÄÃ³ng menu" : "Má»Ÿ menu"}
+              title={mobileMenuOpen ? "Đóng menu" : "Mở menu"}
               type="button"
             >
               {mobileMenuOpen ? <PanelLeftClose className="size-4" /> : <PanelLeftOpen className="size-4" />}
             </button>
           </div>
           <button
-            aria-label={sidebarCollapsed ? "Má»Ÿ sidebar" : "Thu sidebar"}
+            aria-label={sidebarCollapsed ? "Mở sidebar" : "Thu sidebar"}
             className={`mb-4 hidden size-10 shrink-0 items-center justify-center rounded-full border border-[#f4ead8]/20 text-[#f4ead8] transition hover:bg-[#f4ead8]/10 lg:inline-flex ${sidebarCollapsed ? "self-center" : "self-end"}`}
             onClick={() => setSidebarCollapsed((current) => !current)}
-            title={sidebarCollapsed ? "Má»Ÿ sidebar" : "Thu sidebar"}
+            title={sidebarCollapsed ? "Mở sidebar" : "Thu sidebar"}
             type="button"
           >
             {sidebarCollapsed ? <PanelLeftOpen className="size-4" /> : <PanelLeftClose className="size-4" />}
           </button>
           <div className={`hidden border-b border-[#f4ead8]/20 pb-5 lg:block ${sidebarCollapsed ? "lg:hidden" : ""}`}>
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#f4ead8]/70">{roleLabel}</p>
-            <h1 className="mt-2 font-serif text-3xl font-bold">VÃ¢n Má»™c</h1>
-            <p className="mt-1 text-sm text-[#f4ead8]/75">Khu quáº£n trá»‹ website</p>
+            <h1 className="mt-2 font-serif text-3xl font-bold">Vân Mộc</h1>
+            <p className="mt-1 text-sm text-[#f4ead8]/75">Khu quản trị website</p>
           </div>
           <nav className={`${mobileMenuOpen ? "mt-4 block" : "hidden"} flex-1 space-y-1 overflow-y-auto border-t border-[#f4ead8]/15 pt-4 lg:mt-5 lg:block lg:border-t-0 lg:pt-0 ${sidebarCollapsed ? "" : "lg:pr-1"}`}>
             {nav.map((item) => {
@@ -2661,7 +2661,7 @@ export function AdminWorkspace({ role, page, productSlug }: AdminWorkspaceProps)
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">{roleLabel}</p>
               <p className="mt-1 text-sm font-semibold text-bark">
-                {currentUser?.fullName || (role === "admin" ? "Admin VÃ¢n Má»™c" : "Staff VÃ¢n Má»™c")}
+                {currentUser?.fullName || (role === "admin" ? "Admin Vân Mộc" : "Staff Vân Mộc")}
               </p>
               {currentUser?.email ? <p className="mt-0.5 text-xs text-horn">{currentUser.email}</p> : null}
             </div>
@@ -2680,7 +2680,7 @@ export function AdminWorkspace({ role, page, productSlug }: AdminWorkspaceProps)
                 type="button"
               >
                 <LogOut className="size-4" />
-                ÄÄƒng xuáº¥t
+                Đăng xuất
               </button>
             </div>
           </header>
@@ -2695,17 +2695,17 @@ export function AdminWorkspace({ role, page, productSlug }: AdminWorkspaceProps)
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.22em] text-clay">Profile {roleLabel}</p>
                     <h2 className="mt-2 font-serif text-3xl font-bold text-bark">
-                      {currentUser?.fullName || (role === "admin" ? "Admin VÃ¢n Má»™c" : "Staff VÃ¢n Má»™c")}
+                      {currentUser?.fullName || (role === "admin" ? "Admin Vân Mộc" : "Staff Vân Mộc")}
                     </h2>
-                    <p className="mt-1 text-sm text-horn">{currentUser?.email || "ChÆ°a cÃ³ email"}</p>
+                    <p className="mt-1 text-sm text-horn">{currentUser?.email || "Chưa có email"}</p>
                   </div>
                 </div>
                 <button
                   className="inline-flex size-9 items-center justify-center rounded-full border border-clay/20 text-wood transition hover:bg-sand"
                   onClick={() => setProfilePanelOpen(false)}
                   type="button"
-                  aria-label="ÄÃ³ng profile"
-                  title="ÄÃ³ng profile"
+                  aria-label="Đóng profile"
+                  title="Đóng profile"
                 >
                   <X className="size-4" />
                 </button>
@@ -2713,16 +2713,16 @@ export function AdminWorkspace({ role, page, productSlug }: AdminWorkspaceProps)
 
               <div className="mt-5 grid gap-3 md:grid-cols-3">
                 <article className="rounded-md border border-clay/15 bg-ivory p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-clay">Vai trÃ²</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-clay">Vai trò</p>
                   <p className="mt-2 font-semibold text-bark">{roleLabel}</p>
                 </article>
                 <article className="rounded-md border border-clay/15 bg-ivory p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-clay">Tráº¡ng thÃ¡i</p>
-                  <p className="mt-2 font-semibold text-bark">Äang hoáº¡t Ä‘á»™ng</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-clay">Trạng thái</p>
+                  <p className="mt-2 font-semibold text-bark">Đang hoạt động</p>
                 </article>
                 <article className="rounded-md border border-clay/15 bg-ivory p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-clay">Khu vá»±c</p>
-                  <p className="mt-2 font-semibold text-bark">{role === "admin" ? "Quáº£n trá»‹ há»‡ thá»‘ng" : "Váº­n hÃ nh website"}</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-clay">Khu vực</p>
+                  <p className="mt-2 font-semibold text-bark">{role === "admin" ? "Quản trị hệ thống" : "Vận hành website"}</p>
                 </article>
               </div>
             </section>
@@ -2779,7 +2779,7 @@ export function AdminWorkspace({ role, page, productSlug }: AdminWorkspaceProps)
 
               <div className="rounded-lg border border-clay/15 bg-pearl p-5">
                 <div className="flex items-center justify-between border-b border-clay/15 pb-4">
-                  <h3 className="font-serif text-3xl font-bold text-bark">Danh sÃ¡ch xá»­ lÃ½</h3>
+                  <h3 className="font-serif text-3xl font-bold text-bark">Danh sách xử lý</h3>
                   <span className="rounded-full bg-sand px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-wood">
                     MVP
                   </span>
@@ -2804,22 +2804,22 @@ export function AdminWorkspace({ role, page, productSlug }: AdminWorkspaceProps)
           <footer className="mt-auto -mx-5 bg-[#56351f] px-6 py-5 text-[#f4ead8] md:-mx-8 md:px-10 lg:-mx-10">
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div>
-                <p className="font-serif text-2xl font-bold">VÃ¢n Má»™c</p>
+                <p className="font-serif text-2xl font-bold">Vân Mộc</p>
                 <p className="mt-1 text-sm text-[#f4ead8]/75">
-                  Khu quáº£n trá»‹ dÃ nh cho {role === "admin" ? "Admin toÃ n quyá»n" : "Staff váº­n hÃ nh"}.
+                  Khu quản trị dành cho {role === "admin" ? "Admin toàn quyền" : "Staff vận hành"}.
                 </p>
               </div>
               <div className="flex flex-wrap gap-3 text-sm font-semibold text-[#f4ead8]/80">
                 <Link href="/" className="transition hover:text-[#f4ead8]">
-                  Trang bÃ¡n hÃ ng
+                  Trang bán hàng
                 </Link>
                 <span className="text-[#f4ead8]/35">/</span>
                 <Link href="/admin/settings" className="transition hover:text-[#f4ead8]">
-                  Cáº¥u hÃ¬nh
+                  Cấu hình
                 </Link>
                 <span className="text-[#f4ead8]/35">/</span>
                 <Link href="/contact" className="transition hover:text-[#f4ead8]">
-                  LiÃªn há»‡
+                  Liên hệ
                 </Link>
               </div>
             </div>
