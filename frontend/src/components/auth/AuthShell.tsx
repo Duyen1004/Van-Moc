@@ -26,6 +26,10 @@ type GoogleCredentialResponse = {
   credential?: string;
 };
 
+function normalizeRole(role?: string) {
+  return String(role ?? "").trim().toUpperCase().replace(/^ROLE_/, "");
+}
+
 declare global {
   interface Window {
     google?: {
@@ -103,9 +107,11 @@ export function AuthShell({ mode }: AuthShellProps) {
   };
 
   const redirectAfterAuth = (role: "CUSTOMER" | "STAFF" | "ADMIN") => {
-    if (role === "ADMIN") {
+    const normalizedRole = normalizeRole(role);
+
+    if (normalizedRole === "ADMIN") {
       router.push("/admin");
-    } else if (role === "STAFF") {
+    } else if (normalizedRole === "STAFF") {
       router.push("/staff");
     } else {
       router.push("/");

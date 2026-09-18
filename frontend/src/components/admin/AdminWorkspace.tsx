@@ -72,6 +72,7 @@ import {
 } from "@/lib/api";
 
 type Role = "staff" | "admin";
+type InventoryTab = "all" | "low" | "out" | "hidden";
 type PageKey =
   | "dashboard"
   | "products"
@@ -487,6 +488,10 @@ function formatDateTime(value: string) {
     hour: "2-digit",
     minute: "2-digit",
   }).format(new Date(value));
+}
+
+function normalizeRole(value?: string) {
+  return String(value ?? "").trim().toUpperCase().replace(/^ROLE_/, "");
 }
 
 function activeHrefForPage(role: Role, page: PageKey) {
@@ -1028,8 +1033,6 @@ function ProductManager({ role, mode = "manage", editSlug }: { role: Role; mode?
   );
 }
 
-type InventoryTab = "all" | "low" | "out" | "hidden";
-
 function InventoryManager() {
   const [products, setProducts] = useState<AdminProduct[]>([]);
   const [stockDrafts, setStockDrafts] = useState<Record<number, number>>({});
@@ -1188,7 +1191,7 @@ function InventoryManager() {
                   <label className="grid gap-1.5 text-xs font-bold uppercase tracking-[0.12em] text-clay">
                     Số tồn
                     <input
-                      className="h-10 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold normal-case tracking-normal text-bark outline-none focus:border-wood"
+                      className="h-10 rounded-full border border-clay/20 bg-pearl px-4 text-sm font-semibold normal-case tracking-normal text-bark outline-none focus:border-wood"
                       min={0}
                       onChange={(event) => setStockDrafts((current) => ({ ...current, [product.id]: Number(event.target.value) }))}
                       type="number"
@@ -1198,7 +1201,7 @@ function InventoryManager() {
                   <label className="grid gap-1.5 text-xs font-bold uppercase tracking-[0.12em] text-clay">
                     Trạng thái
                     <select
-                      className="h-10 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold normal-case tracking-normal text-wood outline-none focus:border-wood"
+                      className="h-10 rounded-full border border-clay/20 bg-pearl px-4 text-sm font-semibold normal-case tracking-normal text-wood outline-none focus:border-wood"
                       onChange={(event) => updateInventory(product, draftStock, event.target.value)}
                       value={product.status}
                     >
@@ -1209,7 +1212,7 @@ function InventoryManager() {
                     </select>
                   </label>
                   <button
-                    className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-wood px-4 text-sm font-semibold text-ivory transition hover:bg-bark disabled:cursor-not-allowed disabled:opacity-45"
+                    className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-wood px-4 text-sm font-semibold text-ivory transition hover:bg-bark disabled:opacity-45"
                     disabled={!changed || savingSlug === product.slug}
                     onClick={() => updateInventory(product)}
                     type="button"
@@ -1773,15 +1776,17 @@ function ReviewsManager() {
           <div className="divide-y divide-clay/15">
             {reviews.map((review) => (
               <article className="grid gap-4 py-4 xl:grid-cols-[1fr_150px_180px] xl:items-center" key={review.id}>
+                <div className="flex items-center gap-2 text-wood">
+                  {Array.from({ length: review.rating }).map((_, index) => <Star className="size-4 fill-current" key={index} />)}
+                </div>
                 <div>
-                  <div className="flex items-center gap-2 text-wood">
-                    {Array.from({ length: review.rating }).map((_, index) => <Star className="size-4 fill-current" key={index} />)}
-                  </div>
                   <h4 className="mt-2 text-base font-bold text-bark">{review.title || review.productName}</h4>
                   <p className="mt-1 text-sm text-horn">{review.customerName} · {review.productName} · {formatDateTime(review.createdAt)}</p>
-                  <p className="mt-2 text-sm leading-6 text-bark">{review.content}</p>
+                  <p className="mt-2 text-sm text-horn">{review.content}</p>
                 </div>
-                <span className="w-fit rounded-full bg-sand px-3 py-2 text-xs font-bold text-wood">{review.status}</span>
+                <span className="w-fit rounded-full border border-clay/25 px-4 py-1.5 text-sm font-semibold text-wood">
+                  {review.status}
+                </span>
                 <div className="flex gap-2 xl:justify-end">
                   <button className="h-10 rounded-full border border-clay/25 px-4 text-sm font-semibold text-wood transition hover:bg-sand disabled:opacity-45" disabled={savingId === review.id || review.status === "APPROVED"} onClick={() => updateStatus(review, "APPROVED")} type="button">Duyệt</button>
                   <button className="h-10 rounded-full border border-red-200 px-4 text-sm font-semibold text-red-700 transition hover:bg-red-50 disabled:opacity-45" disabled={savingId === review.id || review.status === "REJECTED"} onClick={() => updateStatus(review, "REJECTED")} type="button">Từ chối</button>
@@ -1815,10 +1820,15 @@ function AdminDataCrudManager({ page }: { page: "categories" | "banners" | "cont
   const loadItems = async () => {
     setLoading(true);
     setMessage("");
+
     try {
-      if (page === "categories") setItems(await getAdminCategories());
-      if (page === "banners") setItems(await getAdminBanners());
-      if (page === "contents") setItems(await getAdminContents());
+      if (page === "categories") {
+        setItems(await getAdminCategories());
+      } else if (page === "banners") {
+        setItems(await getAdminBanners());
+      } else {
+        setItems(await getAdminContents());
+      }
     } catch {
       setMessage("Chưa tải được dữ liệu quản trị.");
     } finally {
@@ -1862,6 +1872,7 @@ function AdminDataCrudManager({ page }: { page: "categories" | "banners" | "cont
 
     setSaving(true);
     setMessage("");
+
     try {
       if (page === "categories") {
         const payload = {
@@ -1871,8 +1882,12 @@ function AdminDataCrudManager({ page }: { page: "categories" | "banners" | "cont
           imageUrl: imageUrl.trim(),
           status,
         };
-        if (editingId) await updateAdminCategory(editingId, payload);
-        else await createAdminCategory(payload);
+
+        if (editingId) {
+          await updateAdminCategory(editingId, payload);
+        } else {
+          await createAdminCategory(payload);
+        }
       }
 
       if (page === "banners") {
@@ -1885,8 +1900,12 @@ function AdminDataCrudManager({ page }: { page: "categories" | "banners" | "cont
           status,
           sortOrder: 0,
         };
-        if (editingId) await updateAdminBanner(editingId, payload);
-        else await createAdminBanner(payload);
+
+        if (editingId) {
+          await updateAdminBanner(editingId, payload);
+        } else {
+          await createAdminBanner(payload);
+        }
       }
 
       if (page === "contents") {
@@ -1899,15 +1918,19 @@ function AdminDataCrudManager({ page }: { page: "categories" | "banners" | "cont
           coverImageUrl: imageUrl.trim(),
           status,
         };
-        if (editingId) await updateAdminContent(editingId, payload);
-        else await createAdminContent(payload);
+
+        if (editingId) {
+          await updateAdminContent(editingId, payload);
+        } else {
+          await createAdminContent(payload);
+        }
       }
 
-      setMessage(editingId ? "Đã cập nhật." : "Đã tạo mới.");
+      setMessage(editingId ? "Đã cập nhật thành công." : "Đã tạo mới thành công.");
       resetForm();
       await loadItems();
     } catch {
-      setMessage("Chưa lưu được dữ liệu. Kiểm tra slug trùng hoặc backend.");
+      setMessage("Chưa lưu được dữ liệu. Kiểm tra lại slug hoặc backend.");
     } finally {
       setSaving(false);
     }
@@ -1916,542 +1939,22 @@ function AdminDataCrudManager({ page }: { page: "categories" | "banners" | "cont
   const deleteItem = async (id: number) => {
     setSaving(true);
     setMessage("");
+
     try {
-      if (page === "categories") await deleteAdminCategory(id);
-      if (page === "banners") await deleteAdminBanner(id);
-      if (page === "contents") await deleteAdminContent(id);
+      if (page === "categories") {
+        await deleteAdminCategory(id);
+      } else if (page === "banners") {
+        await deleteAdminBanner(id);
+      } else {
+        await deleteAdminContent(id);
+      }
+
       await loadItems();
     } catch {
-      setMessage("Chưa xóa/ẩn được mục này.");
+      setMessage("Chưa xóa được mục này.");
     } finally {
       setSaving(false);
     }
-  };
-
-  const listTitle = page === "categories" ? "Danh sách danh mục" : page === "banners" ? "Danh sách banner" : "Danh sách nội dung";
-  const itemTitle = (item: AdminCategory | AdminBanner | AdminContent): string => String("title" in item ? item.title : item.name);
-  const itemMeta = (item: AdminCategory | AdminBanner | AdminContent): string => {
-    if ("slug" in item) return String(item.slug ?? "");
-    if ("linkUrl" in item) return String(item.linkUrl || item.subtitle || "");
-    return String("summary" in item ? item.summary || "" : "");
-  };
-
-  return (
-    <div className="flex min-h-0 flex-col gap-6">
-      <div className="rounded-lg bg-ivory p-6 shadow-[0_18px_60px_rgba(86,53,31,0.08)] md:p-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.32em] text-clay">{content.eyebrow}</p>
-        <h2 className="mt-3 font-serif text-5xl font-bold text-bark">{content.title}</h2>
-        <p className="mt-3 max-w-2xl text-sm leading-7 text-horn">{content.description}</p>
-      </div>
-
-      <section className="rounded-lg border border-clay/15 bg-pearl p-5 md:p-7">
-        <div className="flex items-center justify-between border-b border-clay/15 pb-4">
-          <h3 className="font-serif text-3xl font-bold text-bark">{editingId ? "Sửa mục" : content.primaryAction}</h3>
-          {editingId ? <button className="rounded-full border border-clay/25 px-4 py-2 text-sm font-semibold text-wood" onClick={resetForm} type="button">Hủy sửa</button> : null}
-        </div>
-        <div className="mt-5 grid gap-4 md:grid-cols-2">
-          <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => { setTitle(event.target.value); if (!editingId && page !== "banners") setSlug(slugify(event.target.value)); }} placeholder={page === "categories" ? "Tên danh mục" : "Tiêu đề"} value={title} />
-          {page !== "banners" ? <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setSlug(event.target.value)} placeholder="slug-url" value={slug} /> : null}
-          <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setImageUrl(event.target.value)} placeholder={page === "contents" ? "Ảnh bìa URL" : "Ảnh URL"} value={imageUrl} />
-          {page === "banners" ? <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setLinkUrl(event.target.value)} placeholder="/products" value={linkUrl} /> : null}
-          <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setType(event.target.value)} value={type}>
-            {page === "contents" ? (
-              <>
-                <option value="PAGE">PAGE</option>
-                <option value="BLOG">BLOG</option>
-                <option value="STORY">STORY</option>
-                <option value="POLICY">POLICY</option>
-              </>
-            ) : (
-              <>
-                <option value="HOME">HOME</option>
-                <option value="CATEGORY">CATEGORY</option>
-                <option value="PRODUCT">PRODUCT</option>
-                <option value="CAMPAIGN">CAMPAIGN</option>
-              </>
-            )}
-          </select>
-          <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setStatus(event.target.value)} value={status}>
-            {page === "contents" ? <><option value="DRAFT">DRAFT</option><option value="PUBLISHED">PUBLISHED</option><option value="ARCHIVED">ARCHIVED</option></> : <><option value="ACTIVE">ACTIVE</option><option value="INACTIVE">INACTIVE</option></>}
-          </select>
-          <textarea className="min-h-24 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood md:col-span-2" onChange={(event) => setMeta(event.target.value)} placeholder="Mô tả ngắn / subtitle / summary" value={meta} />
-          {page === "contents" ? <textarea className="min-h-44 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood md:col-span-2" onChange={(event) => setBody(event.target.value)} placeholder="Nội dung chi tiết" value={body} /> : null}
-          <button className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-wood px-6 font-semibold text-ivory transition hover:bg-bark disabled:opacity-50 md:w-fit" disabled={saving} onClick={saveItem} type="button">
-            {saving ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
-            Lưu
-          </button>
-        </div>
-        {message ? <p className="mt-4 rounded-lg bg-sand px-4 py-3 text-sm font-semibold text-wood">{message}</p> : null}
-      </section>
-
-      <section className="rounded-lg border border-clay/15 bg-pearl p-5">
-        <div className="flex items-center justify-between border-b border-clay/15 pb-4">
-          <h3 className="font-serif text-3xl font-bold text-bark">{listTitle}</h3>
-          <span className="rounded-full bg-sand px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-wood">{items.length} mục</span>
-        </div>
-        {loading ? <div className="flex items-center justify-center gap-2 py-14 text-sm font-semibold text-horn"><Loader2 className="size-4 animate-spin" />Đang tải...</div> : (
-          <div className="divide-y divide-clay/15">
-            {items.map((item) => (
-              <article className="grid gap-4 py-4 xl:grid-cols-[1fr_130px_auto] xl:items-center" key={item.id}>
-                <div>
-                  <h4 className="text-base font-bold text-bark">{itemTitle(item)}</h4>
-                  <p className="mt-1 text-sm text-horn">{itemMeta(item)}</p>
-                </div>
-                <span className="w-fit rounded-full bg-sand px-3 py-2 text-xs font-bold text-wood">{item.status}</span>
-                <div className="flex gap-2 xl:justify-end">
-                  <button className="inline-flex size-10 items-center justify-center rounded-full border border-clay/25 text-wood transition hover:bg-sand" onClick={() => editItem(item)} title="Sửa" type="button"><Edit3 className="size-4" /></button>
-                  <button className="inline-flex size-10 items-center justify-center rounded-full border border-red-200 text-red-700 transition hover:bg-red-50" onClick={() => deleteItem(item.id)} title="Xóa/ẩn" type="button"><Trash2 className="size-4" /></button>
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
-      </section>
-    </div>
-  );
-}
-
-function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "customers" | "categories" | "banners" | "contents" | "seo" | "settings" | "roles"> }) {
-  const content = pageContent[page];
-  const [rows, setRows] = useState(content.rows);
-  const [selectedStatus, setSelectedStatus] = useState(content.rows[0]?.status ?? "Hoạt động");
-  const [draftTitle, setDraftTitle] = useState("");
-  const [draftMeta, setDraftMeta] = useState("");
-  const [draftImageUrl, setDraftImageUrl] = useState("");
-  const [draftLinkUrl, setDraftLinkUrl] = useState("");
-  const [draftPosition, setDraftPosition] = useState("HOME");
-  const [showEntryForm, setShowEntryForm] = useState(false);
-
-  const labels: Record<typeof page, { listTitle: string; formTitle: string; titlePlaceholder: string; metaPlaceholder: string; button: string }> = {
-    staff: {
-      listTitle: "Danh sách nhân sự",
-      formTitle: "Thêm / cập nhật staff",
-      titlePlaceholder: "Tên nhân sự",
-      metaPlaceholder: "Vai trò, ca trực hoặc ghi chú",
-      button: "Lưu staff",
-    },
-    customers: {
-      listTitle: "Danh sách khách hàng",
-      formTitle: "Ghi chú chăm sóc khách",
-      titlePlaceholder: "Tên khách hàng",
-      metaPlaceholder: "Ghi chú, hạng khách hoặc lịch sử mua",
-      button: "Lưu ghi chú",
-    },
-    categories: {
-      listTitle: "Danh sách danh mục",
-      formTitle: "Thêm / cập nhật danh mục",
-      titlePlaceholder: "Tên danh mục",
-      metaPlaceholder: "Mô tả ngắn hoặc số sản phẩm",
-      button: "Lưu danh mục",
-    },
-    banners: {
-      listTitle: "Danh sách banner",
-      formTitle: "Thêm / cập nhật banner",
-      titlePlaceholder: "Tiêu đề banner",
-      metaPlaceholder: "Vị trí, link điều hướng hoặc lịch chạy",
-      button: "Lưu banner",
-    },
-    contents: {
-      listTitle: "Danh sách nội dung",
-      formTitle: "Soạn nội dung",
-      titlePlaceholder: "Tiêu đề trang/bài viết",
-      metaPlaceholder: "Vị trí hiển thị hoặc mô tả SEO",
-      button: "Lưu nội dung",
-    },
-    seo: {
-      listTitle: "Checklist SEO",
-      formTitle: "Cập nhật SEO",
-      titlePlaceholder: "Đường dẫn trang",
-      metaPlaceholder: "Meta title, description hoặc trạng thái index",
-      button: "Lưu SEO",
-    },
-    settings: {
-      listTitle: "Nhóm cấu hình",
-      formTitle: "Cập nhật cấu hình",
-      titlePlaceholder: "Tên cấu hình",
-      metaPlaceholder: "Giá trị hoặc mô tả cấu hình",
-      button: "Lưu cấu hình",
-    },
-    roles: {
-      listTitle: "Nhóm quyền",
-      formTitle: "Cập nhật quyền",
-      titlePlaceholder: "Tên nhóm quyền",
-      metaPlaceholder: "Quyền truy cập hoặc phạm vi thao tác",
-      button: "Lưu quyền",
-    },
-  };
-
-  const copy = labels[page];
-
-  const updateRowStatus = (index: number, status: string) => {
-    setRows((current) => current.map((row, rowIndex) => (rowIndex === index ? { ...row, status } : row)));
-  };
-
-  const removeRow = (index: number) => {
-    setRows((current) => current.filter((_, rowIndex) => rowIndex !== index));
-  };
-
-  const saveEntryRow = () => {
-    if (!draftTitle.trim()) {
-      return;
-    }
-
-    setRows((current) => [
-      { title: draftTitle.trim(), meta: draftMeta.trim() || "Chưa có mô tả", status: selectedStatus },
-      ...current,
-    ]);
-    setDraftTitle("");
-    setDraftMeta("");
-    setDraftImageUrl("");
-    setDraftLinkUrl("");
-    setDraftPosition("HOME");
-    setShowEntryForm(false);
-  };
-
-  if (page === "banners") {
-    const bannerImages = [
-      "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=900&q=85",
-      "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=900&q=85",
-      "https://images.unsplash.com/photo-1513885535751-8b9238bd345a?auto=format&fit=crop&w=900&q=85",
-    ];
-
-    return (
-      <div className="flex min-h-0 flex-col gap-6">
-        <div className="rounded-lg bg-ivory p-6 shadow-[0_18px_60px_rgba(86,53,31,0.08)] md:p-8">
-          <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-clay">{content.eyebrow}</p>
-              <h2 className="mt-3 font-serif text-5xl font-bold text-bark">{content.title}</h2>
-            </div>
-            <button className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-wood px-6 font-serif text-lg font-bold text-ivory transition hover:bg-bark" onClick={() => setShowEntryForm(true)} type="button">
-              <Plus className="size-4" />
-              Thêm banner
-            </button>
-          </div>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {content.stats.map((stat) => (
-            <article className="rounded-lg border border-clay/15 bg-pearl p-5" key={stat.label}>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">{stat.label}</p>
-              <p className="mt-3 font-serif text-4xl font-bold text-wood">{stat.value}</p>
-              <p className="mt-1 text-sm text-horn">{stat.note}</p>
-            </article>
-          ))}
-        </div>
-
-        {showEntryForm ? (
-          <section className="rounded-lg border border-clay/15 bg-pearl p-5 md:p-7">
-            <div className="flex items-center justify-between border-b border-clay/15 pb-4">
-              <h3 className="font-serif text-3xl font-bold text-bark">Thêm banner</h3>
-              <button className="inline-flex size-9 items-center justify-center rounded-full border border-clay/25 text-wood transition hover:bg-sand" onClick={() => setShowEntryForm(false)} type="button">
-                <X className="size-4" />
-              </button>
-            </div>
-            <div className="mt-5 grid gap-4 md:grid-cols-2">
-              <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Tiêu đề banner
-                <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftTitle(event.target.value)} placeholder="Ví dụ: Quà tặng cá nhân hóa" value={draftTitle} />
-              </label>
-              <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Vị trí hiển thị
-                <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setDraftPosition(event.target.value)} value={draftPosition}>
-                  <option value="HOME">Trang chủ</option>
-                  <option value="CATEGORY">Danh mục</option>
-                  <option value="PRODUCT">Chi tiết sản phẩm</option>
-                  <option value="CAMPAIGN">Chiến dịch</option>
-                </select>
-              </label>
-              <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Ảnh banner URL
-                <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftImageUrl(event.target.value)} placeholder="https://.../banner.jpg" value={draftImageUrl} />
-              </label>
-              <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Link điều hướng
-                <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftLinkUrl(event.target.value)} placeholder="/products hoặc /categories/..." value={draftLinkUrl} />
-              </label>
-              <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Trạng thái
-                <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setSelectedStatus(event.target.value)} value={selectedStatus}>
-                  <option value="Đang chạy">Đang chạy</option>
-                  <option value="Đặt lịch">Đặt lịch</option>
-                  <option value="Tạm ẩn">Tạm ẩn</option>
-                </select>
-              </label>
-              <label className="grid gap-1.5 text-sm font-semibold text-bark md:col-span-2">
-                Mô tả / ghi chú
-                <textarea className="min-h-24 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood" onChange={(event) => setDraftMeta(event.target.value)} placeholder="Thông điệp phụ, lịch chạy hoặc ghi chú chiến dịch..." value={draftMeta} />
-              </label>
-              {draftImageUrl ? (
-                <div className="overflow-hidden rounded-lg border border-clay/15 bg-sand md:col-span-2">
-                  <img alt="Xem trước banner" className="aspect-[21/7] w-full object-cover" src={draftImageUrl} />
-                </div>
-              ) : null}
-              <button className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-wood px-6 font-semibold text-ivory transition hover:bg-bark disabled:opacity-50 md:w-fit" disabled={!draftTitle.trim()} onClick={saveEntryRow} type="button">
-                <Save className="size-4" />
-                Lưu banner
-              </button>
-            </div>
-          </section>
-        ) : (
-          <section className="rounded-lg border border-clay/15 bg-pearl p-5">
-            <div className="flex flex-col gap-4 border-b border-clay/15 pb-4 md:flex-row md:items-center md:justify-between">
-              <h3 className="font-serif text-3xl font-bold text-bark">Danh sách banner</h3>
-              <span className="w-fit rounded-full bg-sand px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-wood">{rows.length} banner</span>
-            </div>
-            <div className="grid gap-4 pt-5 lg:grid-cols-2">
-              {rows.map((row, index) => (
-                <article className="overflow-hidden rounded-lg border border-clay/15 bg-ivory" key={`${row.title}-${index}`}>
-                  <img alt={row.title} className="aspect-[21/8] w-full bg-sand object-cover" src={bannerImages[index % bannerImages.length]} />
-                  <div className="grid gap-4 p-5 md:grid-cols-[1fr_auto] md:items-center">
-                    <div>
-                      <h4 className="text-base font-bold text-bark">{row.title}</h4>
-                      <p className="mt-1 text-sm text-horn">{row.meta}</p>
-                    </div>
-                    <div className="flex items-center gap-2 md:justify-end">
-                      <select className="h-10 rounded-full border border-clay/25 bg-ivory px-4 text-sm font-semibold text-wood outline-none" onChange={(event) => updateRowStatus(index, event.target.value)} value={row.status}>
-                        <option value="Đang chạy">Đang chạy</option>
-                        <option value="Đặt lịch">Đặt lịch</option>
-                        <option value="Tạm ẩn">Tạm ẩn</option>
-                      </select>
-                      <button className="inline-flex size-10 items-center justify-center rounded-full border border-clay/25 text-wood transition hover:bg-sand" title="Sửa" type="button">
-                        <Edit3 className="size-4" />
-                      </button>
-                      <button className="inline-flex size-10 items-center justify-center rounded-full border border-red-200 text-red-700 transition hover:bg-red-50" onClick={() => removeRow(index)} title="Xóa" type="button">
-                        <Trash2 className="size-4" />
-                      </button>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-        )}
-      </div>
-    );
-  }
-
-  if (page === "contents") {
-    return (
-      <div className="flex min-h-0 flex-col gap-6">
-        <div className="rounded-lg bg-ivory p-6 shadow-[0_18px_60px_rgba(86,53,31,0.08)] md:p-8">
-          <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-clay">{content.eyebrow}</p>
-              <h2 className="mt-3 font-serif text-5xl font-bold text-bark">{content.title}</h2>
-            </div>
-            <button className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-wood px-6 font-serif text-lg font-bold text-ivory transition hover:bg-bark" onClick={() => setShowEntryForm(true)} type="button">
-              <Plus className="size-4" />
-              Thêm nội dung
-            </button>
-          </div>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {content.stats.map((stat) => (
-            <article className="rounded-lg border border-clay/15 bg-pearl p-5" key={stat.label}>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">{stat.label}</p>
-              <p className="mt-3 font-serif text-4xl font-bold text-wood">{stat.value}</p>
-              <p className="mt-1 text-sm text-horn">{stat.note}</p>
-            </article>
-          ))}
-        </div>
-
-        {showEntryForm ? (
-          <section className="rounded-lg border border-clay/15 bg-pearl p-5 md:p-7">
-            <div className="flex items-center justify-between border-b border-clay/15 pb-4">
-              <h3 className="font-serif text-3xl font-bold text-bark">Thêm nội dung</h3>
-              <button className="inline-flex size-9 items-center justify-center rounded-full border border-clay/25 text-wood transition hover:bg-sand" onClick={() => setShowEntryForm(false)} type="button">
-                <X className="size-4" />
-              </button>
-            </div>
-            <div className="mt-5 grid gap-4 md:grid-cols-2">
-              <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Tiêu đề
-                <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftTitle(event.target.value)} placeholder="Ví dụ: Câu chuyện chất liệu" value={draftTitle} />
-              </label>
-              <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Loại nội dung
-                <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setDraftPosition(event.target.value)} value={draftPosition}>
-                  <option value="PAGE">Trang</option>
-                  <option value="BLOG">Bài viết</option>
-                  <option value="STORY">Câu chuyện</option>
-                  <option value="POLICY">Chính sách</option>
-                </select>
-              </label>
-              <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Slug
-                <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftLinkUrl(slugify(event.target.value))} placeholder="cau-chuyen-chat-lieu" value={draftLinkUrl} />
-              </label>
-              <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Trạng thái
-                <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setSelectedStatus(event.target.value)} value={selectedStatus}>
-                  <option value="Đã công bố">Đã công bố</option>
-                  <option value="Nháp">Nháp</option>
-                  <option value="Cần rà soát">Cần rà soát</option>
-                  <option value="Lưu trữ">Lưu trữ</option>
-                </select>
-              </label>
-              <label className="grid gap-1.5 text-sm font-semibold text-bark md:col-span-2">
-                Mô tả ngắn
-                <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftMeta(event.target.value)} placeholder="Mô tả ngắn hiển thị trong danh sách..." value={draftMeta} />
-              </label>
-              <label className="grid gap-1.5 text-sm font-semibold text-bark md:col-span-2">
-                Nội dung
-                <textarea className="min-h-56 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood" placeholder="Nhập nội dung chi tiết..." />
-              </label>
-              <button className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-wood px-6 font-semibold text-ivory transition hover:bg-bark disabled:opacity-50 md:w-fit" disabled={!draftTitle.trim()} onClick={saveEntryRow} type="button">
-                <Save className="size-4" />
-                Lưu nội dung
-              </button>
-            </div>
-          </section>
-        ) : (
-          <section className="rounded-lg border border-clay/15 bg-pearl p-5">
-            <div className="flex flex-col gap-4 border-b border-clay/15 pb-4 md:flex-row md:items-center md:justify-between">
-              <h3 className="font-serif text-3xl font-bold text-bark">Danh sách nội dung</h3>
-              <span className="w-fit rounded-full bg-sand px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-wood">{rows.length} mục</span>
-            </div>
-            <div className="divide-y divide-clay/15">
-              {rows.map((row, index) => (
-                <article className="grid gap-4 py-4 xl:grid-cols-[1fr_170px_auto] xl:items-center" key={`${row.title}-${index}`}>
-                  <div>
-                    <h4 className="text-base font-bold text-bark">{row.title}</h4>
-                    <p className="mt-1 text-sm text-horn">{row.meta}</p>
-                  </div>
-                  <select className="h-10 rounded-full border border-clay/25 bg-ivory px-4 text-sm font-semibold text-wood outline-none" onChange={(event) => updateRowStatus(index, event.target.value)} value={row.status}>
-                    <option value="Đã công bố">Đã công bố</option>
-                    <option value="Nháp">Nháp</option>
-                    <option value="Cần rà soát">Cần rà soát</option>
-                    <option value="Lưu trữ">Lưu trữ</option>
-                  </select>
-                  <div className="flex gap-2 xl:justify-end">
-                    <button className="inline-flex size-10 items-center justify-center rounded-full border border-clay/25 text-wood transition hover:bg-sand" title="Sửa" type="button">
-                      <Edit3 className="size-4" />
-                    </button>
-                    <button className="inline-flex size-10 items-center justify-center rounded-full border border-red-200 text-red-700 transition hover:bg-red-50" onClick={() => removeRow(index)} title="Xóa" type="button">
-                      <Trash2 className="size-4" />
-                    </button>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-        )}
-      </div>
-    );
-  }
-
-  if (page === "staff" || page === "customers" || page === "categories" || page === "seo" || page === "settings" || page === "roles") {
-    const listTitle = copy.listTitle;
-    const addLabel = content.primaryAction ?? copy.button;
-    const titlePlaceholder = copy.titlePlaceholder;
-    const metaPlaceholder = copy.metaPlaceholder;
-
-    return (
-      <div className="flex min-h-0 flex-col gap-6">
-        <div className="rounded-lg bg-ivory p-6 shadow-[0_18px_60px_rgba(86,53,31,0.08)] md:p-8">
-          <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-clay">{content.eyebrow}</p>
-              <h2 className="mt-3 font-serif text-5xl font-bold text-bark">{content.title}</h2>
-            </div>
-            <button className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-wood px-6 font-serif text-lg font-bold text-ivory transition hover:bg-bark" onClick={() => setShowEntryForm(true)} type="button">
-              <Plus className="size-4" />
-              {addLabel}
-            </button>
-          </div>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {content.stats.map((stat) => (
-            <article className="rounded-lg border border-clay/15 bg-pearl p-5" key={stat.label}>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">{stat.label}</p>
-              <p className="mt-3 font-serif text-4xl font-bold text-wood">{stat.value}</p>
-              <p className="mt-1 text-sm text-horn">{stat.note}</p>
-            </article>
-          ))}
-        </div>
-
-        {showEntryForm ? (
-          <section className="rounded-lg border border-clay/15 bg-pearl p-5 md:p-7">
-            <div className="flex items-center justify-between border-b border-clay/15 pb-4">
-              <h3 className="font-serif text-3xl font-bold text-bark">{addLabel}</h3>
-              <button className="inline-flex size-9 items-center justify-center rounded-full border border-clay/25 text-wood transition hover:bg-sand" onClick={() => setShowEntryForm(false)} type="button">
-                <X className="size-4" />
-              </button>
-            </div>
-            <div className="mt-5 grid gap-4 md:grid-cols-2">
-              <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Họ tên
-                <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftTitle(event.target.value)} placeholder={titlePlaceholder} value={draftTitle} />
-              </label>
-              <label className="grid gap-1.5 text-sm font-semibold text-bark">
-                Trạng thái
-                <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setSelectedStatus(event.target.value)} value={selectedStatus}>
-                  {Array.from(new Set(content.rows.map((item) => item.status).concat(["Hoạt động", "Tạm khóa", "Thân thiết", "VIP", "Mới"]))).map((status) => (
-                    <option key={status} value={status}>{status}</option>
-                  ))}
-                </select>
-              </label>
-              <label className="grid gap-1.5 text-sm font-semibold text-bark md:col-span-2">
-                Thông tin
-                <textarea className="min-h-28 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood" onChange={(event) => setDraftMeta(event.target.value)} placeholder={metaPlaceholder} value={draftMeta} />
-              </label>
-              <button className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-wood px-6 font-semibold text-ivory transition hover:bg-bark disabled:opacity-50 md:w-fit" disabled={!draftTitle.trim()} onClick={saveEntryRow} type="button">
-                <Save className="size-4" />
-                Lưu
-              </button>
-            </div>
-          </section>
-        ) : null}
-
-        {!showEntryForm ? <section className="rounded-lg border border-clay/15 bg-pearl p-5">
-          <div className="flex flex-col gap-4 border-b border-clay/15 pb-4 md:flex-row md:items-center md:justify-between">
-            <h3 className="font-serif text-3xl font-bold text-bark">{listTitle}</h3>
-            <span className="w-fit rounded-full bg-sand px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-wood">
-              {rows.length} mục
-            </span>
-          </div>
-          <div className="divide-y divide-clay/15">
-            {rows.map((row, index) => (
-              <article className="grid gap-4 py-4 xl:grid-cols-[1fr_170px_auto] xl:items-center" key={`${row.title}-${index}`}>
-                <div>
-                  <h4 className="text-base font-bold text-bark">{row.title}</h4>
-                  <p className="mt-1 text-sm text-horn">{row.meta}</p>
-                </div>
-                <select className="h-10 rounded-full border border-clay/25 bg-ivory px-4 text-sm font-semibold text-wood outline-none" onChange={(event) => updateRowStatus(index, event.target.value)} value={row.status}>
-                  {Array.from(new Set(content.rows.map((item) => item.status).concat([row.status, "Hoạt động", "Tạm khóa", "Thân thiết", "VIP", "Mới"]))).map((status) => (
-                    <option key={status} value={status}>{status}</option>
-                  ))}
-                </select>
-                <div className="flex gap-2 xl:justify-end">
-                  <button className="inline-flex size-10 items-center justify-center rounded-full border border-clay/25 text-wood transition hover:bg-sand" title="Sửa" type="button">
-                    <Edit3 className="size-4" />
-                  </button>
-                  <button className="inline-flex size-10 items-center justify-center rounded-full border border-red-200 text-red-700 transition hover:bg-red-50" onClick={() => removeRow(index)} title="Xóa" type="button">
-                    <Trash2 className="size-4" />
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section> : null}
-      </div>
-    );
-  }
-
-  const handleAddRow = () => {
-    if (!draftTitle.trim()) {
-      return;
-    }
-
-    setRows((current) => [
-      { title: draftTitle.trim(), meta: draftMeta.trim() || "Chưa có mô tả", status: selectedStatus },
-      ...current,
-    ]);
-    setDraftTitle("");
-    setDraftMeta("");
   };
 
   return (
@@ -2461,60 +1964,159 @@ function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "cu
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.32em] text-clay">{content.eyebrow}</p>
             <h2 className="mt-3 font-serif text-5xl font-bold text-bark">{content.title}</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-horn">{content.description}</p>
           </div>
-          {content.primaryAction ? (
-            <button className="h-11 rounded-full bg-wood px-6 font-serif text-lg font-bold text-ivory transition hover:bg-bark" onClick={handleAddRow} type="button">
-              {content.primaryAction}
-            </button>
-          ) : null}
+          <button className="h-11 rounded-full bg-wood px-6 font-serif text-lg font-bold text-ivory transition hover:bg-bark" onClick={resetForm} type="button">
+            Tạo mới
+          </button>
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {content.stats.map((stat) => (
-          <article className="rounded-lg border border-clay/15 bg-pearl p-5" key={stat.label}>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">{stat.label}</p>
-            <p className="mt-3 font-serif text-4xl font-bold text-wood">{stat.value}</p>
-            <p className="mt-1 text-sm text-horn">{stat.note}</p>
-          </article>
-        ))}
-      </div>
-
-      <div className="grid gap-6 xl:grid-cols-[0.75fr_1.25fr]">
+      <div className="grid gap-6 xl:grid-cols-[0.85fr_1.15fr]">
         <section className="h-fit rounded-lg border border-clay/15 bg-pearl p-5">
-          <h3 className="border-b border-clay/15 pb-4 font-serif text-3xl font-bold text-bark">{copy.formTitle}</h3>
+          <h3 className="border-b border-clay/15 pb-4 font-serif text-3xl font-bold text-bark">Thêm mục mới</h3>
           <div className="mt-5 grid gap-4">
-            <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftTitle(event.target.value)} placeholder={copy.titlePlaceholder} value={draftTitle} />
-            <textarea className="min-h-28 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood" onChange={(event) => setDraftMeta(event.target.value)} placeholder={copy.metaPlaceholder} value={draftMeta} />
-            <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setSelectedStatus(event.target.value)} value={selectedStatus}>
-              {Array.from(new Set(content.rows.map((row) => row.status).concat(["Hoạt động", "Tạm khóa", "Nháp", "Đã lưu"]))).map((status) => (
-                <option key={status} value={status}>{status}</option>
-              ))}
+            <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setTitle(event.target.value)} placeholder="Tên mục" value={title} />
+            <textarea className="min-h-24 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood" onChange={(event) => setMeta(event.target.value)} placeholder="Mô tả" value={meta} />
+            {page === "contents" ? (
+              <textarea className="min-h-24 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood" onChange={(event) => setBody(event.target.value)} placeholder="Nội dung" value={body} />
+            ) : null}
+            {(page === "banners" || page === "contents") ? (
+              <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setImageUrl(event.target.value)} placeholder="Image URL" value={imageUrl} />
+            ) : (
+              <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setImageUrl(event.target.value)} placeholder="Image URL" value={imageUrl} />
+            )}
+            {page === "banners" ? (
+              <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setLinkUrl(event.target.value)} placeholder="Link URL" value={linkUrl} />
+            ) : null}
+            {page === "contents" ? (
+              <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setType(event.target.value)} value={type}>
+                <option value="PAGE">PAGE</option>
+                <option value="ARTICLE">ARTICLE</option>
+              </select>
+            ) : page === "banners" ? (
+              <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setType(event.target.value)} value={type}>
+                <option value="HOME">HOME</option>
+                <option value="CATEGORY">CATEGORY</option>
+                <option value="CAMPAIGN">CAMPAIGN</option>
+              </select>
+            ) : null}
+            <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setStatus(event.target.value)} value={status}>
+              <option value="ACTIVE">Hoạt động</option>
+              <option value="DRAFT">Nháp</option>
+              <option value="INACTIVE">Ẩn</option>
             </select>
-            <button className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-wood px-6 font-semibold text-ivory transition hover:bg-bark disabled:opacity-50" disabled={!draftTitle.trim()} onClick={handleAddRow} type="button">
-              <Save className="size-4" />
-              {copy.button}
+            {message ? <p className="rounded-md bg-sand px-4 py-3 text-sm font-semibold text-wood">{message}</p> : null}
+            <button className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-wood px-6 font-semibold text-ivory transition hover:bg-bark disabled:opacity-50" disabled={saving || !title.trim()} onClick={saveItem} type="button">
+              {saving ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
+              {editingId ? "Lưu thay đổi" : "Tạo mới"}
             </button>
           </div>
         </section>
 
         <section className="rounded-lg border border-clay/15 bg-pearl p-5">
           <div className="flex items-center justify-between border-b border-clay/15 pb-4">
-            <h3 className="font-serif text-3xl font-bold text-bark">{copy.listTitle}</h3>
+            <h3 className="font-serif text-3xl font-bold text-bark">{page === "categories" ? "Danh sách danh mục" : page === "banners" ? "Danh sách banner" : "Danh sách nội dung"}</h3>
+            <span className="rounded-full bg-sand px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-wood">{items.length} mục</span>
+          </div>
+
+          {loading ? (
+            <div className="flex items-center justify-center gap-2 py-14 text-sm font-semibold text-horn"><Loader2 className="size-4 animate-spin" />Đang tải dữ liệu...</div>
+          ) : (
+            <div className="divide-y divide-clay/15">
+              {items.map((item) => {
+                const itemTitle = String("title" in item ? item.title : item.name);
+                const itemMeta = String("slug" in item ? item.slug : "linkUrl" in item ? item.linkUrl || item.subtitle || "" : "summary" in item ? item.summary || "" : "");
+
+                return (
+                  <article className="grid gap-4 py-4 xl:grid-cols-[1fr_auto] xl:items-center" key={item.id}>
+                    <div>
+                      <h4 className="text-base font-bold text-bark">{itemTitle}</h4>
+                      <p className="mt-1 text-sm text-horn">{itemMeta || "Không có mô tả"}</p>
+                    </div>
+                    <div className="flex gap-2 xl:justify-end">
+                      <button className="h-9 rounded-full border border-clay/25 px-3 text-sm font-semibold text-wood transition hover:bg-sand" onClick={() => editItem(item)} type="button">Sửa</button>
+                      <button className="h-9 rounded-full border border-red-200 px-3 text-sm font-semibold text-red-700 transition hover:bg-red-50" onClick={() => deleteItem(item.id)} type="button">Xóa</button>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+        </section>
+      </div>
+    </div>
+  );
+}
+
+function AdminOperationsManager({ page }: { page: Extract<PageKey, "staff" | "customers" | "seo" | "settings" | "roles"> }) {
+  const content = pageContent[page];
+  const [rows, setRows] = useState(content.rows);
+  const [draftTitle, setDraftTitle] = useState("");
+  const [draftMeta, setDraftMeta] = useState("");
+  const [status, setStatus] = useState(content.rows[0]?.status ?? "Hoạt động");
+
+  const addRow = () => {
+    if (!draftTitle.trim()) {
+      return;
+    }
+
+    setRows((current) => [{ title: draftTitle.trim(), meta: draftMeta.trim() || "Chưa có mô tả", status }, ...current]);
+    setDraftTitle("");
+    setDraftMeta("");
+    setStatus(content.rows[0]?.status ?? "Hoạt động");
+  };
+
+  const updateRowStatus = (index: number, nextStatus: string) => {
+    setRows((current) => current.map((row, rowIndex) => (rowIndex === index ? { ...row, status: nextStatus } : row)));
+  };
+
+  const removeRow = (index: number) => {
+    setRows((current) => current.filter((_, rowIndex) => rowIndex !== index));
+  };
+
+  return (
+    <div className="flex min-h-0 flex-col gap-6">
+      <div className="rounded-lg bg-ivory p-6 shadow-[0_18px_60px_rgba(86,53,31,0.08)] md:p-8">
+        <p className="text-xs font-semibold uppercase tracking-[0.32em] text-clay">{content.eyebrow}</p>
+        <h2 className="mt-3 font-serif text-5xl font-bold text-bark">{content.title}</h2>
+      </div>
+
+      <div className="grid gap-6 xl:grid-cols-[0.7fr_1.3fr]">
+        <section className="rounded-lg border border-clay/15 bg-pearl p-5">
+          <h3 className="border-b border-clay/15 pb-4 font-serif text-3xl font-bold text-bark">Thêm mục mới</h3>
+          <div className="mt-5 grid gap-4">
+            <input className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm outline-none focus:border-wood" onChange={(event) => setDraftTitle(event.target.value)} placeholder="Tên mục" value={draftTitle} />
+            <textarea className="min-h-24 rounded-2xl border border-clay/20 bg-ivory px-4 py-3 text-sm outline-none focus:border-wood" onChange={(event) => setDraftMeta(event.target.value)} placeholder="Mô tả" value={draftMeta} />
+            <select className="h-11 rounded-full border border-clay/20 bg-ivory px-4 text-sm font-semibold text-wood outline-none focus:border-wood" onChange={(event) => setStatus(event.target.value)} value={status}>
+              <option value="Hoạt động">Hoạt động</option>
+              <option value="Tạm khóa">Tạm khóa</option>
+              <option value="Nháp">Nháp</option>
+              <option value="Đã lưu">Đã lưu</option>
+            </select>
+            <button className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-wood px-6 font-semibold text-ivory transition hover:bg-bark disabled:opacity-50" disabled={!draftTitle.trim()} onClick={addRow} type="button">
+              <Plus className="size-4" />
+              Thêm
+            </button>
+          </div>
+        </section>
+
+        <section className="rounded-lg border border-clay/15 bg-pearl p-5">
+          <div className="flex items-center justify-between border-b border-clay/15 pb-4">
+            <h3 className="font-serif text-3xl font-bold text-bark">{content.title}</h3>
             <span className="rounded-full bg-sand px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-wood">{rows.length} mục</span>
           </div>
           <div className="divide-y divide-clay/15">
             {rows.map((row, index) => (
-              <article className="grid gap-4 py-4 xl:grid-cols-[1fr_160px_auto] xl:items-center" key={`${row.title}-${index}`}>
+              <article className="grid gap-4 py-4 xl:grid-cols-[1fr_auto] xl:items-center" key={`${row.title}-${index}`}>
                 <div>
                   <h4 className="text-base font-bold text-bark">{row.title}</h4>
                   <p className="mt-1 text-sm text-horn">{row.meta}</p>
                 </div>
                 <select className="h-10 rounded-full border border-clay/25 bg-ivory px-4 text-sm font-semibold text-wood outline-none" onChange={(event) => updateRowStatus(index, event.target.value)} value={row.status}>
-                  {Array.from(new Set(content.rows.map((item) => item.status).concat([row.status, "Hoạt động", "Tạm khóa", "Nháp", "Đã lưu"]))).map((status) => (
-                    <option key={status} value={status}>{status}</option>
-                  ))}
+                  <option value="Hoạt động">Hoạt động</option>
+                  <option value="Tạm khóa">Tạm khóa</option>
+                  <option value="Nháp">Nháp</option>
+                  <option value="Đã lưu">Đã lưu</option>
                 </select>
                 <button className="inline-flex size-10 items-center justify-center rounded-full border border-red-200 text-red-700 transition hover:bg-red-50" onClick={() => removeRow(index)} type="button" title="Xóa khỏi danh sách">
                   <Trash2 className="size-4" />
@@ -2552,8 +2154,9 @@ export function AdminWorkspace({ role, page, productSlug }: AdminWorkspaceProps)
 
     try {
       const user = JSON.parse(userJson) as WorkspaceUser;
-      const allowed = role === "admin" ? user.role === "ADMIN" : user.role === "STAFF" || user.role === "ADMIN";
-      setCurrentUser(user);
+      const normalizedRole = normalizeRole(user.role);
+      const allowed = role === "admin" ? normalizedRole === "ADMIN" : normalizedRole === "STAFF" || normalizedRole === "ADMIN";
+      setCurrentUser({ ...user, role: normalizedRole as WorkspaceUser["role"] });
       setAccessState(allowed ? "allowed" : "denied");
     } catch {
       window.localStorage.removeItem(AUTH_STORAGE_KEY);
@@ -2749,7 +2352,7 @@ export function AdminWorkspace({ role, page, productSlug }: AdminWorkspaceProps)
           ) : ["categories", "banners", "contents"].includes(page) ? (
             <AdminDataCrudManager page={page as "categories" | "banners" | "contents"} />
           ) : ["staff", "customers", "seo", "settings", "roles"].includes(page) ? (
-            <AdminOperationsManager page={page as Extract<PageKey, "staff" | "customers" | "categories" | "banners" | "contents" | "seo" | "settings" | "roles">} />
+            <AdminOperationsManager page={page as Extract<PageKey, "staff" | "customers" | "seo" | "settings" | "roles">} />
           ) : (
             <>
               <div className="rounded-lg bg-ivory p-6 shadow-[0_18px_60px_rgba(86,53,31,0.08)] md:p-8">

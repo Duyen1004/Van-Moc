@@ -45,6 +45,10 @@ function isActivePath(pathname: string, matches: readonly string[]) {
   return matches.some((match) => (match === "/" ? pathname === "/" : pathname.startsWith(match)));
 }
 
+function normalizeRole(value?: string) {
+  return String(value ?? "").trim().toUpperCase().replace(/^ROLE_/, "");
+}
+
 export function Header() {
   const pathname = usePathname();
   const router = useRouter();
@@ -73,7 +77,9 @@ export function Header() {
       }
 
       try {
-        setUser(JSON.parse(userJson) as HeaderUser);
+        const parsedUser = JSON.parse(userJson) as HeaderUser;
+        const normalizedRole = normalizeRole(parsedUser.role) as HeaderUser["role"];
+        setUser({ ...parsedUser, role: normalizedRole });
       } catch {
         window.localStorage.removeItem(AUTH_USER_KEY);
         setUser(null);
@@ -147,6 +153,7 @@ export function Header() {
 
   const currentLanguage = languageOptions.find((option) => option.locale === locale) ?? languageOptions[0];
   const productNavLabel = locale === "vi" ? "SẢN PHẨM" : "PRODUCTS";
+  const userRole = normalizeRole(user?.role);
 
   return (
     <header className="sticky top-0 z-50 border-b border-sand bg-[#f4ead8] text-bark shadow-[0_8px_24px_rgba(45,33,24,0.06)]">
@@ -268,12 +275,12 @@ export function Header() {
                     <Link className="rounded-md px-3 py-2 hover:bg-sand" href="/favorites" onClick={() => setProfileOpen(false)}>
                       Sản phẩm yêu thích
                     </Link>
-                    {user?.role === "ADMIN" ? (
+                    {userRole === "ADMIN" ? (
                       <Link className="rounded-md px-3 py-2 hover:bg-sand" href="/admin" onClick={() => setProfileOpen(false)}>
                         {t.common.admin}
                       </Link>
                     ) : null}
-                    {user?.role === "STAFF" ? (
+                    {userRole === "STAFF" ? (
                       <Link className="rounded-md px-3 py-2 hover:bg-sand" href="/staff" onClick={() => setProfileOpen(false)}>
                         {t.common.staff}
                       </Link>

@@ -12,6 +12,10 @@ type ProfileUser = {
   status: string;
 };
 
+function normalizeRole(value?: string) {
+  return String(value ?? "").trim().toUpperCase().replace(/^ROLE_/, "");
+}
+
 const AUTH_USER_KEY = "vanmoc-auth-user";
 
 export default function ProfilePage() {
@@ -25,7 +29,8 @@ export default function ProfilePage() {
     }
 
     try {
-      setUser(JSON.parse(userJson) as ProfileUser);
+      const parsedUser = JSON.parse(userJson) as ProfileUser;
+      setUser({ ...parsedUser, role: normalizeRole(parsedUser.role) as ProfileUser["role"] });
     } catch {
       window.localStorage.removeItem(AUTH_USER_KEY);
     }
@@ -70,12 +75,12 @@ export default function ProfilePage() {
         </div>
 
         <div className="mt-8 flex flex-wrap gap-3">
-          {user.role === "ADMIN" ? (
+          {normalizeRole(user.role) === "ADMIN" ? (
             <Link className="rounded-full bg-wood px-6 py-3 font-semibold text-ivory" href="/admin">
               {t.profile.goAdmin}
             </Link>
           ) : null}
-          {user.role === "STAFF" ? (
+          {normalizeRole(user.role) === "STAFF" ? (
             <Link className="rounded-full bg-wood px-6 py-3 font-semibold text-ivory" href="/staff">
               {t.profile.goStaff}
             </Link>
