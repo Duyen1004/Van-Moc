@@ -2,9 +2,13 @@
 
 import { ChevronLeft, ChevronRight, ShoppingCart, Star } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useCart } from "@/lib/cart";
 import { ApiCategory, ApiProduct, ApiReview, formatVnd, getCategories, getProducts, getReviews } from "@/lib/api";
+
+const PRODUCTS_PER_PAGE = 8;
+const fallbackImage = "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=900&q=85";
 
 const fallbackCategories = [
   { id: 0, name: "Tất cả", slug: "all", description: "", imageUrl: "", status: "ACTIVE" },
@@ -78,6 +82,7 @@ const fallbackReviews = [
 function ProductCard({ product }: { product: ApiProduct }) {
   const { addItem } = useCart();
   const productHref = `/products/${product.slug}`;
+  const imageUrl = product.imageUrl || product.images?.[0] || fallbackImage;
 
   return (
     <article className="group">
@@ -85,7 +90,7 @@ function ProductCard({ product }: { product: ApiProduct }) {
         <img
           alt={product.name}
           className="aspect-square w-full object-cover transition duration-500 group-hover:scale-105"
-          src={product.imageUrl}
+          src={imageUrl}
         />
       </Link>
       <div className="mt-4">
@@ -108,7 +113,7 @@ function ProductCard({ product }: { product: ApiProduct }) {
                 slug: product.slug,
                 name: product.name,
                 price: product.price,
-                imageUrl: product.imageUrl,
+                imageUrl,
                 sku: product.sku,
               })
             }
@@ -128,14 +133,74 @@ function ProductCard({ product }: { product: ApiProduct }) {
   );
 }
 
-export default function ProductsPage() {
-  const [activeCategory, setActiveCategory] = useState("all");
+function Pagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+}: {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+}) {
+  if (totalPages <= 1) {
+    return null;
+  }
+
+  return (
+    <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
+      <button
+        aria-label="Trang trước"
+        className="inline-flex size-10 items-center justify-center rounded-full border border-clay/30 text-wood transition hover:border-wood disabled:cursor-not-allowed disabled:opacity-40"
+        disabled={currentPage === 1}
+        onClick={() => onPageChange(currentPage - 1)}
+        type="button"
+      >
+        <ChevronLeft className="size-4" />
+      </button>
+
+      {Array.from({ length: totalPages }).map((_, index) => {
+        const page = index + 1;
+        const active = page === currentPage;
+
+        return (
+          <button
+            aria-current={active ? "page" : undefined}
+            className={`inline-flex size-10 items-center justify-center rounded-full text-sm font-bold transition ${
+              active ? "bg-wood text-ivory" : "border border-clay/30 text-wood hover:border-wood hover:bg-sand"
+            }`}
+            key={page}
+            onClick={() => onPageChange(page)}
+            type="button"
+          >
+            {page}
+          </button>
+        );
+      })}
+
+      <button
+        aria-label="Trang sau"
+        className="inline-flex size-10 items-center justify-center rounded-full border border-clay/30 text-wood transition hover:border-wood disabled:cursor-not-allowed disabled:opacity-40"
+        disabled={currentPage === totalPages}
+        onClick={() => onPageChange(currentPage + 1)}
+        type="button"
+      >
+        <ChevronRight className="size-4" />
+      </button>
+    </div>
+  );
+}
+
+function ProductsPageContent() {
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("q")?.trim() ?? "";
+  const categoryQuery = searchParams.get("category")?.trim() ?? "";
   const [categories, setCategories] = useState<ApiCategory[]>(fallbackCategories);
   const [products, setProducts] = useState<ApiProduct[]>(fallbackProducts);
   const [reviews, setReviews] = useState<ApiReview[]>(fallbackReviews);
+  const [resultPage, setResultPage] = useState(1);
 
   useEffect(() => {
-    Promise.all([getCategories(), getProducts(), getReviews()])
+    Promise.all([getCategories(), getProducts(undefined, searchQuery), getReviews()])
       .then(([categoryItems, productItems, reviewItems]) => {
         setCategories([fallbackCategories[0], ...categoryItems]);
         setProducts(productItems);
@@ -146,21 +211,55 @@ export default function ProductsPage() {
         setProducts(fallbackProducts);
         setReviews(fallbackReviews);
       });
-  }, []);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    setResultPage(1);
+  }, [categoryQuery, searchQuery]);
+
+  const selectedCategory = categories.find((category) => category.slug === categoryQuery) ?? null;
 
   const visibleProducts = useMemo(() => {
-    if (activeCategory === "all") {
+    if (searchQuery) {
       return products;
     }
 
-    return products.filter((product) => product.categorySlug === activeCategory);
-  }, [activeCategory, products]);
+    if (categoryQuery) {
+      return products.filter((product) => product.categorySlug === categoryQuery);
+    }
+
+    return products;
+  }, [categoryQuery, products, searchQuery]);
 
   const bestSeller = products[0] ?? fallbackProducts[0];
-  const newArrivals = [...products].reverse();
+  const resultTotalPages = Math.max(1, Math.ceil(visibleProducts.length / PRODUCTS_PER_PAGE));
+  const resultStart = (Math.min(resultPage, resultTotalPages) - 1) * PRODUCTS_PER_PAGE;
+  const paginatedVisibleProducts = visibleProducts.slice(resultStart, resultStart + PRODUCTS_PER_PAGE);
 
   return (
     <main className="bg-ivory">
+      <section className="px-5 pb-16 pt-12 md:px-10 md:pt-16">
+        <div className="mx-auto max-w-5xl">
+          <h2 className="text-center font-sans text-3xl font-extrabold uppercase text-bark">Tất cả sản phẩm</h2>
+          {searchQuery || selectedCategory ? (
+            <p className="mt-3 text-center text-sm font-semibold text-horn">
+              {searchQuery ? `Kết quả tìm kiếm cho "${searchQuery}"` : `${visibleProducts.length} sản phẩm trong danh mục ${selectedCategory?.name}`}
+            </p>
+          ) : null}
+          <div className="mt-9 grid gap-x-5 gap-y-9 sm:grid-cols-2 lg:grid-cols-4">
+            {paginatedVisibleProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+          <Pagination currentPage={Math.min(resultPage, resultTotalPages)} onPageChange={setResultPage} totalPages={resultTotalPages} />
+          {visibleProducts.length === 0 ? (
+            <div className="mt-10 rounded-lg border border-clay/20 bg-pearl px-6 py-10 text-center text-sm font-semibold text-horn">
+              Không tìm thấy sản phẩm phù hợp.
+            </div>
+          ) : null}
+        </div>
+      </section>
+
       <section className="bg-linen px-5 py-12 md:px-10">
         <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[0.8fr_1fr_0.8fr]">
           <button className="mx-auto hidden size-16 items-center justify-center rounded-full bg-wood/70 text-ivory transition hover:bg-wood md:flex" type="button">
@@ -192,45 +291,6 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      <section className="border-y border-sand bg-[#f4ead8] px-5 py-4 md:px-10">
-        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-3">
-          {categories.map((category) => (
-            <button
-              className={`rounded-full px-5 py-2 text-xs font-semibold transition ${
-                activeCategory === category.slug ? "bg-wood text-ivory" : "bg-ivory text-horn hover:text-wood"
-              }`}
-              key={category.slug}
-              onClick={() => setActiveCategory(category.slug)}
-              type="button"
-            >
-              {category.name}
-            </button>
-          ))}
-        </div>
-      </section>
-
-      <section className="px-5 py-14 md:px-10">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-center font-sans text-3xl font-extrabold text-bark">Tất cả sản phẩm</h2>
-          <div className="mt-9 grid gap-x-5 gap-y-9 sm:grid-cols-2 lg:grid-cols-4">
-            {visibleProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="px-5 pb-16 md:px-10">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-center font-sans text-3xl font-extrabold uppercase text-bark">Hàng mới về</h2>
-          <div className="mt-9 grid gap-x-5 gap-y-9 sm:grid-cols-2 lg:grid-cols-4">
-            {newArrivals.map((product) => (
-              <ProductCard key={`new-${product.id}`} product={product} />
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="bg-pearl px-5 py-16 md:px-10">
         <div className="mx-auto max-w-6xl">
           <h2 className="mx-auto w-fit border-b-4 border-wood px-8 pb-2 text-center font-sans text-3xl font-extrabold uppercase text-bark">
@@ -256,5 +316,13 @@ export default function ProductsPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={<main className="bg-ivory" />}>
+      <ProductsPageContent />
+    </Suspense>
   );
 }

@@ -20,8 +20,18 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Van Moc",
-  description: "Handcrafted wood products with traceability and personalization.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://vanmoc.vn"),
+  title: {
+    default: "Vân Mộc",
+    template: "%s | Vân Mộc",
+  },
+  description: "Sản phẩm mỹ nghệ thủ công từ sừng tự nhiên, cá nhân hóa khắc laser và truy xuất nguồn gốc bằng QR.",
+  openGraph: {
+    title: "Vân Mộc",
+    description: "Mỹ nghệ thủ công từ sừng tự nhiên, làng nghề Thụy Ứng.",
+    siteName: "Vân Mộc",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -10,9 +10,17 @@ export type CartProduct = {
   price: number;
   imageUrl: string;
   sku?: string;
+  personalization?: {
+    content?: string;
+    font?: string;
+    position?: string;
+    engravingPrice?: number;
+    previewImageUrl?: string;
+  };
 };
 
 export type CartItem = CartProduct & {
+  id: string;
   quantity: number;
 };
 
@@ -21,8 +29,8 @@ type CartContextValue = {
   totalItems: number;
   subtotal: number;
   addItem: (product: CartProduct, quantity?: number) => void;
-  updateQuantity: (slug: string, quantity: number) => void;
-  removeItem: (slug: string) => void;
+  updateQuantity: (id: string, quantity: number) => void;
+  removeItem: (id: string) => void;
   clearCart: () => void;
 };
 
@@ -45,7 +53,17 @@ function normalizeItems(value: unknown): CartItem[] {
         typeof (item as CartItem).quantity === "number"
       );
     })
-    .map((item) => ({ ...item, quantity: Math.max(1, Math.floor(item.quantity)) }));
+    .map((item) => ({ ...item, id: item.id ?? cartItemId(item), quantity: Math.max(1, Math.floor(item.quantity)) }));
+}
+
+function cartItemId(product: CartProduct) {
+  const personalization = product.personalization;
+  return [
+    product.slug,
+    personalization?.content?.trim() ?? "",
+    personalization?.font ?? "",
+    personalization?.position ?? "",
+  ].join("__");
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
@@ -68,28 +86,29 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const safeQuantity = Math.max(1, Math.floor(quantity));
 
     setItems((currentItems) => {
-      const existingItem = currentItems.find((item) => item.slug === product.slug);
+      const id = cartItemId(product);
+      const existingItem = currentItems.find((item) => item.id === id);
 
       if (!existingItem) {
-        return [...currentItems, { ...product, quantity: safeQuantity }];
+        return [...currentItems, { ...product, id, quantity: safeQuantity }];
       }
 
       return currentItems.map((item) =>
-        item.slug === product.slug ? { ...item, quantity: item.quantity + safeQuantity } : item,
+        item.id === id ? { ...item, quantity: item.quantity + safeQuantity } : item,
       );
     });
   }, []);
 
-  const updateQuantity = useCallback((slug: string, quantity: number) => {
+  const updateQuantity = useCallback((id: string, quantity: number) => {
     const safeQuantity = Math.max(1, Math.floor(quantity));
 
     setItems((currentItems) =>
-      currentItems.map((item) => (item.slug === slug ? { ...item, quantity: safeQuantity } : item)),
+      currentItems.map((item) => (item.id === id ? { ...item, quantity: safeQuantity } : item)),
     );
   }, []);
 
-  const removeItem = useCallback((slug: string) => {
-    setItems((currentItems) => currentItems.filter((item) => item.slug !== slug));
+  const removeItem = useCallback((id: string) => {
+    setItems((currentItems) => currentItems.filter((item) => item.id !== id));
   }, []);
 
   const clearCart = useCallback(() => {

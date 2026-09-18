@@ -11,14 +11,21 @@ export type ApiProduct = {
   sku: string;
   name: string;
   slug: string;
-  categoryName: string;
-  categorySlug: string;
+  categoryName?: string;
+  categorySlug?: string;
+  description?: string;
+  shortDescription?: string;
+  material?: string;
+  origin?: string;
   price: number;
   stockQuantity: number;
   status: string;
   personalizable: boolean;
-  imageUrl: string;
+  imageUrl?: string;
   images?: string[];
+  maxCharacters?: number;
+  engravingPrice?: number;
+  defaultFont?: string;
 };
 
 export type AdminProduct = ApiProduct & {
@@ -100,6 +107,48 @@ export type AdminTraceProduct = {
   createdAt: string;
 };
 
+export type TraceEventPayload = {
+  eventType?: string;
+  title: string;
+  description?: string;
+  eventDate?: string;
+  imageUrl?: string;
+  videoUrl?: string;
+};
+
+export type TraceMutationPayload = {
+  traceCode: string;
+  productSlug: string;
+  batchCode?: string;
+  status: string;
+  qrUrl?: string;
+  events: TraceEventPayload[];
+};
+
+export type AdminCategory = ApiCategory;
+
+export type AdminBanner = {
+  id: number;
+  title: string;
+  subtitle?: string;
+  imageUrl: string;
+  linkUrl?: string;
+  position: string;
+  status: string;
+  sortOrder?: number;
+};
+
+export type AdminContent = {
+  id: number;
+  title: string;
+  slug: string;
+  type: string;
+  summary?: string;
+  body?: string;
+  coverImageUrl?: string;
+  status: string;
+};
+
 export type AdminReview = ApiReview & {
   status: string;
   createdAt: string;
@@ -176,8 +225,33 @@ export type CreateOrderPayload = {
       font?: string;
       position?: string;
       engravingPrice?: number;
+      previewImageUrl?: string;
     };
   }>;
+};
+
+export type ApiTraceEvent = {
+  eventType: string;
+  title: string;
+  description?: string;
+  eventDate?: string;
+  imageUrl?: string;
+  videoUrl?: string;
+};
+
+export type ApiTraceProduct = {
+  id: number;
+  traceCode: string;
+  qrUrl: string;
+  productName: string;
+  productSlug: string;
+  material?: string;
+  origin?: string;
+  batchCode?: string;
+  productionDate?: string;
+  workshop?: string;
+  artisanName?: string;
+  events: ApiTraceEvent[];
 };
 
 export type ApiUser = {
@@ -198,8 +272,18 @@ export function formatVnd(value: number) {
   return new Intl.NumberFormat("vi-VN").format(value) + "đ";
 }
 
-export async function getProducts(categorySlug?: string) {
-  const params = categorySlug && categorySlug !== "all" ? `?category=${categorySlug}` : "";
+export async function getProducts(categorySlug?: string, query?: string) {
+  const searchParams = new URLSearchParams();
+
+  if (categorySlug && categorySlug !== "all") {
+    searchParams.set("category", categorySlug);
+  }
+
+  if (query?.trim()) {
+    searchParams.set("q", query.trim());
+  }
+
+  const params = searchParams.toString() ? `?${searchParams.toString()}` : "";
   const response = await fetch(`${API_BASE_URL}/api/products${params}`);
 
   if (!response.ok) {
@@ -342,6 +426,161 @@ export async function updateAdminTraceStatus(code: string, status: string) {
   return (await response.json()) as { traceCode: string; status: string };
 }
 
+export async function createAdminTraceProduct(payload: TraceMutationPayload) {
+  const response = await fetch(`${API_BASE_URL}/api/admin/trace-products`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    throw new Error("Cannot create trace product");
+  }
+
+  return (await response.json()) as { traceCode: string; status: string };
+}
+
+export async function getAdminTraceProduct(code: string) {
+  const response = await fetch(`${API_BASE_URL}/api/admin/trace-products/${encodeURIComponent(code)}`, {
+    headers: authHeaders(),
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new Error("Cannot load trace product");
+  }
+
+  return (await response.json()) as TraceMutationPayload;
+}
+
+export async function updateAdminTraceProduct(code: string, payload: TraceMutationPayload) {
+  const response = await fetch(`${API_BASE_URL}/api/admin/trace-products/${encodeURIComponent(code)}`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    throw new Error("Cannot update trace product");
+  }
+
+  return (await response.json()) as { traceCode: string; status: string };
+}
+
+export async function getAdminCategories() {
+  const response = await fetch(`${API_BASE_URL}/api/admin/categories`, {
+    headers: authHeaders(),
+    cache: "no-store",
+  });
+  if (!response.ok) throw new Error("Cannot load categories");
+  return (await response.json()) as AdminCategory[];
+}
+
+export async function createAdminCategory(payload: Omit<AdminCategory, "id">) {
+  const response = await fetch(`${API_BASE_URL}/api/admin/categories`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify(payload),
+  });
+  if (!response.ok) throw new Error("Cannot create category");
+  return response.json();
+}
+
+export async function updateAdminCategory(id: number, payload: Omit<AdminCategory, "id">) {
+  const response = await fetch(`${API_BASE_URL}/api/admin/categories/${id}`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify(payload),
+  });
+  if (!response.ok) throw new Error("Cannot update category");
+  return response.json();
+}
+
+export async function deleteAdminCategory(id: number) {
+  const response = await fetch(`${API_BASE_URL}/api/admin/categories/${id}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  if (!response.ok) throw new Error("Cannot delete category");
+  return response.json();
+}
+
+export async function getAdminBanners() {
+  const response = await fetch(`${API_BASE_URL}/api/admin/banners`, {
+    headers: authHeaders(),
+    cache: "no-store",
+  });
+  if (!response.ok) throw new Error("Cannot load banners");
+  return (await response.json()) as AdminBanner[];
+}
+
+export async function createAdminBanner(payload: Omit<AdminBanner, "id">) {
+  const response = await fetch(`${API_BASE_URL}/api/admin/banners`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify(payload),
+  });
+  if (!response.ok) throw new Error("Cannot create banner");
+  return response.json();
+}
+
+export async function updateAdminBanner(id: number, payload: Omit<AdminBanner, "id">) {
+  const response = await fetch(`${API_BASE_URL}/api/admin/banners/${id}`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify(payload),
+  });
+  if (!response.ok) throw new Error("Cannot update banner");
+  return response.json();
+}
+
+export async function deleteAdminBanner(id: number) {
+  const response = await fetch(`${API_BASE_URL}/api/admin/banners/${id}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  if (!response.ok) throw new Error("Cannot delete banner");
+  return response.json();
+}
+
+export async function getAdminContents() {
+  const response = await fetch(`${API_BASE_URL}/api/admin/contents`, {
+    headers: authHeaders(),
+    cache: "no-store",
+  });
+  if (!response.ok) throw new Error("Cannot load contents");
+  return (await response.json()) as AdminContent[];
+}
+
+export async function createAdminContent(payload: Omit<AdminContent, "id">) {
+  const response = await fetch(`${API_BASE_URL}/api/admin/contents`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify(payload),
+  });
+  if (!response.ok) throw new Error("Cannot create content");
+  return response.json();
+}
+
+export async function updateAdminContent(id: number, payload: Omit<AdminContent, "id">) {
+  const response = await fetch(`${API_BASE_URL}/api/admin/contents/${id}`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify(payload),
+  });
+  if (!response.ok) throw new Error("Cannot update content");
+  return response.json();
+}
+
+export async function deleteAdminContent(id: number) {
+  const response = await fetch(`${API_BASE_URL}/api/admin/contents/${id}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  if (!response.ok) throw new Error("Cannot delete content");
+  return response.json();
+}
+
 export async function getAdminReviews() {
   const response = await fetch(`${API_BASE_URL}/api/admin/reviews`, {
     headers: authHeaders(),
@@ -377,6 +616,18 @@ export async function getProduct(slug: string) {
   }
 
   return (await response.json()) as ApiProduct;
+}
+
+export async function getTraceProduct(code: string) {
+  const response = await fetch(`${API_BASE_URL}/api/trace/${encodeURIComponent(code)}`, {
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new Error("Cannot load trace product");
+  }
+
+  return (await response.json()) as ApiTraceProduct;
 }
 
 export async function getCategories() {

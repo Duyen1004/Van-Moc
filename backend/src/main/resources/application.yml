@@ -18,7 +18,7 @@ spring:
     locations: classpath:db/migration
 
 server:
-  port: 4000
+  port: ${PORT:4000}
 
 google:
   client-id: ${GOOGLE_CLIENT_ID:}

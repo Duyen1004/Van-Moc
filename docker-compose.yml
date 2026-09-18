@@ -27,6 +27,7 @@ services:
       - /app/node_modules
     environment:
       NODE_ENV: development
+      NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${NEXT_PUBLIC_GOOGLE_CLIENT_ID:-}
 
   backend:
     image: maven:3.9-eclipse-temurin-17
@@ -43,6 +44,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/van_moc
       SPRING_DATASOURCE_USERNAME: van_moc
       SPRING_DATASOURCE_PASSWORD: van_moc
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
     depends_on:
       db:
         condition: service_healthy

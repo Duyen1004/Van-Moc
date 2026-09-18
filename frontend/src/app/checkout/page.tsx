@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Banknote, ChevronRight, CreditCard, Loader2, MapPin, ShoppingCart, WalletCards } from "lucide-react";
+import { Banknote, ChevronRight, CreditCard, Loader2, MapPin, ShoppingCart } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import { createOrder, formatVnd } from "@/lib/api";
+import { useCart } from "@/lib/cart";
 
 const suggestedProducts = [
   {
@@ -35,8 +36,27 @@ const checkoutItem = {
 };
 
 const ORDER_CODES_KEY = "vanmoc-order-codes";
+const CHECKOUT_ITEMS_KEY = "vanmoc-checkout-items";
+const SHIPPING_FEE = 30000;
 
-type PaymentMethod = "COD" | "BANK_TRANSFER" | "E_WALLET";
+type PaymentMethod = "COD" | "BANK_TRANSFER";
+
+type CheckoutCartItem = {
+  id?: string;
+  productSlug: string;
+  name: string;
+  image: string;
+  price: number;
+  quantity: number;
+  sku?: string;
+  personalization?: {
+    content?: string;
+    font?: string;
+    position?: string;
+    engravingPrice?: number;
+    previewImageUrl?: string;
+  };
+};
 
 const paymentMethods: Array<{
   value: PaymentMethod;
@@ -55,12 +75,6 @@ const paymentMethods: Array<{
     title: "Chuyển khoản ngân hàng",
     description: "Nhận thông tin chuyển khoản sau khi đặt đơn.",
     icon: CreditCard,
-  },
-  {
-    value: "E_WALLET",
-    title: "Ví điện tử",
-    description: "Thanh toán qua ví điện tử khi đơn được xác nhận.",
-    icon: WalletCards,
   },
 ];
 
@@ -283,10 +297,20 @@ async function reverseGeocodeWithPhoton(latitude: number, longitude: number): Pr
 
 export default function CheckoutPage() {
   const router = useRouter();
+  const { removeItem } = useCart();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLocating, setIsLocating] = useState(false);
   const [error, setError] = useState("");
   const [locationMessage, setLocationMessage] = useState("");
+  const [checkoutItems, setCheckoutItems] = useState<CheckoutCartItem[]>([
+    {
+      productSlug: checkoutItem.productSlug,
+      name: checkoutItem.name,
+      image: checkoutItem.image,
+      price: checkoutItem.price,
+      quantity: 1,
+    },
+  ]);
   const [provinces, setProvinces] = useState<Province[]>([]);
   const [districts, setDistricts] = useState<District[]>([]);
   const [provinceCode, setProvinceCode] = useState("");
@@ -302,6 +326,28 @@ export default function CheckoutPage() {
     gps: "",
     paymentMethod: "COD" as PaymentMethod,
   });
+
+  useEffect(() => {
+    try {
+      const savedItems = JSON.parse(window.localStorage.getItem(CHECKOUT_ITEMS_KEY) ?? "[]") as CheckoutCartItem[];
+      const validItems = savedItems.filter(
+        (item) =>
+          item &&
+          typeof item.productSlug === "string" &&
+          typeof item.name === "string" &&
+          typeof item.image === "string" &&
+          typeof item.price === "number" &&
+          typeof item.quantity === "number" &&
+          item.quantity > 0,
+      );
+
+      if (validItems.length > 0) {
+        setCheckoutItems(validItems);
+      }
+    } catch {
+      window.localStorage.removeItem(CHECKOUT_ITEMS_KEY);
+    }
+  }, []);
 
   useEffect(() => {
     let isActive = true;
@@ -389,6 +435,11 @@ export default function CheckoutPage() {
   const setField = (field: keyof typeof form) => (value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
   };
+
+  const checkoutSubtotal = checkoutItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  const personalizationFee = checkoutItems.reduce((total, item) => total + (item.personalization?.engravingPrice ?? 0) * item.quantity, 0);
+  const checkoutQuantity = checkoutItems.reduce((total, item) => total + item.quantity, 0);
+  const checkoutTotal = checkoutSubtotal + personalizationFee + SHIPPING_FEE;
 
   const handleProvinceChange = (value: string) => {
     setProvinceCode(value);
@@ -512,18 +563,11 @@ export default function CheckoutPage() {
         address: `${form.address}, ${form.district}`,
         note: noteWithGps,
         paymentMethod: form.paymentMethod,
-        items: [
-          {
-            productSlug: checkoutItem.productSlug,
-            quantity: 1,
-            personalization: {
-              content: "NGUYỄN AN",
-              font: "Cormorant Garamond",
-              position: "Cán lược",
-              engravingPrice: checkoutItem.engravingPrice,
-            },
-          },
-        ],
+        items: checkoutItems.map((item) => ({
+          productSlug: item.productSlug,
+          quantity: item.quantity,
+          personalization: item.personalization?.content ? item.personalization : undefined,
+        })),
       });
 
       const savedOrderCodes = JSON.parse(window.localStorage.getItem(ORDER_CODES_KEY) ?? "[]") as string[];
@@ -531,8 +575,10 @@ export default function CheckoutPage() {
       window.localStorage.setItem(ORDER_CODES_KEY, JSON.stringify(nextOrderCodes));
       window.localStorage.setItem("vanmoc-has-order", "true");
       window.localStorage.setItem("vanmoc-last-order-code", order.orderCode);
+      checkoutItems.forEach((item) => removeItem(item.id ?? item.productSlug));
+      window.localStorage.removeItem(CHECKOUT_ITEMS_KEY);
       window.dispatchEvent(new Event("vanmoc-order-changed"));
-      router.push(`/order/${order.orderCode}`);
+      router.push(`/checkout/success?order=${encodeURIComponent(order.orderCode)}`);
     } catch {
       setError("Chưa tạo được đơn hàng. Bạn kiểm tra backend đang chạy ở cổng 4000 nhé.");
     } finally {
@@ -636,7 +682,7 @@ export default function CheckoutPage() {
                 </label>
                 <div>
                   <p className="text-sm font-semibold text-bark">Phương thức thanh toán</p>
-                  <div className="mt-3 grid gap-3 md:grid-cols-3">
+                  <div className="mt-3 grid gap-3 md:grid-cols-2">
                     {paymentMethods.map((method) => {
                       const Icon = method.icon;
                       const selected = form.paymentMethod === method.value;
@@ -674,33 +720,49 @@ export default function CheckoutPage() {
 
           <aside className="h-fit rounded-lg border border-sand bg-pearl p-7 shadow-[0_18px_45px_rgba(45,33,24,0.08)]">
             <h2 className="font-sans text-xl font-extrabold text-bark">Tóm tắt đơn hàng</h2>
-            <div className="mt-6 flex gap-4 border-b border-sand pb-5">
-              <div className="size-20 overflow-hidden rounded-lg bg-sand">
-                <img alt={checkoutItem.name} className="h-full w-full object-cover" src={checkoutItem.image} />
-              </div>
-              <div className="flex-1">
-                <p className="font-semibold text-bark">{checkoutItem.name}</p>
-                <p className="mt-1 text-sm text-horn">Khắc tên: NGUYỄN AN</p>
-                <p className="mt-2 text-sm font-semibold text-wood">{formatVnd(checkoutItem.price)}</p>
-              </div>
+            <div className="mt-6 max-h-80 space-y-4 overflow-y-auto border-b border-sand pb-5">
+              {checkoutItems.map((item) => (
+                <div className="flex gap-4" key={item.productSlug}>
+                  <div className="size-20 overflow-hidden rounded-lg bg-sand">
+                    <img alt={item.name} className="h-full w-full object-cover" src={item.image} />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-semibold text-bark">{item.name}</p>
+                    {item.sku ? <p className="mt-1 text-xs text-horn">{item.sku}</p> : null}
+                    <p className="mt-1 text-sm text-horn">Số lượng: {item.quantity}</p>
+                    {item.personalization?.content ? (
+                      <p className="mt-1 text-xs leading-5 text-horn">
+                        Khắc: {item.personalization.content} · {item.personalization.font || "Mặc định"} · {item.personalization.position || "Chưa chọn"}
+                      </p>
+                    ) : null}
+                    <p className="mt-2 text-sm font-semibold text-wood">{formatVnd(item.price * item.quantity)}</p>
+                  </div>
+                </div>
+              ))}
             </div>
 
             <div className="mt-5 space-y-4 text-sm">
               <div className="flex justify-between border-b border-sand pb-3">
                 <span className="text-horn">Tạm tính</span>
-                <span className="font-semibold text-bark">{formatVnd(checkoutItem.price)}</span>
+                <span className="font-semibold text-bark">{formatVnd(checkoutSubtotal)}</span>
               </div>
               <div className="flex justify-between border-b border-sand pb-3">
-                <span className="text-horn">Phí khắc tên</span>
-                <span className="font-semibold text-bark">{formatVnd(checkoutItem.engravingPrice)}</span>
+                <span className="text-horn">Số lượng</span>
+                <span className="font-semibold text-bark">{checkoutQuantity}</span>
               </div>
+              {personalizationFee > 0 ? (
+                <div className="flex justify-between border-b border-sand pb-3">
+                  <span className="text-horn">Phí khắc</span>
+                  <span className="font-semibold text-bark">{formatVnd(personalizationFee)}</span>
+                </div>
+              ) : null}
               <div className="flex justify-between border-b border-sand pb-3">
                 <span className="text-horn">Vận chuyển</span>
-                <span className="font-semibold text-bark">{formatVnd(checkoutItem.shippingFee)}</span>
+                <span className="font-semibold text-bark">{formatVnd(SHIPPING_FEE)}</span>
               </div>
               <div className="flex justify-between pt-2 text-lg font-extrabold">
                 <span>Tổng cộng</span>
-                <span>{formatVnd(checkoutItem.price + checkoutItem.engravingPrice + checkoutItem.shippingFee)}</span>
+                <span>{formatVnd(checkoutTotal)}</span>
               </div>
             </div>
 

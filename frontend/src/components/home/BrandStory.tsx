@@ -26,7 +26,7 @@ export function BrandStory() {
       <div className="mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-horn">{story.eyebrow}</p>
-          <h2 className="mt-4 font-serif text-4xl font-semibold leading-[1.08] text-bark md:text-5xl">
+          <h2 className="mt-4 font-sans text-4xl font-bold leading-tight text-bark md:text-5xl">
             {story.headline1}
             <br />
             {story.headline2}
@@ -39,10 +39,10 @@ export function BrandStory() {
             {values.map((item) => (
               <div className="px-0 py-5 md:px-6" key={item.number}>
                 <div className="flex items-center justify-between gap-5">
-                  <p className="font-serif text-2xl font-semibold text-clay/80">{item.number}</p>
+                  <p className="font-sans text-2xl font-bold text-clay/80">{item.number}</p>
                   <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-horn">{story.values[item.key].label}</p>
                 </div>
-                <h3 className="mt-4 font-serif text-2xl font-semibold text-bark">{story.values[item.key].title}</h3>
+                <h3 className="mt-4 font-sans text-2xl font-bold text-bark">{story.values[item.key].title}</h3>
                 <p className="mt-3 text-sm leading-6 text-horn">{story.values[item.key].text}</p>
               </div>
             ))}

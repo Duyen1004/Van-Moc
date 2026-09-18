@@ -3,6 +3,7 @@ package com.vanmoc.product;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,15 +22,42 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<ProductSummary> listProducts(@RequestParam(required = false) String category) {
-        if (category == null || category.isBlank() || category.equalsIgnoreCase("all")) {
-            return jdbcTemplate.query(PRODUCT_SUMMARY_SQL + " WHERE p.status <> 'INACTIVE' ORDER BY p.created_at DESC", this::mapProductSummary);
+    public List<ProductSummary> listProducts(
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false, name = "q") String query) {
+        StringBuilder sql = new StringBuilder(PRODUCT_SUMMARY_SQL).append(" WHERE p.status <> 'INACTIVE'");
+        List<Object> params = new ArrayList<>();
+
+        if (category != null && !category.isBlank() && !category.equalsIgnoreCase("all")) {
+            sql.append(" AND c.slug = ?");
+            params.add(category);
         }
 
-        return jdbcTemplate.query(
-                PRODUCT_SUMMARY_SQL + " WHERE p.status <> 'INACTIVE' AND c.slug = ? ORDER BY p.created_at DESC",
-                this::mapProductSummary,
-                category);
+        if (query != null && !query.isBlank()) {
+            String keyword = "%" + query.trim().toLowerCase() + "%";
+            sql.append("""
+                    AND (
+                        LOWER(p.name) LIKE ?
+                        OR LOWER(p.sku) LIKE ?
+                        OR LOWER(p.slug) LIKE ?
+                        OR LOWER(COALESCE(p.material, '')) LIKE ?
+                        OR LOWER(COALESCE(p.short_description, '')) LIKE ?
+                        OR LOWER(COALESCE(p.description, '')) LIKE ?
+                        OR LOWER(COALESCE(c.name, '')) LIKE ?
+                    )
+                    """);
+            params.add(keyword);
+            params.add(keyword);
+            params.add(keyword);
+            params.add(keyword);
+            params.add(keyword);
+            params.add(keyword);
+            params.add(keyword);
+        }
+
+        sql.append(" ORDER BY p.created_at DESC");
+
+        return jdbcTemplate.query(sql.toString(), this::mapProductSummary, params.toArray());
     }
 
     @GetMapping("/{slug}")

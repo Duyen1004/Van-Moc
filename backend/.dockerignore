@@ -1,0 +1,6 @@
+target
+.mvn
+.env
+*.log
+Dockerfile
+README.md

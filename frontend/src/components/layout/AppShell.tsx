@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { CustomerChatBox } from "@/components/layout/CustomerChatBox";
 import { CartProvider } from "@/lib/cart";
 import { I18nProvider } from "@/lib/i18n";
 
@@ -28,6 +29,7 @@ export function AppShell({ children }: AppShellProps) {
         <Header />
         <div className="flex-1">{children}</div>
         <Footer />
+        <CustomerChatBox />
       </CartProvider>
     </I18nProvider>
   );

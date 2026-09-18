@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { googleLogin, login, register } from "@/lib/api";
 import { useI18n } from "@/lib/i18n";
@@ -63,6 +63,7 @@ export function AuthShell({ mode }: AuthShellProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
+  const googleInitializedRef = useRef(false);
   const [form, setForm] = useState({
     fullName: "",
     email: "",
@@ -121,6 +122,11 @@ export function AuthShell({ mode }: AuthShellProps) {
         return;
       }
 
+      if (googleInitializedRef.current) {
+        setGoogleReady(true);
+        return;
+      }
+
       window.google.accounts.id.initialize({
         client_id: GOOGLE_CLIENT_ID,
         callback: async (response) => {
@@ -143,6 +149,7 @@ export function AuthShell({ mode }: AuthShellProps) {
           }
         },
       });
+      googleInitializedRef.current = true;
       setGoogleReady(true);
     };
 

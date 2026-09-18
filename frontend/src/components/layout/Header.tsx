@@ -4,7 +4,10 @@ import { Check, ChevronDown, CircleUserRound, Globe2, Menu, Search, ShoppingCart
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import type { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
+import { NotificationBell } from "@/components/layout/NotificationBell";
+import { ApiCategory, getCategories } from "@/lib/api";
 import { useCart } from "@/lib/cart";
 import { Locale, useI18n } from "@/lib/i18n";
 
@@ -50,9 +53,13 @@ export function Header() {
   const cartProductCount = items.length;
   const profileRef = useRef<HTMLDivElement>(null);
   const languageRef = useRef<HTMLDivElement>(null);
+  const productsNavRef = useRef<HTMLDivElement>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
+  const [productsOpen, setProductsOpen] = useState(false);
+  const [categories, setCategories] = useState<ApiCategory[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [user, setUser] = useState<HeaderUser | null>(null);
 
   useEffect(() => {
@@ -94,10 +101,20 @@ export function Header() {
       if (languageRef.current && !languageRef.current.contains(event.target as Node)) {
         setLanguageOpen(false);
       }
+
+      if (productsNavRef.current && !productsNavRef.current.contains(event.target as Node)) {
+        setProductsOpen(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    getCategories()
+      .then((items) => setCategories(items))
+      .catch(() => setCategories([]));
   }, []);
 
   const handleLogout = () => {
@@ -111,15 +128,33 @@ export function Header() {
     router.push("/");
   };
 
+  const handleSearch = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const query = searchQuery.trim();
+    if (!query) {
+      router.push("/products");
+      return;
+    }
+
+    if (/^VM\d{3,}$/i.test(query)) {
+      router.push(`/trace/${encodeURIComponent(query.toUpperCase())}`);
+      return;
+    }
+
+    router.push(`/products?q=${encodeURIComponent(query)}`);
+  };
+
   const currentLanguage = languageOptions.find((option) => option.locale === locale) ?? languageOptions[0];
+  const productNavLabel = locale === "vi" ? "SẢN PHẨM" : "PRODUCTS";
 
   return (
     <header className="sticky top-0 z-50 border-b border-sand bg-[#f4ead8] text-bark shadow-[0_8px_24px_rgba(45,33,24,0.06)]">
-      <div className="grid h-24 w-full grid-cols-[1fr_auto] items-center gap-6 px-5 md:grid-cols-3 md:px-10">
-        <Link href="/" className="flex h-24 items-center justify-center" aria-label="Van Moc home">
+      <div className="grid h-20 w-full grid-cols-[1fr_auto] items-center gap-4 px-4 md:grid-cols-[minmax(220px,300px)_minmax(320px,560px)_auto] md:gap-8 md:px-8 xl:px-14">
+        <Link href="/" className="flex h-20 items-center justify-start" aria-label="Van Moc home">
           <Image
             alt="Van Moc"
-            className="h-24 w-full max-w-[380px] object-contain"
+            className="h-20 w-full max-w-[300px] object-contain"
             height={96}
             priority
             src="/images/van-moc-logo-horizontal-original.png"
@@ -127,17 +162,24 @@ export function Header() {
           />
         </Link>
 
-        <form className="hidden h-11 w-full max-w-[420px] items-center justify-self-center rounded-full border border-clay/70 bg-ivory/85 px-5 shadow-inner md:flex">
+        <form
+          className="hidden h-11 w-full items-center justify-self-center rounded-full border border-clay/70 bg-ivory/85 px-5 shadow-inner md:flex"
+          onSubmit={handleSearch}
+        >
           <input
             aria-label="Search"
             className="min-w-0 flex-1 bg-transparent text-sm text-wood outline-none placeholder:text-horn"
+            onChange={(event) => setSearchQuery(event.target.value)}
             placeholder={t.common.search}
             type="search"
+            value={searchQuery}
           />
-          <Search className="size-5 text-wood" />
+          <button aria-label="Search" className="inline-flex size-8 items-center justify-center text-wood" type="submit">
+            <Search className="size-5" />
+          </button>
         </form>
 
-        <div className="flex items-center justify-end gap-3 md:justify-center md:gap-5">
+        <div className="flex items-center justify-end gap-2.5 md:gap-3">
           <Link
             className="relative inline-flex size-11 items-center justify-center rounded-full border border-clay/20 bg-ivory/85 text-bark shadow-[0_8px_20px_rgba(45,33,24,0.08)] transition hover:-translate-y-0.5 hover:border-clay/60 hover:bg-pearl"
             href="/cart"
@@ -151,11 +193,13 @@ export function Header() {
             ) : null}
           </Link>
 
+          <NotificationBell />
+
           <div className="relative z-50" data-i18n-skip="true" ref={languageRef}>
             <button
               aria-expanded={languageOpen}
               aria-label="Change language"
-              className="inline-flex h-11 items-center gap-2 rounded-full border border-clay/20 bg-ivory/85 px-3.5 text-sm font-semibold text-bark shadow-[0_8px_20px_rgba(45,33,24,0.08)] transition hover:-translate-y-0.5 hover:border-clay/60 hover:bg-pearl"
+              className="inline-flex h-11 min-w-[150px] items-center justify-center gap-2 whitespace-nowrap rounded-full border border-clay/20 bg-ivory/85 px-3.5 text-sm font-semibold text-bark shadow-[0_8px_20px_rgba(45,33,24,0.08)] transition hover:-translate-y-0.5 hover:border-clay/60 hover:bg-pearl"
               onClick={() => setLanguageOpen((open) => !open)}
               type="button"
             >
@@ -221,6 +265,9 @@ export function Header() {
                     <Link className="rounded-md px-3 py-2 hover:bg-sand" href="/profile" onClick={() => setProfileOpen(false)}>
                       {t.common.profile}
                     </Link>
+                    <Link className="rounded-md px-3 py-2 hover:bg-sand" href="/favorites" onClick={() => setProfileOpen(false)}>
+                      Sản phẩm yêu thích
+                    </Link>
                     {user?.role === "ADMIN" ? (
                       <Link className="rounded-md px-3 py-2 hover:bg-sand" href="/admin" onClick={() => setProfileOpen(false)}>
                         {t.common.admin}
@@ -244,13 +291,13 @@ export function Header() {
           ) : (
             <div className="hidden items-center gap-2 md:flex">
               <Link
-                className="rounded-full border border-clay/30 bg-ivory/75 px-4 py-2 font-serif text-sm font-bold text-bark transition hover:border-clay hover:bg-pearl"
+                className="inline-flex h-11 items-center whitespace-nowrap rounded-full border border-clay/30 bg-ivory/75 px-5 text-sm font-bold text-bark transition hover:border-clay hover:bg-pearl"
                 href="/login"
               >
                 {t.common.login}
               </Link>
               <Link
-                className="rounded-full bg-wood px-4 py-2 font-serif text-sm font-bold text-ivory transition hover:bg-bark"
+                className="inline-flex h-11 items-center whitespace-nowrap rounded-full bg-wood px-5 text-sm font-bold text-ivory transition hover:bg-bark"
                 href="/register"
               >
                 {t.common.register}
@@ -269,7 +316,58 @@ export function Header() {
           {navItems.map((item) => {
             const active = isActivePath(pathname, item.match);
             const href = item.href;
-            const label = t.nav[item.labelKey];
+            const label = item.labelKey === "products" ? productNavLabel : t.nav[item.labelKey];
+
+            if (item.labelKey === "products") {
+              return (
+                <div
+                  className="relative"
+                  key={item.href}
+                  onMouseEnter={() => setProductsOpen(true)}
+                  onMouseLeave={() => setProductsOpen(false)}
+                  ref={productsNavRef}
+                >
+                  <Link
+                    aria-current={active ? "page" : undefined}
+                    className={`relative inline-flex items-center gap-1 px-2 py-3.5 text-center font-serif text-[16px] font-bold uppercase tracking-wide transition ${
+                      active ? "text-[#f4ead8]" : "text-[#f4ead8]/82 hover:text-[#f4ead8]"
+                    }`}
+                    href="/products"
+                    onClick={() => setProductsOpen(false)}
+                  >
+                    {label}
+                    <ChevronDown className={`size-4 transition ${productsOpen ? "rotate-180" : ""}`} />
+                    <span
+                      className={`absolute inset-x-2 bottom-2 h-px origin-left bg-[#f4ead8]/80 transition-transform duration-300 ease-out ${
+                        active ? "scale-x-100" : "scale-x-0"
+                      }`}
+                    />
+                  </Link>
+
+                  {productsOpen ? (
+                    <div className="absolute left-1/2 top-full z-50 w-64 -translate-x-1/2 overflow-hidden rounded-lg border border-clay/20 bg-ivory p-2 text-sm text-bark shadow-[0_18px_50px_rgba(45,33,24,0.22)]">
+                      <Link
+                        className="block rounded-md px-4 py-3 font-semibold text-wood transition hover:bg-sand"
+                        href="/products"
+                        onClick={() => setProductsOpen(false)}
+                      >
+                        Tất cả sản phẩm
+                      </Link>
+                      {categories.map((category) => (
+                        <Link
+                          className="block rounded-md px-4 py-3 font-semibold text-bark transition hover:bg-sand hover:text-wood"
+                          href={`/products?category=${encodeURIComponent(category.slug)}`}
+                          key={category.slug}
+                          onClick={() => setProductsOpen(false)}
+                        >
+                          {category.name}
+                        </Link>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              );
+            }
 
             return (
               <Link

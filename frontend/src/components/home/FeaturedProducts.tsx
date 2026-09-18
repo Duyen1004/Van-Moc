@@ -4,6 +4,7 @@ import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ApiProduct, formatVnd, getProducts } from "@/lib/api";
+import { useCart } from "@/lib/cart";
 import { useI18n } from "@/lib/i18n";
 
 const fallbackProducts = [
@@ -36,9 +37,19 @@ const fallbackProducts = [
     personalizable: true,
   },
 ];
+const fallbackImage = fallbackProducts[0].image;
+
+function slugFromHref(href: string) {
+  return href.split("/").filter(Boolean).at(-1) ?? href;
+}
+
+function priceFromLabel(price: string) {
+  return Number(price.replace(/\D/g, ""));
+}
 
 export function FeaturedProducts() {
   const { t } = useI18n();
+  const { addItem } = useCart();
   const featured = t.home.featured;
   const [apiProducts, setApiProducts] = useState<ApiProduct[]>([]);
 
@@ -52,12 +63,20 @@ export function FeaturedProducts() {
     apiProducts.length > 0
       ? apiProducts.map((product) => ({
           name: product.name,
+          priceValue: product.price,
           price: formatVnd(product.price),
-          image: product.imageUrl,
+          image: product.imageUrl || product.images?.[0] || fallbackImage,
           href: `/products/${product.slug}`,
+          slug: product.slug,
+          sku: product.sku,
           personalizable: product.personalizable,
         }))
-      : fallbackProducts;
+      : fallbackProducts.map((product) => ({
+          ...product,
+          slug: slugFromHref(product.href),
+          sku: undefined,
+          priceValue: priceFromLabel(product.price),
+        }));
 
   return (
     <section className="bg-pearl px-5 py-14 md:px-10 md:py-16">
@@ -91,6 +110,15 @@ export function FeaturedProducts() {
                   <button
                     aria-label={featured.addToCart}
                     className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-clay/60 text-bark transition hover:border-wood hover:bg-sand"
+                    onClick={() =>
+                      addItem({
+                        slug: product.slug,
+                        name: product.name,
+                        price: product.priceValue,
+                        imageUrl: product.image,
+                        sku: product.sku,
+                      })
+                    }
                     title={featured.addToCart}
                     type="button"
                   >

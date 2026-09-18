@@ -44,7 +44,7 @@ public class OrderController {
             int quantity = Math.max(item.quantity(), 1);
             subtotal = subtotal.add(product.price().multiply(BigDecimal.valueOf(quantity)));
             if (item.personalization() != null && item.personalization().engravingPrice() != null) {
-                personalizationFee = personalizationFee.add(item.personalization().engravingPrice());
+                personalizationFee = personalizationFee.add(item.personalization().engravingPrice().multiply(BigDecimal.valueOf(quantity)));
             }
         }
 
